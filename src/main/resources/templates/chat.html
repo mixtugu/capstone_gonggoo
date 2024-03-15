@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Chat Application</title>
+    <link rel="stylesheet" th:href="@{/css/chat.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stomp-websocket/lib/stomp.min.js"></script>
+</head>
+<body>
+<form onsubmit="sendMessage(); return false;">
+    <input type="text" id="from" placeholder="Your name">
+    <input type="text" id="text" placeholder="Your message">
+    <button type="submit">Send</button>
+</form>
+<ul id="messages"></ul>
+</body>
+</html>
+<script>
+    var stompClient = null;
+
+    function connect() {
+        var socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/topic/messages', function (message) {
+                var messageBody = JSON.parse(message.body);
+                showMessage(messageBody.from, messageBody.text, messageBody.formattedTimestamp);
+            });
+        });
+    }
+
+    function sendMessage() {
+        var from = document.getElementById('from').value;
+        var text = document.getElementById('text').value;
+        stompClient.send("/app/message", {}, JSON.stringify({'from': from, 'text': text}));
+    }
+
+    function showMessage(from, message, formattedTimestamp) {
+    var messages = document.getElementById('messages');
+    var messageElement = document.createElement('li');
+
+    // Create a span for the sender's name
+    var senderSpan = document.createElement('span');
+    senderSpan.classList.add("sender-name");
+    senderSpan.textContent = from + ": ";
+    messageElement.appendChild(senderSpan);
+
+    // Create a container for the message and timestamp
+    var messageTimestampContainer = document.createElement('div');
+    messageTimestampContainer.classList.add("message-with-timestamp");
+
+    // Create a span for the message text
+    var messageSpan = document.createElement('span');
+    messageSpan.classList.add("message-box");
+    messageSpan.textContent = message;
+    messageTimestampContainer.appendChild(messageSpan);
+
+    // Create a span for the formatted timestamp
+    var timestampSpan = document.createElement('span');
+    timestampSpan.classList.add("message-timestamp");
+    timestampSpan.textContent = formattedTimestamp; // Use the formattedTimestamp from the server
+    messageTimestampContainer.appendChild(timestampSpan);
+
+    // Append the container to the message element
+    messageElement.appendChild(messageTimestampContainer);
+
+    messages.appendChild(messageElement);
+}
+
+    window.addEventListener("load", connect, false);
+</script>

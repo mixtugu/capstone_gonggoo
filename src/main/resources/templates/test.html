@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+  <title>test</title>
+  <style>
+    svg {margin: 30px 20px;}
+    rect {height: 60px}
+    .blue{fill: #5abae6;}
+    .red{fill:#d34e4e;}
+    .green{fill:#9dbb19;}
+    .yellow{fill:#f7b358;}
+    #week1
+    {
+      position: absolute;
+      left: 45px;
+      top: 45px;
+    }
+    #week2
+    {
+      position: absolute;
+      left: 45px;
+      top: 115px;
+    }
+    #week3
+    {
+      position: absolute;
+      left: 45px;
+      top: 185px;
+    }
+    #week4
+    {
+      position: absolute;
+      left: 45px;
+      top: 255px;
+    }
+
+
+    span {
+    font-size:20px;
+    color:#FFF;
+    line-height: 1.8em;
+    text-align: center;
+    display: inline-block;
+    }
+    .cash {
+      background: palevioletred;
+      border-top-left-radius: 2em;
+      border-bottom-left-radius: 2em;
+    }
+    .card {
+      background: skyblue;
+      float: right;
+      border-top-right-radius: 2em;
+      border-bottom-right-radius: 2em;
+    }
+  </style>
+</head>
+<body>
+    <div>
+        <div style="float: left; text-align:right">
+            <p id = "week1">1주차</p>
+            <p id = "week2">2주차</p>
+            <p id = "week3">3주차</p>
+            <p id = "week4">4주차</p>
+        </div>
+        <svg width = '500' height = '300' >
+        </svg>
+    </div>
+    <div style="margin: 100px 10px; border: 1px solid black; padding: 3px; border-radius: 2em;">
+      <span class="cash" data-val="20%">현금 결제💵</span>
+      <span class="card" data-val="80%">카드 결제💳</span>
+    </div>
+
+    <script>
+      //가로 데이터 입력값: var data
+      //가장 큰 데이터를 100%으로 나머지 그래프가 상대 크기를 가짐
+        var data = [60, 30, 50, 80];
+        var color = ['red', 'green', 'blue', 'yellow'];
+        
+        //setAttribute('data-val', '20%'); 에서 20%를 받아온 데이터로 수정
+        //.cash: 현금 결제 비율 ( 금액 or 횟수는 정해야 함)
+        //.card: 카드 결제 비율 합은 꼭 100%가 되어야함
+        document.querySelector('.cash').setAttribute('data-val', '20%');
+        document.querySelector('.card').setAttribute('data-val', '80%');
+
+        //%가 한쪽이 너무 작으면 그래프가 깨져서 이모티콘 하나로 대체
+        const spanList = document.querySelectorAll('span');
+        
+        spanList.forEach((span) => {
+        const dataVal = parseInt(span.getAttribute('data-val'));
+
+        if (dataVal < 20) {
+        span.textContent = '💰';
+        }
+        });
+
+        //가로 그래프 구현
+        d3.select('svg').selectAll('rect')
+            .data(data).enter().append('rect')
+            .attr('rx',10).attr('height',60)
+            .attr('y',(d,i)=>i*70).attr('class',(d,i)=>color[i])
+            .attr('width',10).transition().duration(1500)
+            .attr('width',d=>(d*400)/100);
+
+        //현금,카드 그래프 구현
+        d3.selectAll('span').datum(function(){return this.dataset}).style('width','50%')
+            .transition().duration(2000).style('width', d=>d.val)
+        
+    </script>
+
+</body>
+</html>
