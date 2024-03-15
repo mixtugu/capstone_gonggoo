@@ -34,16 +34,6 @@ CREATE TABLE Rooms (
 );
 ```
 
-```sql
-CREATE TABLE Rooms (
-	RoomID INT AUTO_INCREMENT PRIMARY KEY,
-	RoomTitle VARCHAR(255),
-	RoomCategory INT, -- 방 분류 (택시, 공동구매 등)
-	RecruitNum INT, -- 모집 인원
-	CurrentNum INT, -- 현재 인원
-);
-```
-
 1. 채팅방 메세지 테이블
 
 ```sql
@@ -72,3 +62,13 @@ CREATE TABLE RoomMembers (
 ```
 
 1. 택시 채팅방 전용 기능
+
+```sql
+CREATE TABLE Rooms (
+	RoomID INT AUTO_INCREMENT PRIMARY KEY,
+	RoomTitle VARCHAR(255),
+	RoomCategory INT, -- 방 분류 (택시, 공동구매 등)
+	RecruitNum INT, -- 모집 인원
+	CurrentNum INT, -- 현재 인원
+);
+```
