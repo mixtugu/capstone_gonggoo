@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Chat Application</title>
     <link rel="stylesheet" th:href="@{/css/chat.css}" />
@@ -13,8 +13,8 @@
 <div class="container" style="max-width: 600px">
     <ul id="messages" class="messages"></ul>
     <form onsubmit="sendMessage(); return false;">
-        <input type="text" id="from" placeholder="Your name">
-        <input type="text" id="text" placeholder="Your message">
+        <label for="from"></label><input type="text" id="from" placeholder="Your name">
+        <label for="text"></label><input type="text" id="text" placeholder="Your message">
         <button type="submit">Send</button>
     </form>
     <hr class="my-4">
