@@ -30,3 +30,11 @@
     padding-bottom: 13px;
     margin-left: 6px;
 }
+
+.messages {
+    height: 78vh;
+    max-height: 78vh; /* Adjust the height as needed */
+    overflow-y: auto;  /* Enables vertical scrolling */
+    list-style-type: none; /* Optional: Removes the bullet points */
+    padding: 0;           /* Optional: Removes the default padding */
+}
