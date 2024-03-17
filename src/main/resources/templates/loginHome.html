@@ -4,8 +4,13 @@
   <meta charset="utf-8">
   <link th:href="@{/css/bootstrap.min.css}"
         href="../css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/navbar.css}" />
 </head>
 <body>
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+
 <div class="container" style="max-width: 600px">
   <div class="py-5 text-center">
     <h2>홈 화면</h2>
