@@ -54,7 +54,7 @@ CREATE TABLE ChatMessage (
 
 1. 채팅방 멤버 테이블
 
-```sql
+'''sql
 CREATE TABLE RoomMember (
   RoomMemberID INT AUTO_INCREMENT PRIMARY KEY,
   RoomID INT,--외래키
@@ -64,7 +64,7 @@ CREATE TABLE RoomMember (
   FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
   FOREIGN KEY (UserID) REFERENCES member(MEMBER_ID)
 );
-```
+'''
 
 멤버 테이블
 
