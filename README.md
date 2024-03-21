@@ -57,12 +57,12 @@ CREATE TABLE ChatMessages (
 ```sql
 CREATE TABLE RoomMembers (
   RoomMemberID INT AUTO_INCREMENT PRIMARY KEY,
-  RoomID INT, -- 외래키
-  UserID INT, -- 참여 유저 정보
-  JoinDate DATETIME, -- 참여 날짜
-  IsRoomOwner BOOLEAN NOT NULL DEFAULT FALSE, -- 방장 여부
+  RoomID INT,--외래키
+  UserID BIGINT,
+  JoinDate DATETIME,
+  IsRoomOwner BOOLEAN NOT NULL DEFAULT FALSE,--방장여부
   FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
-  FOREIGN KEY (UserID) REFERENCES Users(UserID)
+  FOREIGN KEY (UserID) REFERENCES member(member_ID)
 );
 ```
 
