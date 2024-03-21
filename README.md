@@ -50,11 +50,11 @@ CREATE TABLE ChatMessage (
 	Timestamp DATETIME, -- 전송시간, 전송 시간 기준으로 sort하여 채팅창 구성
 	FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
 );
-```
+
 
 1. 채팅방 멤버 테이블
 
-'''sql
+```sql
 CREATE TABLE RoomMember (
   RoomMemberID INT AUTO_INCREMENT PRIMARY KEY,
   RoomID INT,--외래키
@@ -64,11 +64,11 @@ CREATE TABLE RoomMember (
   FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
   FOREIGN KEY (UserID) REFERENCES member(MEMBER_ID)
 );
-'''
+```
 
 멤버 테이블
 
-'''sql
+```sql
 CREATE TABLE Member (
     MEMBER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
     loginId VARCHAR(30) NOT NULL,
@@ -77,7 +77,7 @@ CREATE TABLE Member (
     CONSTRAINT loginId_unique UNIQUE (loginId)
 );
 
-'''
+```
 
 
 
