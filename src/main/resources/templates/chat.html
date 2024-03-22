@@ -11,6 +11,10 @@
 </head>
 <body>
 <div class="container" style="max-width: 600px">
+    <h4 th:text="|채팅방 제목: ${room.roomTitle}|">방 제목</h4>
+    <span th:text="${room.currentNum}">현재 인원 수</span>
+    /
+    <span th:text="${room.recruitNum}">모집 인원 수</span>
     <ul id="messages" class="messages"></ul>
     <form onsubmit="sendMessage(); return false;">
         <label for="from"></label><input type="text" id="from" placeholder="Your name">
@@ -27,7 +31,7 @@
         </div>
         <div class="col">
             <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/chat}'|">
+                    th:onclick="|location.href='@{/chatList}'|">
                 채팅
             </button>
         </div>
