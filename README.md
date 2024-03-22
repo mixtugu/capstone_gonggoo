@@ -30,7 +30,7 @@ https://ovenapp.io/view/GFI0N9IPvtnugBAqbDu0xq5jlXMxIX9r/2yZrX
 1. 모집 채팅방 데이터 테이블
 
 ```sql
-CREATE TABLE Rooms (
+CREATE TABLE Room (
 	RoomID INT AUTO_INCREMENT PRIMARY KEY,
 	RoomTitle VARCHAR(255),
 	RoomCategory INT, -- 방 분류 (택시, 공동구매 등)
@@ -42,7 +42,7 @@ CREATE TABLE Rooms (
 1. 채팅방 메세지 테이블
 
 ```sql
-CREATE TABLE ChatMessages (
+CREATE TABLE ChatMessage (
 	MessageID INT AUTO_INCREMENT PRIMARY KEY,
 	RoomID INT, -- 룸 id (외래키)
 	SenderID INT, -- 전송자 id
@@ -50,26 +50,41 @@ CREATE TABLE ChatMessages (
 	Timestamp DATETIME, -- 전송시간, 전송 시간 기준으로 sort하여 채팅창 구성
 	FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
 );
-```
+
 
 1. 채팅방 멤버 테이블
 
 ```sql
-CREATE TABLE RoomMembers (
+CREATE TABLE RoomMember (
   RoomMemberID INT AUTO_INCREMENT PRIMARY KEY,
-  RoomID INT, -- 외래키
-  UserID INT, -- 참여 유저 정보
-  JoinDate DATETIME, -- 참여 날짜
-  IsRoomOwner BOOLEAN NOT NULL DEFAULT FALSE, -- 방장 여부
+  RoomID INT,--외래키
+  UserID BIGINT,
+  JoinDate DATETIME,
+  IsRoomOwner BOOLEAN NOT NULL DEFAULT FALSE,--방장여부
   FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),
-  FOREIGN KEY (UserID) REFERENCES Users(UserID)
+  FOREIGN KEY (UserID) REFERENCES member(MEMBER_ID)
 );
 ```
+
+멤버 테이블
+
+```sql
+CREATE TABLE Member (
+    MEMBER_ID BIGINT AUTO_INCREMENT PRIMARY KEY,
+    loginId VARCHAR(30) NOT NULL,
+    password VARCHAR(30) NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    CONSTRAINT loginId_unique UNIQUE (loginId)
+);
+
+```
+
+
 
 1. 택시 채팅방 전용 기능
 
 ```sql
-CREATE TABLE Rooms (
+CREATE TABLE Room (
 	RoomID INT AUTO_INCREMENT PRIMARY KEY,
 	RoomTitle VARCHAR(255),
 	RoomCategory INT, -- 방 분류 (택시, 공동구매 등)
