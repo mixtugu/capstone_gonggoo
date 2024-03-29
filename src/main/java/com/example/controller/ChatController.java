@@ -47,8 +47,10 @@ public class ChatController {
 
         // Fetch the room object using roomId
         Room room = roomService.findOne(roomId);
+        List<ChatMessage> chatMessageList = chatMessageService.findChatMessageByRoomId(roomId);
         model.addAttribute("room", room);
         model.addAttribute("member", loginMember);
+        model.addAttribute("ChatMessage", chatMessageList);
         model.addAttribute("message", new Message());
         model.addAttribute("messages", messages);
         return "chat";

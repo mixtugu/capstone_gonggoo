@@ -17,7 +17,31 @@
     /
     <span th:text="${room.recruitNum}">모집 인원 수</span>
     <!-- 여기서부터 메세지 -->
-    <ul id="messages" class="messages"></ul>
+    <ul id="messages" class="messages">
+        <!-- 여기서부터 불러온 이전 메세지 -->
+        <div th:each="message : ${ChatMessage}">
+            <!-- 내가 보냈던 메세지 -->
+            <div th:if="${message.sender.name == member.name}">
+                <!-- member.name과 message.sender가 같을 때 -->
+                <div class="mine-message">
+                    <span class="mine-message-timestamp" th:text="${message.formattedTimestamp}"></span>
+                    <span class="mine-message-box" th:text="${message.text}"></span>
+                </div>
+            </div>
+            <!-- 내가 받았던 메세지 -->
+            <div th:if="${message.sender.name != member.name}">
+                <!-- member.name과 message.sender가 다를 때 -->
+                <div class="other-message">
+                    <span class="sender-name" th:text="${message.sender.name} + ':'"></span>
+                    <div class="message-with-timestamp">
+                        <span class="message-box" th:text="${message.text}"></span>
+                        <span class="message-timestamp" th:text="${message.formattedTimestamp}"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 여기서부터 새로 받는 메세지 -->
+        </div>
+    </ul>
     <!-- 여기서부터 메세지 전송 버튼 -->
     <form onsubmit="sendMessage(); return false;">
         <!-- 아래의 span에서 이름을 가져오기 때문에 지우면 안됩니다. span 말고 다른 타입으로 교체하거나 이동은 가능! -->
@@ -52,6 +76,9 @@
 </html>
 <script>
     var stompClient = null;
+    var messagesDiv = document.getElementById('messages');
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    document.body.scrollTop = document.body.scrollHeight;
 
     function connect() {
         var socket = new SockJS('/chat');
