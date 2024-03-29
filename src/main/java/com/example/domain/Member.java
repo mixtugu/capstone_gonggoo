@@ -1,5 +1,6 @@
 package com.example.domain;
 
+import com.example.mypage.domain.MyPage;
 import lombok.Getter;
 import lombok.Setter;
 
