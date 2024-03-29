@@ -3,45 +3,32 @@
 <head>
     <title>My page</title>
     <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
 </head>
 <body>
 <div class="container" style="max-width: 600px">
-    <div class="py-5 text-center">
-        <h2>My page Example</h2>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>
-        <form th:action="@{/logout}" method="post">
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-dark btn-lg" type="submit">
-                    로그아웃
-                </button>
-            </div>
-        </form>
-    </div>
+    <h1 align="center">마이 페이지</h1>
     <hr class="my-4">
-    <div class="row text-center">
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/}'|">
-                홈
-            </button>
-        </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/chatList}'|">
-                채팅
-            </button>
-        </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/mypage}'|">
-                마이 페이지
-            </button>
-        </div>
+    <div th:if="${mypage != null}">
+        <p>로그인 ID: <span th:text="${mypage.member.loginId}"></span></p>
+        <p>이름: <span th:text="${mypage.member.name}"></span></p>
+        <p>휴대폰 번호: <span th:text="${mypage.phonenumber}"></span></p>
+        <p>생년월일: <span th:text="${#dates.format(mypage.birthday, 'yyyy-MM-dd')}"></span></p>
+        <p>Email: <span th:text="${mypage.email}"></span></p>
+        <p>Point: <span th:text="${mypage.point}"></span></p>
+        <p>결제수단: <span th:text="${mypage.payment}"></span></p>
     </div>
-</div> <!-- /container -->
+    <div th:unless="${mypage != null}">
+        <p class="text-center">사용자 정보를 불러올 수 없습니다.</p>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/editmypage" class="btn btn-primary btn-lg">개인정보 수정</a>
+    </div>
+    <div class="text-center mt-4">
+        <a href="/" class="btn btn-secondary btn-lg">홈</a>
+        <a href="/chat" class="btn btn-secondary btn-lg">채팅</a>
+        <a href="/mypage" class="btn btn-secondary btn-lg">마이 페이지</a>
+    </div>
+</div>
 </body>
 </html>
