@@ -21,6 +21,7 @@
         <label for="text"></label><input type="text" id="text" placeholder="Your message">
         <button type="submit">Send</button>
     </form>
+<<<<<<< Updated upstream
     <hr class="my-4">
     <div class="row text-center">
         <div class="col">
@@ -42,6 +43,8 @@
             </button>
         </div>
     </div>
+=======
+>>>>>>> Stashed changes
 </div> <!-- /container -->
 </body>
 </html>
@@ -67,37 +70,43 @@
     }
 
     function showMessage(from, message, formattedTimestamp) {
-    var messages = document.getElementById('messages');
-    var messageElement = document.createElement('li');
+        var messages = document.getElementById('messages');
+        var messageElement = document.createElement('li');
 
-    // Create a span for the sender's name
-    var senderSpan = document.createElement('span');
-    senderSpan.classList.add("sender-name");
-    senderSpan.textContent = from + ": ";
-    messageElement.appendChild(senderSpan);
+        // Create a span for the sender's name
+        var senderSpan = document.createElement('span');
+        senderSpan.classList.add("sender-name");
+        senderSpan.textContent = from + ": ";
+        messageElement.appendChild(senderSpan);
 
-    // Create a container for the message and timestamp
-    var messageTimestampContainer = document.createElement('div');
-    messageTimestampContainer.classList.add("message-with-timestamp");
+        // Create a container for the message and timestamp
+        var messageTimestampContainer = document.createElement('div');
+        messageTimestampContainer.classList.add("message-with-timestamp");
 
-    // Create a span for the message text
-    var messageSpan = document.createElement('span');
-    messageSpan.classList.add("message-box");
-    messageSpan.textContent = message;
-    messageTimestampContainer.appendChild(messageSpan);
+        // Create a span for the message text
+        var messageSpan = document.createElement('span');
+        messageSpan.classList.add("message-box");
+        messageSpan.textContent = message;
+        messageTimestampContainer.appendChild(messageSpan);
 
-    // Create a span for the formatted timestamp
-    var timestampSpan = document.createElement('span');
-    timestampSpan.classList.add("message-timestamp");
-    timestampSpan.textContent = formattedTimestamp; // Use the formattedTimestamp from the server
-    messageTimestampContainer.appendChild(timestampSpan);
+        // Create a span for the formatted timestamp
+        var timestampSpan = document.createElement('span');
+        timestampSpan.classList.add("message-timestamp");
+        timestampSpan.textContent = formattedTimestamp; // Use the formattedTimestamp from the server
+        messageTimestampContainer.appendChild(timestampSpan);
 
-    // Append the container to the message element
-    messageElement.appendChild(messageTimestampContainer);
+        // Append the container to the message element
+        messageElement.appendChild(messageTimestampContainer);
 
+<<<<<<< Updated upstream
     messages.appendChild(messageElement);
     messages.scrollTop = messages.scrollHeight;
 }
+=======
+        messages.appendChild(messageElement);
+        messages.scrollTop = messages.scrollHeight;
+    }
+>>>>>>> Stashed changes
 
     window.addEventListener("load", connect, false);
 </script>
