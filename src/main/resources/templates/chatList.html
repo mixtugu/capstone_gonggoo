@@ -3,59 +3,41 @@
 <head>
     <title>Chat List Page</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" th:href="@{/css/chatlist.css}" />
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/chatlist.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="container" style="max-width: 600px">
-    <div class="py-5 text-center">
-        <h2>진행중인 채팅</h2>
-    </div>
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 th:text="|로그인: ${member.name}|">로그인 사용자 이름</h4>
-        <form th:action="@{/logout}" method="post">
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-dark btn-lg" type="submit">
-                    로그아웃
-                </button>
-            </div>
-        </form>
-    </div>
-    <hr class="my-4">
-    <div class="d-flex flex-column">
-        <div th:each="room : ${room}" class="p-2"> <!-- Note the change from ${room} to ${rooms} -->
-            <button class="btn btn-secondary btn-lg mb-3" type="button"
-                    th:onclick="'location.href=\'/chat?roomId=' + ${room.roomId} + '\''">
-                <span th:text="${room.roomTitle}">방 제목</span>
-                <span th:text="${room.currentNum}">현재 인원 수</span>
-                /
-                <span th:text="${room.recruitNum}">모집 인원 수</span>
-            </button>
 
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/roomCreateBTN :: roomCreate}"></nav>
+
+<div class="container p-3" style="max-width: 600px">
+    <div class="pt-4 pb-3 text-start b">
+        <h4 class="title fw-bold"><img th:src="@{img/label.png}" class="icon">진행 중인 채팅</h4>
+    </div>
+
+    <div class="d-flex flex-column">
+        <div th:each="room : ${room}" class="p-2 pb-1 d-grid gap-2"> <!-- Note the change from ${room} to ${rooms} -->
+            <button class="btn btn-lg mb-3 py-5 px-4 text-start chatBox" type="button"
+                    th:onclick="'location.href=\'/chat?roomId=' + ${room.roomId} + '\''">
+                <span th:text="${room.roomTitle}" class="fs-5">방 제목</span>
+                &nbsp
+                <span class="fs-6 userNum">
+                    (<span th:text="${room.currentNum}">현재 인원 수</span>
+                    /
+                    <span th:text="${room.recruitNum}">모집 인원 수</span>)
+                </span>
+
+            </button>
         </div>
     </div>
-    <hr class="my-4">
-    <div class="row text-center">
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/}'|">
-                홈
-            </button>
-        </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/chatList}'|">
-                채팅
-            </button>
-        </div>
-        <div class="col">
-            <button class="btn btn-secondary btn-lg btn-same-width" type="button"
-                    th:onclick="|location.href='@{/mypage}'|">
-                마이 페이지
-            </button>
-        </div>
-    </div>
+
 </div> <!-- /container -->
 </body>
 </html>
