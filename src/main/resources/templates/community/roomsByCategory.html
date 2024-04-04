@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>소모임 참여하기</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .search-form > * {
+      margin: 5px 0;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      border-radius: 0;
+    }
+  </style>
+</head>
+<body>
+<h1>Search Rooms</h1>
+<div class="search-form">
+  <form th:action="@{/joinRoom/search}" method="get">
+    방 이름 검색:</label>
+    <input type="text" id="searchName" name="searchName">
+    지역 검색:</label>
+    <input type="text" name="searchRegion" placeholder="" />
+    세부 카테고리 검색:</label>
+    <input type="text" id="searchCategory" name="searchCategory">
+    <button type="submit">검색</button>
+  </form>
+</div>
+<div th:each="room : ${rooms}">
+  <form th:action="@{/roomDetails}" method="get">
+    <input type="hidden" th:name="name" th:value="${room.name}" />
+    <button type="submit" th:text="${room.detailCategory != null} ? ${room.name} + '(' + ${room.detailCategory} + ')' : ${room.name}">Room Name</button>
+  </form>
+</div>
+<a href="/joinRoom">다른 소모임 찾기</a>
+</body>
+</html>
