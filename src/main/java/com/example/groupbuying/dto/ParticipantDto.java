@@ -17,14 +17,20 @@ public class ParticipantDto {
     private Long id;
     private String participantName;
     private Integer quantity;
+    private String memberLoginId;
 
-    public ParticipantDto(String participantName, Integer quantity) {
+    public ParticipantDto(String participantName, Integer quantity, String memberLoginId) {
         this.participantName = participantName;
         this.quantity = quantity;
+        this.memberLoginId = memberLoginId;
     }
 
     public static ParticipantDto fromEntity(Participant participant) {
-        return new ParticipantDto(participant.getMember().getName(), participant.getQuantity());
+        return new ParticipantDto(
+                participant.getMember().getName(),
+                participant.getQuantity(),
+                participant.getMember().getLoginId()
+        );
     }
     /*
     private Long id;
@@ -33,7 +39,6 @@ public class ParticipantDto {
 
     private Board board;
 
-    // 기본 생성자
     protected ParticipantDto() {
     }
 

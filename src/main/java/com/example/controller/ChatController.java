@@ -26,11 +26,6 @@ public class ChatController {
         return "chat";
     }
 
-//    @PostMapping("/send")
-//    public String sendMessage(@ModelAttribute Message message) {
-//        messages.add(message);
-//        return "redirect:/";
-//    }
 
     @MessageMapping("/message")
     @SendTo("/topic/messages")

@@ -1,22 +1,23 @@
 package com.example.groupbuying.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
-@Getter
+@Getter @Setter
 @Entity(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 public class Board {
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<Participant> participants;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,13 +29,11 @@ public class Board {
     @Column(length = 100, nullable = false)
     private String title;
 
-    @ColumnDefault("1")
-    private Integer headCount;
+    private Integer headCount = 1;
 
     private Integer totalPrice;
 
-    @ColumnDefault("0")
-    private Integer currentPrice;
+    private Integer currentPrice = 0;
 
     private Integer itemPrice;
 
@@ -58,9 +57,9 @@ public class Board {
         this.author = author;
         this.title = title;
         this.itemName = itemName;
-        this.headCount = headCount;
+        this.headCount = headCount != null ? headCount : 1;
         this.totalPrice = totalPrice;
-        this.currentPrice = currentPrice;
+        this.currentPrice = currentPrice != null ? currentPrice : 0;
         this.itemPrice = itemPrice;
         this.siteName = siteName;
         this.fileId = fileId;
@@ -79,6 +78,14 @@ public class Board {
             this.currentPrice = 0; //
         }
         this.currentPrice += amount;
+    }
+
+    public void subtractPrice(int amount) {
+        this.currentPrice -= amount;
+    }
+
+    public void updatePrice(int newPrice) {
+        this.currentPrice += newPrice;
     }
 
 }

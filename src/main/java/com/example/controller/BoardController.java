@@ -2,6 +2,7 @@ package com.example.controller;
 
 
 import com.example.domain.Member;
+import com.example.groupbuying.domain.entity.Board;
 import com.example.groupbuying.dto.BoardDto;
 import com.example.groupbuying.dto.FileDto;
 import com.example.groupbuying.dto.ParticipantDto;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -52,12 +54,20 @@ public class BoardController {
     }
 
     @GetMapping("/post")
-    public String post() {
+    public String post(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        Member loginMember = session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+
+        if (loginMember != null) {
+            model.addAttribute("currentUserName", loginMember.getName());
+        }
+
         return "items/post.html";
     }
 
     @PostMapping("/post")
-    public String write(@RequestParam("file") MultipartFile files, BoardDto boardDto) {
+    public String write(@RequestParam("file") MultipartFile files, BoardDto boardDto, HttpServletRequest request) {
+        Long boardId = null;
         try {
             String origFilename = files.getOriginalFilename();
             String filename = new MD5Generator(origFilename).toString();
@@ -80,9 +90,15 @@ public class BoardController {
 
             Long fileId = fileService.saveFile(fileDto);
             boardDto.setFileId(fileId);
-            boardService.savePost(boardDto);
+            boardId =  boardService.savePost(boardDto);
         } catch(Exception e) {
             e.printStackTrace();
+        }
+
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            participantService.addParticipant(boardId, loginMember.getLoginId(), 1);
         }
         return "redirect:/";
     }
@@ -95,12 +111,32 @@ public class BoardController {
     }
 
     @GetMapping("/post/{id}")
-    public String detail(@PathVariable("id") Long id, Model model) {
+    public String detail(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Member loginMember = session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+
         BoardDto boardDto = boardService.getPost(id);
         List<ParticipantDto> participantDtos = participantService.getParticipantDtosByBoardId(id);
+        boolean isParticipated = false;
+        Long participantId = null;
+
+        if (loginMember != null) {
+            for (ParticipantDto participant : participantDtos) {
+                if (participant.getMemberLoginId().equals(loginMember.getLoginId())) {
+                    isParticipated = true;
+                    participantId = participant.getId();
+                    break;
+                }
+            }
+            model.addAttribute("currentUserName", loginMember.getName());
+        }
 
         model.addAttribute("post", boardDto);
         model.addAttribute("participantDtos", participantDtos);
+        model.addAttribute("isParticipated", isParticipated);
+        if (participantId != null) {
+            model.addAttribute("participantId", participantId);
+        }
         return "items/detail.html";
     }
 
@@ -125,20 +161,6 @@ public class BoardController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileDto.getOrigFilename() + "\"")
                 .body(resource);
     }
-    /*
-    @PostMapping("/participate/{postId}")
-    public String participate(@PathVariable Long postId, @RequestParam("quantity") int quantity, Principal principal) {
-
-        if (principal == null) {
-            return "redirect:/login";
-        }
-
-        String username = principal.getName();
-        participantService.addParticipant(postId, usernamen, quantity);
-        return "redirect:/post/" + postId;
-    }
-
-     */
 
     @PostMapping("/post/{id}/participate")
     public String participate(@PathVariable Long id, @RequestParam("quantity") int quantity, HttpServletRequest request) {
@@ -154,4 +176,52 @@ public class BoardController {
         boardService.increaseParticipantCount(id);
         return "redirect:/post/" + id;
     }
+
+    @GetMapping("/post/{id}/withdraw")
+    public String withdrawParticipation(@PathVariable Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "redirect:/login";
+        }
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+        boolean success = participantService.withdrawFromBoard(id, loginMember.getLoginId());
+        if (success) {
+            boardService.decreaseParticipantCount(id);
+        } else {
+
+        }
+        return "redirect:/post/" + id;
+    }
+
+    @PostMapping("/post/{boardId}/editQuantity")
+    public String updateParticipantQuantity(@PathVariable Long boardId, @RequestParam("newQuantity") int quantity, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "redirect:/login";
+        }
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
+        participantService.updateQuantity(boardId, loginMember.getLoginId(), quantity);
+
+        return "redirect:/post/" + boardId;
+    }
+
+    @GetMapping("/boardList")
+    public String listPosts(@RequestParam(name = "search", required = false) String search, Model model) {
+        List<BoardDto> boardDtoList;
+        if (search != null && !search.trim().isEmpty()) {
+            boardDtoList = boardService.searchByTitle(search);
+        } else {
+            boardDtoList = boardService.getBoardList();
+        }
+        model.addAttribute("postList", boardDtoList);
+        return "items/list.html";
+    }
+
 }

@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 public class Participant {
-    // Getter 및 필요한 Setter 추가
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,11 +28,9 @@ public class Participant {
 
     private Integer quantity;
 
-    // 기본 생성자
     protected Participant() {
     }
 
-    // 생성자
     @Builder
     public Participant(Member member, Board board, Integer quantity) {
         this.member = member;
@@ -42,5 +39,8 @@ public class Participant {
         this.joinedAt = LocalDateTime.now();
     }
 
-
+    public void updateQuantity(Integer newQuantity) {
+        // 새로운 수량을 현재 엔티티의 수량 필드에 할당합니다.
+        this.quantity = newQuantity;
+    }
 }

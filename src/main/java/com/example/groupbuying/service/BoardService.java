@@ -1,17 +1,26 @@
 package com.example.groupbuying.service;
 
 import com.example.groupbuying.domain.entity.Board;
+import com.example.groupbuying.domain.entity.Participant;
 import com.example.groupbuying.domain.repository.BoardRepository;
+import com.example.groupbuying.domain.repository.ParticipantRepository;
 import com.example.groupbuying.dto.BoardDto;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
+    @Autowired
+    private ParticipantRepository participantRepository;
 
     public BoardService(BoardRepository boardRepository) {
         this.boardRepository = boardRepository;
@@ -75,5 +84,47 @@ public class BoardService {
 
         board.increaseHeadCount();
         boardRepository.save(board);
+    }
+
+    public void decreaseParticipantCount(Long id) {
+        Board board = boardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
+        board.setHeadCount(board.getHeadCount() - 1);
+        boardRepository.save(board);
+    }
+
+    public boolean withdrawFromBoard(Long boardId, String loginId) {
+
+        Optional<Participant> participantOpt = participantRepository.findByBoardIdAndMember_LoginId(boardId, loginId);
+
+        if (participantOpt.isEmpty()) {
+            return false;
+        }
+
+        Participant participant = participantOpt.get();
+        Board board = participant.getBoard();
+
+        board.setCurrentPrice(board.getCurrentPrice() - (participant.getQuantity() * board.getItemPrice()));
+        boardRepository.save(board);
+        participantRepository.delete(participant);
+
+        return true;
+    }
+
+    public List<BoardDto> searchByTitle(String title) {
+        List<Board> boards = boardRepository.findByTitleContaining(title);
+        return boards.stream().map(board -> BoardDto.builder()
+                .id(board.getId())
+                .title(board.getTitle())
+                .author(board.getAuthor())
+                .itemName(board.getItemName())
+                .headCount(board.getHeadCount())
+                .currentPrice(board.getCurrentPrice())
+                .totalPrice(board.getTotalPrice())
+                .itemPrice(board.getItemPrice())
+                .createdDate(board.getCreatedDate())
+                .siteName(board.getSiteName())
+                .fileId(board.getFileId())
+                .build()).collect(Collectors.toList());
     }
 }
