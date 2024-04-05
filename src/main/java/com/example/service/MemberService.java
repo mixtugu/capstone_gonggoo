@@ -1,6 +1,8 @@
 package com.example.service;
 
 import com.example.domain.Member;
+import com.example.mypage.domain.MyPage;
+import com.example.mypage.repository.MyPageRepository;
 import com.example.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,13 +17,18 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
+    private final MyPageRepository myPageRepository;
     /**
      * 회원 가입
      */
     public Long join(Member member) {
         validateDuplicateMember(member);
         memberRepository.save(member);
+        //마이페이지 추가부분-서경원
+        MyPage myPage = new MyPage();
+        myPage.setMember(member);
+        myPageRepository.save(myPage);
+        //---------------------여기까지
         return member.getId();
     }
 
@@ -47,6 +54,5 @@ public class MemberService {
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
     }
-
 
 }

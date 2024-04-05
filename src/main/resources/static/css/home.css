@@ -1,0 +1,49 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+.b_home {
+    border-radius: 10px;
+    border-color: #ffffff;
+    border-width: medium;
+    background-color: #4f856e;
+    color: #ffffff;
+}
+
+.b_home:hover {
+    background-color: #b4d3c9;
+    color: #4d4d4d;
+}
+
+
+.menu_image {
+    margin-top: 7px;
+    width: 85px;
+}
+
+.menu_title {
+    color: #305546;
+    font-size: 29px;
+    font-weight: bold;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.menu_ex {
+    color: #a3a3a3;
+    font-size: 14px;
+    text-align: left;
+    margin-bottom: 0;
+}
+
+.b_box {
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    box-shadow: 4px 4px 10px lightgray ;
+    transition: 0.2s;
+}
+
+.b_box:hover {
+    background-color: #FFFFFF;
+    filter: brightness(0.9);
+}

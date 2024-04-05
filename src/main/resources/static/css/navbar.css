@@ -1,0 +1,138 @@
+body {
+    padding-bottom: 70px;
+    padding-top: 65px;
+}
+
+
+.bottomLayout {
+    background-color: #e3e3e3;
+    border-radius: 30px 30px 0 0;
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    height:70px;
+}
+
+
+.topLayout {
+    background-color: rgb(255, 255, 255);
+    border-bottom-style: dashed;
+    border-bottom-color: #eeeeee;
+    border-bottom-width: 2px;
+    position: fixed;
+    top: 0;
+    width:100%;
+    height:65px;
+}
+
+.logo {
+    top: 0;
+    width: 100px;
+}
+
+.b_logout {
+    background-color: #e7e7e7;
+    color: #696969;
+}
+
+.b_logout:hover {
+    background-color: #f1d6d6;
+    color: #9b5050;
+}
+
+
+
+
+.CategoryLayout {
+    top: 65px;
+    width:100%;
+    height:65px;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.CategoryDiv {
+    padding-top: 20px;
+    padding-bottom: 5px;
+    border-radius: 0 0 3px 3px;
+    font-size: 20px;
+    color: #838383;
+}
+
+.CD_select {
+    border-bottom: medium solid #367257;
+    color: #2f2f2f;
+    font-weight: bold;
+}
+
+
+
+
+.roomCreateBTNLayout {
+    position: fixed;
+    bottom: 90px;
+    right: 25px;
+    z-index: 999;
+}
+
+#plusBTN {
+    display: none;
+}
+
+#plus, #x {
+    cursor: pointer;
+    background: rgba(64,64,64,0);
+}
+
+#plusBTN ~#plus {
+    display: block;
+}
+
+#plusBTN ~#x {
+    display: none;
+}
+
+#plusBTN:checked ~#plus {
+    display: none;
+}
+
+#plusBTN:checked ~#x {
+    display: block;
+}
+
+#plusBTN ~#RCB_menu {
+    display: none;
+}
+
+#plusBTN:checked ~#RCB_menu {
+    display: block;
+}
+
+
+.RCB_img {
+    width: 60px;
+}
+
+#RCB_menu {
+    bottom: 600px;
+    right: 400px;
+    padding-bottom: 12px;
+}
+
+.RCB_btn {
+    width: 60px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.53);
+    color: rgb(77, 77, 77);
+    border: #c4c4c4 solid thin;
+    border-radius: 20px;
+
+    transition: 0.2s;
+}
+
+.RCB_btn:hover {
+    filter: drop-shadow(2px 2px 2px lightgray);
+    background-color: #FFFFFF;
+    color: rgb(42, 42, 42);
+    border: rgba(110, 232, 192, 0.43) solid thin;
+}

@@ -1,0 +1,42 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+body {
+    background-color: #f2f2f2;
+}
+
+.container {
+    max-width: 560px;
+}
+
+.field-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.box {
+    border-radius: 32px;
+    background-color: #FFFFFF;
+    box-shadow: 4px 4px 10px lightgray ;
+}
+
+.b_join {
+    border-radius: 10px;
+    background-color: #4f856e;
+    color: #FFFFFF;
+}
+
+.b_join:hover {
+    background-color: #a8d5c2;
+}
+
+.b_no {
+    border-radius: 10px;
+    background-color: #5b5b5b;
+    color: #FFFFFF;
+}
+
+.b_no:hover {
+    background-color: #a4a4a4;
+}

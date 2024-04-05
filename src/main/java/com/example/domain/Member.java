@@ -1,7 +1,9 @@
 package com.example.domain;
 
+
 import com.example.groupbuying.domain.entity.Participant;
 import lombok.Builder;
+import com.example.mypage.domain.MyPage;
 import lombok.Getter;
 import lombok.Setter;
 
