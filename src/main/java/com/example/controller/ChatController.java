@@ -1,5 +1,6 @@
 package com.example.controller;
 
+
 import com.example.chat.service.ChatMessageService;
 import com.example.domain.ChatMessage;
 import com.example.domain.Member;
@@ -11,6 +12,7 @@ import com.example.service.RoomMemberService;
 import com.example.service.RoomService;
 import com.example.session.SessionConst;
 import org.springframework.messaging.handler.annotation.Payload;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,9 @@ public class ChatController {
     private RoomRepository roomRepository;
     @Autowired
     private MemberRepository memberRepository;
+
+    @Autowired
+    private RoomService roomService; // Ensure RoomService is autowired
 
     @GetMapping("/chat")
     public String showChat(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,

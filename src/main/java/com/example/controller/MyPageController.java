@@ -35,6 +35,21 @@ public class MyPageController {
 
 
     model.addAttribute("mypage", myPageOptional.get());
+    return "firstmypage";
+  }
+
+  @GetMapping("/mypage/info")
+  public String showMyPageInfo(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+    if (loginMember == null) {
+      return "redirect:/login";
+    }
+
+    Optional<MyPage> myPageOptional = myPageService.findById(loginMember.getId());
+    if (!myPageOptional.isPresent()) {
+      return "redirect:/firstmypage";
+    }
+
+    model.addAttribute("mypage", myPageOptional.get());
     return "mypage";
   }
 
@@ -45,16 +60,17 @@ public class MyPageController {
     Long id = myPage.getId();
     String email = myPage.getEmail();
     String phoneNumber = myPage.getPhonenumber();
-    String payment = myPage.getPayment();
+    String bank = myPage.getBank();
+    String account = myPage.getAccount();
     Date birthday = myPage.getBirthday();
 
-    myPageService.updateMemberInfo(id, email, phoneNumber, payment, birthday, password);
+    myPageService.updateMemberInfo(id, email, phoneNumber, bank, account , birthday, password);
 
 
     redirectAttributes.addFlashAttribute("successMessage", "Your information has been updated successfully!");
 
     
-    return "redirect:/mypage";
+    return "redirect:/mypage/info";
   }
 
 
