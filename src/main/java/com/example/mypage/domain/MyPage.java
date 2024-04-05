@@ -22,7 +22,9 @@
 
     private int point;
 
-    private String payment;
+    private String bank;
+
+    private String account;
 
     @OneToOne(fetch = FetchType.EAGER)
     @MapsId

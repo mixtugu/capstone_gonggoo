@@ -22,8 +22,8 @@ public class MyPageService {
   }
 
   @Transactional
-  public void updateMemberInfo(Long id, String email, String phonenumber, String payment, Date birthday, String password  ) {
-    myPageRepository.updateMemberInfo(id, email, phonenumber, payment, birthday, password);
+  public void updateMemberInfo(Long id, String email, String phonenumber, String bank, String account, Date birthday, String password  ) {
+    myPageRepository.updateMemberInfo(id, email, phonenumber, bank, account,  birthday, password);
   }
 
 }

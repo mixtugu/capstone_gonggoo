@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Page</title>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="container">
+  <div class="profile-img-container">
+    <div class="text-center mt-4"><img src="img/profile.jpg" alt="profile" width="200" height="200"></div>
+  </div>
+  <div class ="text-center mt-4">
+  <p><span th:text="${mypage.member.name}"></span></p>
+  <a href="/mypage/info" class="btn btn-primary">내 정보 확인</a>
+
+    <br>
+    <br>
+    <a href="/opengroups" class="menu-item">
+      <span class="menu-icon">🔧</span>
+      <span class="menu-text">모집 중인 공구</span>
+    </a>
+
+     <br>
+    <br>
+
+  <a href="/closedgroups" class="menu-item">
+    <span class="menu-icon">📄</span>
+    <span class="menu-text">모집 종료 공구</span>
+  </a>
+
+    <br>
+  <br>
+  <a href="/announcements" class="menu-item">
+    <span class="menu-icon">📢</span>
+    <span class="menu-text">공지사항</span>
+  </a>
+
+
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="/" class="btn btn-secondary btn-lg">홈</a>
+  <a href="/chat" class="btn btn-secondary btn-lg">채팅</a>
+  <a href="/mypage" class="btn btn-secondary btn-lg">마이 페이지</a>
+</div>
+</body>
+</html>
