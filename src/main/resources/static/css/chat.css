@@ -33,11 +33,11 @@
 }
 
 .messages {
-    height: 70vh; /* 채팅 상자의 페이지 높이 대비 비율 */
-    max-height: 70vh; /* Adjust the height as needed */
+    height: 75vh; /* 채팅 상자의 페이지 높이 대비 비율 */
+    max-height: 75vh; /* Adjust the height as needed */
     overflow-y: auto;  /* Enables vertical scrolling */
     list-style-type: none; /* Optional: Removes the bullet points */
-    padding: 0;           /* Optional: Removes the default padding */
+    padding: 20px 10px 20px 10px;           /* Optional: Removes the default padding */
 }
 
 /* 여기부터 내 메세지 스타일 */
@@ -75,6 +75,32 @@
     word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
 }
 
+.chatroomName {
+    padding-left: 15px;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+}
 
+.chatroomUserCount {
+    padding-left: 15px;
+    color: #92efc3;
+    font-size: 15px;
+}
 
+.inputText {
+    height: 50px;
+    background-color: #FFFFFF;
+    border-radius: 30px;
+    border: 1px solid #8c8c8c;
+}
 
+.chatText {
+    border-style: none;
+    height: 40px;
+    width: 350px;
+}
+
+.chatSend {
+
+}
