@@ -11,7 +11,6 @@
     <h1>마이 페이지</h1>
     </div>
     <hr class="my-4">
-
     <div th:if="${mypage != null}">
         <p>로그인 ID: <span th:text="${mypage.member.loginId}"></span></p>
         <p>이름: <span th:text="${mypage.member.name}"></span></p>
@@ -29,7 +28,7 @@
     </div>
     <div class="text-center mt-4">
         <a href="/" class="btn btn-secondary btn-lg">홈</a>
-        <a href="/chat" class="btn btn-secondary btn-lg">채팅</a>
+        <a href="/chatList" class="btn btn-secondary btn-lg">채팅</a>
         <a href="/mypage" class="btn btn-secondary btn-lg">마이 페이지</a>
     </div>
 </div>

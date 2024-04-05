@@ -38,9 +38,9 @@ public class Room {
 }
 
 
-/*
- INSERT INTO room (current_num, recruit_num, room_category, room_title, member_id) VALUES
-(1, 4, 1, '서울에서 부산까지의 카풀', 1) DB 예제
-INSERT INTO room (current_num, recruit_num, room_category, room_title) VALUES
-(1, 4, 1, '서울에서 부산까지의 카풀'),
-(1, 4, 2, '해외직구 공동구매');*/
+
+// INSERT INTO room (current_num, recruit_num, room_category, room_title, member_id) VALUES
+//(1, 4, 1, '서울에서 부산까지의 카풀', 1) DB 예제
+//INSERT INTO room (current_num, recruit_num, room_category, room_title) VALUES
+//(1, 4, 1, '서울에서 부산까지의 카풀'),
+//(1, 4, 2, '해외직구 공동구매');

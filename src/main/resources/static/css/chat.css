@@ -7,6 +7,7 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    max-width: 70%;
 }
 
 .message-box { /* 메세지 박스 */
@@ -15,10 +16,10 @@
     margin: 10px 0;
     border-radius: 5px;
     background-color: #f9f9f9;
-    display: inline-block;
-    flex-direction: column;
-    width: fit-content;
-    max-width: 70%;
+    display: flex; /* 또는 'inline-block' 유지 */
+    flex-direction: column; /* 'display: flex'를 사용할 경우에만 유용 */
+    max-width: 420px; /* 부모 요소를 넘지 않는 최대 너비 */
+    word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
 }
 
 .message-timestamp {  /* 전송 시간과 텍스트 박스 나란히 */
@@ -32,9 +33,48 @@
 }
 
 .messages {
-    height: 78vh;
-    max-height: 78vh; /* Adjust the height as needed */
+    height: 70vh; /* 채팅 상자의 페이지 높이 대비 비율 */
+    max-height: 70vh; /* Adjust the height as needed */
     overflow-y: auto;  /* Enables vertical scrolling */
     list-style-type: none; /* Optional: Removes the bullet points */
     padding: 0;           /* Optional: Removes the default padding */
 }
+
+/* 여기부터 내 메세지 스타일 */
+.mine-message-timestamp {  /* 전송 시간과 텍스트 박스 나란히 */
+    white-space: nowrap;
+    display: inline-block;
+    font-size: 0.75em;
+    color: #555;
+    align-self: flex-end;
+    padding-bottom: 13px;
+    margin-right: 6px;
+}
+
+.mine-message-with-timestamp {  /* 전송 시간 */
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.mine-message {
+    display: flex;
+    flex-direction: row; /* 자식 요소들을 가로 방향으로 정렬 */
+    justify-content: flex-end; /* 오른쪽에 밀착 */
+}
+
+.mine-message-box { /* 기존 스타일에 추가 */
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0; /* 오른쪽에 밀착 */
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: flex; /* 또는 'inline-block' 유지 */
+    flex-direction: column; /* 'display: flex'를 사용할 경우에만 유용 */
+    max-width: 420px; /* 부모 요소를 넘지 않는 최대 너비 */
+    word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
+}
+
+
+
+
