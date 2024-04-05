@@ -1,3 +1,7 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
 .b_home {
     border-radius: 10px;
     border-color: #ffffff;
@@ -13,7 +17,8 @@
 
 
 .menu_image {
-    width: 90px;
+    margin-top: 7px;
+    width: 85px;
 }
 
 .menu_title {
