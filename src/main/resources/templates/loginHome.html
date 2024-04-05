@@ -1,15 +1,14 @@
 <!DOCTYPE HTML>
-  <meta charset="utf-8">
-  <title>Login Home</title>
-  <link th:href="@{/css/bootstrap.min.css}"
-        href="../css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/navbar.css}" />
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/home.css}"/>
-</head>
+<meta charset="utf-8">
+<title>Login Home</title>
+
+<link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+<link rel="stylesheet" th:href="@{/css/home.css}"/>
+<link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+<link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
 <body style="background-color: #f2f2f2">
 
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
@@ -21,21 +20,21 @@
     </div>
     <div class="d-flex flex-column container-fluid">
         <button class="btn btn-lg mb-3 p-4 b_box" type="button">
-            <img src="img/ott.png" class="menu_image img-fluid float-start">
+            <img  th:src="@{img/community.png}" class="menu_image img-fluid float-start">
             <div class="d-flex flex-column px-4 py-3">
-                <p class="menu_title">OTT 계정 공유</p>
-                <p class="menu_ex">VOD 서비스를 함께 구매해요</p>
+                <p class="menu_title">모임</p>
+                <p class="menu_ex">나의 취미생활을 함께해요</p>
             </div>
         </button>
         <button class="btn btn-lg mb-3 p-4 b_box" type="button">
-            <img src="img/groupbuy.png" class="menu_image img-fluid float-start">
+            <img  th:src="@{img/groupbuy.png}" class="menu_image img-fluid float-start">
             <div class="d-flex flex-column px-4 py-3">
                 <p class="menu_title">공동구매</p>
                 <p class="menu_ex">원하는 물건을 나눠 구매해요</p>
             </div>
         </button>
         <button class="btn btn-lg mb-3 p-4 b_box" type="button">
-            <img src="img/taxi.png" class="menu_image img-fluid float-start">
+            <img  th:src="@{img/taxi.png}" class="menu_image img-fluid float-start">
             <div class="d-flex flex-column px-4 py-3">
                 <p class="menu_title">택시 동승</p>
                 <p class="menu_ex">목적지가 같다면 함께 탑승해요</p>
@@ -67,4 +66,3 @@
    -->
 </div> <!-- /container -->
 </body>
-</html>
