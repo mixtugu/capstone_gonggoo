@@ -11,16 +11,46 @@
 </head>
 <body>
 <div class="container" style="max-width: 600px">
-    <h4 th:text="|채팅방 제목: ${room.roomTitle}|">방 제목</h4>
+    <!-- 아래의 h4에서 이름을 가져오기 때문에 지우면 안됩니다. h4 말고 다른 타입으로 교체하거나 이동은 가능! -->
+    <h4 th:text="|채팅방 제목: ${room.roomTitle}|" th:data-room-id="${room.roomId}" id="room">방 제목</h4>
     <span th:text="${room.currentNum}">현재 인원 수</span>
     /
     <span th:text="${room.recruitNum}">모집 인원 수</span>
-    <ul id="messages" class="messages"></ul>
+    <!-- 여기서부터 메세지 -->
+    <ul id="messages" class="messages">
+        <!-- 여기서부터 불러온 이전 메세지 -->
+        <div th:each="message : ${ChatMessage}">
+            <!-- 내가 보냈던 메세지 -->
+            <div th:if="${message.sender.name == member.name}">
+                <!-- member.name과 message.sender가 같을 때 -->
+                <div class="mine-message">
+                    <span class="mine-message-timestamp" th:text="${message.formattedTimestamp}"></span>
+                    <span class="mine-message-box" th:text="${message.text}"></span>
+                </div>
+            </div>
+            <!-- 내가 받았던 메세지 -->
+            <div th:if="${message.sender.name != member.name}">
+                <!-- member.name과 message.sender가 다를 때 -->
+                <div class="other-message">
+                    <span class="sender-name" th:text="${message.sender.name} + ':'"></span>
+                    <div class="message-with-timestamp">
+                        <span class="message-box" th:text="${message.text}"></span>
+                        <span class="message-timestamp" th:text="${message.formattedTimestamp}"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 여기서부터 새로 받는 메세지 -->
+        </div>
+    </ul>
+    <!-- 여기서부터 메세지 전송 버튼 -->
     <form onsubmit="sendMessage(); return false;">
-        <label for="from"></label><input type="text" id="from" placeholder="Your name">
+        <!-- 아래의 span에서 이름을 가져오기 때문에 지우면 안됩니다. span 말고 다른 타입으로 교체하거나 이동은 가능! -->
+        Your name: <span th:text="${member.name}" id="from" th:data-member-id="${member.id}"></span>
         <label for="text"></label><input type="text" id="text" placeholder="Your message">
         <button type="submit">Send</button>
     </form>
+
+    <!-- 여기서부터 bottom nav -->
     <hr class="my-4">
     <div class="row text-center">
         <div class="col">
@@ -47,6 +77,9 @@
 </html>
 <script>
     var stompClient = null;
+    var messagesDiv = document.getElementById('messages');
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    document.body.scrollTop = document.body.scrollHeight;
 
     function connect() {
         var socket = new SockJS('/chat');
@@ -61,49 +94,61 @@
     }
 
     function sendMessage() {
-        var from = document.getElementById('from').value;
+        var from = document.getElementById('from').textContent;
         var text = document.getElementById('text').value;
-        stompClient.send("/app/message", {}, JSON.stringify({'from': from, 'text': text}));
+        var roomId = document.getElementById('room').dataset.roomId; // Use dataset to access data attributes
+        var memberId = document.getElementById('from').dataset.memberId;
+        stompClient.send("/app/message", {}, JSON.stringify({'from': from, 'text': text, 'from_id': memberId, 'room_id': roomId}));
     }
 
     function showMessage(from, message, formattedTimestamp) {
+        var me = document.getElementById('from').textContent;
+        let mine = me === from;
         var messages = document.getElementById('messages');
         var messageElement = document.createElement('li');
+        if (mine) { messageElement.classList.add("mine-message"); }
+        else { messageElement.classList.add("other-message");}
+
 
         // Create a span for the sender's name
         var senderSpan = document.createElement('span');
         senderSpan.classList.add("sender-name");
-        senderSpan.textContent = from + ": ";
-        messageElement.appendChild(senderSpan);
+        if (mine) { senderSpan.textContent = from + ": "; }
+        else { senderSpan.textContent = " :" + from; }
 
         // Create a container for the message and timestamp
         var messageTimestampContainer = document.createElement('div');
-        messageTimestampContainer.classList.add("message-with-timestamp");
+        if (mine) { messageTimestampContainer.classList.add("mine-message-with-timestamp"); }
+        else { messageTimestampContainer.classList.add("message-with-timestamp"); }
 
         // Create a span for the message text
         var messageSpan = document.createElement('span');
-        messageSpan.classList.add("message-box");
+        if(mine) { messageSpan.classList.add("mine-message-box"); }
+        else { messageSpan.classList.add("message-box"); }
         messageSpan.textContent = message;
-        messageTimestampContainer.appendChild(messageSpan);
 
         // Create a span for the formatted timestamp
         var timestampSpan = document.createElement('span');
-        timestampSpan.classList.add("message-timestamp");
+        if (mine) { timestampSpan.classList.add("mine-message-timestamp"); }
+        else { timestampSpan.classList.add("message-timestamp"); }
         timestampSpan.textContent = formattedTimestamp; // Use the formattedTimestamp from the server
-        messageTimestampContainer.appendChild(timestampSpan);
+
+        if (mine) {
+            messageTimestampContainer.appendChild(timestampSpan);
+            messageTimestampContainer.appendChild(messageSpan);
+        } else {
+            messageElement.appendChild(senderSpan);
+            messageTimestampContainer.appendChild(messageSpan);
+            messageTimestampContainer.appendChild(timestampSpan);
+        }
+
 
         // Append the container to the message element
         messageElement.appendChild(messageTimestampContainer);
 
-<<<<<<< Updated upstream
-    messages.appendChild(messageElement);
-    messages.scrollTop = messages.scrollHeight;
-}
-=======
         messages.appendChild(messageElement);
         messages.scrollTop = messages.scrollHeight;
-    }
->>>>>>> Stashed changes
+}
 
     window.addEventListener("load", connect, false);
 </script>
