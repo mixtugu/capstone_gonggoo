@@ -39,8 +39,6 @@ public class ChatController {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private RoomService roomService; // Ensure RoomService is autowired
 
     @GetMapping("/chat")
     public String showChat(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember,
