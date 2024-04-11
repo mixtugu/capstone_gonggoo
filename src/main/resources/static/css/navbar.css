@@ -154,4 +154,5 @@ body {
 .chatBottombar {
     bottom: 60px;
     margin: 20px;
+    background-color: rgba(120,120,120,0);
 }

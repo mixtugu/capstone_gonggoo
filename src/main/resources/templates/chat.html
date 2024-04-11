@@ -46,7 +46,7 @@
             <div th:if="${message.sender.name != member.name}">
                 <!-- member.name과 message.sender가 다를 때 -->
                 <div class="other-message">
-                    <span class="sender-name" th:text="${message.sender.name} + ':'"></span>
+                    <span class="sender-name" th:text="${message.sender.name}"></span>
                     <div class="message-with-timestamp">
                         <span class="message-box" th:text="${message.text}"></span>
                         <span class="message-timestamp" th:text="${message.formattedTimestamp}"></span>
@@ -57,12 +57,13 @@
         </div>
     </ul>
     <!-- 여기서부터 메세지 전송 버튼 -->
-    <nav class="navbar fixed-bottom chatBottombar inputText d-flex justify-content-center">
-        <form onsubmit="sendMessage(); return false;">
+    <nav class="navbar fixed-bottom chatBottombar inputText px-3">
+        <form onsubmit="sendMessage(); return false;" class="d-flex align-items-center">
             <!-- 아래의 span에서 이름을 가져오기 때문에 지우면 안됩니다. span 말고 다른 타입으로 교체하거나 이동은 가능! -->
             <span th:text="${member.name}" id="from" th:data-member-id="${member.id}" class="d-none"></span>
-                <label for="text"></label><input type="text" id="text" placeholder="" class="chatText">
-                <button type="submit" class="chatSend">Send</button>
+            <label for="text" class="d-none"></label>
+            <input type="text" id="text" placeholder="" class="chatText">
+            <button type="submit" class="chatSend"><img th:src="@{img/send.png}"></button>
         </form>
     </nav>
 </div> <!-- /container -->
@@ -72,7 +73,6 @@
     var stompClient = null;
     var messagesDiv = document.getElementById('messages');
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    document.body.scrollTop = document.body.scrollHeight;
 
     function connect() {
         var socket = new SockJS('/chat');
@@ -156,7 +156,7 @@
         }
 
 
-        // Append the container to the message element
+        // Append the container to the message element\
         messageElement.appendChild(messageTimestampContainer);
 
         messages.appendChild(messageElement);
