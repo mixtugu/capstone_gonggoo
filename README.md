@@ -49,7 +49,9 @@ CREATE TABLE ChatMessage (
 	MessageText TEXT, -- 텍스트 메세지 내용
 	Timestamp DATETIME, -- 전송시간, 전송 시간 기준으로 sort하여 채팅창 구성
 	FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID)
+    FOREIGN KEY (SenderID) REFERENCES Member(MemberID)
 );
+```
 
 
 1. 채팅방 멤버 테이블
