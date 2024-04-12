@@ -67,7 +67,7 @@ public class BoardController {
 
     @PostMapping("/post")
     public String write(@RequestParam("file") MultipartFile files, BoardDto boardDto, HttpServletRequest request) {
-        Long boardId = null;
+        Integer boardId = null;
         try {
             String origFilename = files.getOriginalFilename();
             String filename = new MD5Generator(origFilename).toString();
@@ -88,7 +88,7 @@ public class BoardController {
             fileDto.setFilename(filename);
             fileDto.setFilePath(filePath);
 
-            Long fileId = fileService.saveFile(fileDto);
+            Integer fileId = fileService.saveFile(fileDto);
             boardDto.setFileId(fileId);
             boardId =  boardService.savePost(boardDto);
         } catch(Exception e) {
@@ -98,20 +98,20 @@ public class BoardController {
         HttpSession session = request.getSession(false);
         if (session != null) {
             Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-            participantService.addParticipant(boardId, loginMember.getLoginId(), 1);
+            participantService.addParticipant(boardId, loginMember.getLoginId(), 1,true);
         }
         return "redirect:/";
     }
 
     @GetMapping("/post/edit/{id}")
-    public String edit(@PathVariable("id") Long id, Model model) {
+    public String edit(@PathVariable("id") Integer id, Model model) {
         BoardDto boardDto = boardService.getPost(id);
         model.addAttribute("post", boardDto);
         return "items/edit.html";
     }
 
     @GetMapping("/post/{id}")
-    public String detail(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+    public String detail(@PathVariable("id") Integer id, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Member loginMember = session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
 
@@ -147,12 +147,12 @@ public class BoardController {
     }
 
     @DeleteMapping("/post/{id}")
-    public String delete(@PathVariable("id") Long id) {
+    public String delete(@PathVariable("id") Integer id) {
         boardService.deletePost(id);
         return "redirect:/";
     }
     @GetMapping("/download/{fileId}")
-    public ResponseEntity<Resource> fileDownload(@PathVariable("fileId") Long fileId) throws IOException {
+    public ResponseEntity<Resource> fileDownload(@PathVariable("fileId") Integer fileId) throws IOException {
         FileDto fileDto = fileService.getFile(fileId);
         Path path = Paths.get(fileDto.getFilePath());
         Resource resource = new InputStreamResource(Files.newInputStream(path));
@@ -163,7 +163,7 @@ public class BoardController {
     }
 
     @PostMapping("/post/{id}/participate")
-    public String participate(@PathVariable Long id, @RequestParam("quantity") int quantity, HttpServletRequest request) {
+    public String participate(@PathVariable Integer id, @RequestParam("quantity") int quantity, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "redirect:/login";
@@ -172,13 +172,13 @@ public class BoardController {
         if (loginMember == null) {
             return "redirect:/login";
         }
-        participantService.addParticipant(id, loginMember.getLoginId(), quantity);
+        participantService.addParticipant(id, loginMember.getLoginId(), quantity,false);
         boardService.increaseParticipantCount(id);
         return "redirect:/post/" + id;
     }
 
     @GetMapping("/post/{id}/withdraw")
-    public String withdrawParticipation(@PathVariable Long id, HttpServletRequest request) {
+    public String withdrawParticipation(@PathVariable Integer id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "redirect:/login";
@@ -197,7 +197,7 @@ public class BoardController {
     }
 
     @PostMapping("/post/{boardId}/editQuantity")
-    public String updateParticipantQuantity(@PathVariable Long boardId, @RequestParam("newQuantity") int quantity, HttpServletRequest request) {
+    public String updateParticipantQuantity(@PathVariable Integer boardId, @RequestParam("newQuantity") int quantity, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "redirect:/login";

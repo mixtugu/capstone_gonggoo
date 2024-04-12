@@ -27,7 +27,7 @@ public class ParticipantService {
     }
 
     @Transactional
-    public Long addParticipant(Long boardId, String loginId, Integer quantity) {
+    public Integer addParticipant(Integer boardId, String loginId, Integer quantity, boolean isRoomOwner) {
 
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + boardId));
         Member member = memberRepository.findByLoginId(loginId).orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다. loginId=" + loginId));
@@ -39,17 +39,18 @@ public class ParticipantService {
                 .member(member)
                 .board(board)
                 .quantity(quantity)
+                .isRoomOwner(isRoomOwner)
                 .build();
 
         participantRepository.save(participant);
-        return participant.getId();
+        return participant.getRoomMemberId();
     }
 
     @Transactional
-    public void updateQuantity(Long boardId, String loginId, Integer newQuantity) {
+    public void updateQuantity(Integer boardId, String loginId, Integer newQuantity) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + boardId));
-        Participant participant = participantRepository.findByBoardIdAndMember_LoginId(boardId, loginId)
+        Participant participant = participantRepository.findByBoardRoomIdAndMember_LoginId(boardId, loginId)
                 .orElseThrow(() -> new IllegalArgumentException("참가자가 존재하지 않습니다. loginId=" + loginId));
 
         int quantityDifference = newQuantity - participant.getQuantity();
@@ -60,12 +61,12 @@ public class ParticipantService {
         board.updatePrice(amountToUpdate);
     }
 
-    public List<Participant> getParticipantsByBoardId(Long boardId) {
+    public List<Participant> getParticipantsByBoardId(Integer boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + boardId));
         return participantRepository.findByBoard(board);
     }
 
-    public List<ParticipantDto> getParticipantDtosByBoardId(Long boardId) {
+    public List<ParticipantDto> getParticipantDtosByBoardId(Integer boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다. id=" + boardId));
         List<Participant> participants = participantRepository.findByBoard(board);
         return participants.stream()
@@ -73,20 +74,20 @@ public class ParticipantService {
                 .collect(Collectors.toList());
     }
 
-    public boolean isUserParticipated(Long boardId, String loginId) {
-        return participantRepository.existsByBoardIdAndMember_LoginId(boardId, loginId);
+    public boolean isUserParticipated(Integer boardId, String loginId) {
+        return participantRepository.existsByBoardRoomIdAndMember_LoginId(boardId, loginId);
     }
 
-    public void removeParticipant(Long boardId, String loginId) {
-        Participant participant = participantRepository.findByBoardIdAndMember_LoginId(boardId, loginId)
+    public void removeParticipant(Integer boardId, String loginId) {
+        Participant participant = participantRepository.findByBoardRoomIdAndMember_LoginId(boardId, loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 참여 정보를 찾을 수 없습니다. boardId: " + boardId + ", loginId: " + loginId));
         participantRepository.delete(participant);
     }
 
     @Transactional
-    public boolean withdrawFromBoard(Long boardId, String loginId) {
+    public boolean withdrawFromBoard(Integer boardId, String loginId) {
         try {
-            Participant participant = participantRepository.findByBoardIdAndMember_LoginId(boardId, loginId)
+            Participant participant = participantRepository.findByBoardRoomIdAndMember_LoginId(boardId, loginId)
                     .orElseThrow(() -> new IllegalArgumentException("해당 참여 정보를 찾을 수 없습니다. boardId: " + boardId + ", loginId: " + loginId));
 
             Board board = participant.getBoard();
@@ -102,7 +103,7 @@ public class ParticipantService {
     }
 
     @Transactional
-    public Long editParticipantQuantity(Long participantId, Integer newQuantity, String loginId) {
+    public Integer editParticipantQuantity(Integer participantId, Integer newQuantity, String loginId) {
         Participant participant = participantRepository.findById(participantId)
                 .orElseThrow(() -> new IllegalArgumentException("참여자 정보를 찾을 수 없습니다."));
 
@@ -117,7 +118,7 @@ public class ParticipantService {
         board.updatePrice(board.getCurrentPrice() - oldTotalPrice + newTotalPrice);
         participant.setQuantity(newQuantity);
 
-        return board.getId();
+        return board.getRoomId();
     }
 
     public void updateParticipantQuantity(String name, int newQuantity) {

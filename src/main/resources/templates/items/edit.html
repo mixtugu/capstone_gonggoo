@@ -9,18 +9,18 @@
 <body>
 <header th:insert="common/header.html"></header>
 <div class="container">
-    <form th:action="@{'/post/edit/' + ${post.id}}" method="post">
+    <form th:action="@{'/post/edit/' + ${post.roomId}}" method="post">
         <input type="hidden" name="_method" value="put" />
-        <input type="hidden" name="id" th:value="${post.id}" />
+        <input type="hidden" name="id" th:value="${post.roomId}" />
         <div class="form-group row">
-            <label for="inputTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
+            <label for="inputRoomTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
             <div class="col-sm-10">
                 <input
                         type="text"
-                        name="title"
+                        name="roomTitle"
                         class="form-control"
-                        id="inputTitle"
-                        th:value="${post.title}"
+                        id="inputRoomTitle"
+                        th:value="${post.roomTitle}"
                 />
             </div>
         </div>
@@ -58,6 +58,18 @@
                         class="form-control"
                         id="inputSiteName"
                         th:value="${post.siteName}"
+                />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputRecruitNum" class="col-sm-2 col-form-label"><strong>모집인원</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="text"
+                        name="recruitNum"
+                        class="form-control"
+                        id="inputRecruitNum"
+                        th:value="${post.recruitNum}"
                 />
             </div>
         </div>

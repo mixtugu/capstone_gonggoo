@@ -37,18 +37,18 @@
         <tbody>
         <tr class="text-center" th:each="post : ${postList}">
             <th scope="row">
-                <span th:text="${post.id}"></span>
+                <span th:text="${post.roomId}"></span>
             </th>
             <td>
-                <a th:href="@{'/post/' + ${post.id}}">
-                    <span th:text="${post.title}"></span>
+                <a th:href="@{'/post/' + ${post.roomId}}">
+                    <span th:text="${post.roomTitle}"></span>
                 </a>
             </td>
             <td>
                 <span th:text="${post.author}"></span>
             </td>
             <td>
-                <span th:text="${post.headCount}"></span>
+                <span th:text="${post.currentNum}"></span>
             </td>
             <td>
                 <span th:text="${#numbers.formatInteger(post.currentPrice, 1, 'COMMA')} + ' / ' + ${#numbers.formatInteger(post.totalPrice, 1, 'COMMA')}"></span>

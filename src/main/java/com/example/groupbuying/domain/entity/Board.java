@@ -1,7 +1,10 @@
 package com.example.groupbuying.domain.entity;
 
+import com.example.domain.Member;
+import com.example.domain.Room;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -14,22 +17,13 @@ import java.util.Set;
 @Entity(name = "board")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-public class Board {
+public class Board extends Room {
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<Participant> participants;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Column(length = 10, nullable = false)
     private String author;
-
-    @Column(length = 100, nullable = false)
-    private String title;
-
-    private Integer headCount = 1;
 
     private Integer totalPrice;
 
@@ -42,7 +36,7 @@ public class Board {
     private String itemName;
 
     @Column
-    private Long fileId;
+    private Integer fileId;
 
     @CreatedDate
     @Column(updatable = false)
@@ -51,27 +45,33 @@ public class Board {
     @LastModifiedDate
     private LocalDateTime modifiedDate;
 
+
+
     @Builder
-    public Board(Long id, String author, String title, String itemName, Integer headCount, Integer totalPrice, Integer currentPrice, Integer itemPrice, String siteName, Long fileId) {
-        this.id = id;
+    public Board(Integer roomId, String author, String roomTitle, Integer roomCategory, String itemName, Integer recruitNum, Integer currentNum, Integer totalPrice, Integer currentPrice, Integer itemPrice, String siteName, Integer fileId, Member member) {
+        this.setRoomId(roomId);
         this.author = author;
-        this.title = title;
+        this.setRoomTitle(roomTitle);
+        this.setRoomCategory(roomCategory);
         this.itemName = itemName;
-        this.headCount = headCount != null ? headCount : 1;
+        this.setRecruitNum(recruitNum);
+        this.currentNum = currentNum != null ? currentNum : 1;
         this.totalPrice = totalPrice;
         this.currentPrice = currentPrice != null ? currentPrice : 0;
         this.itemPrice = itemPrice;
         this.siteName = siteName;
         this.fileId = fileId;
+        this.setMember(member);
     }
 
-    public void increaseHeadCount() {
-        if (this.headCount == null) {
-            this.headCount = 1;
+    public void increaseCurrentNum() {
+        if (this.getCurrentNum() == null) {
+            this.setCurrentNum(1);
         } else {
-            this.headCount += 1;
+            this.currentNum += 1;
         }
     }
+
 
     public void addPrice(int amount) {
         if (this.currentPrice == null) {

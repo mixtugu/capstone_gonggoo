@@ -14,6 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @Entity
 @Table(name = "RoomMember")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class RoomMember {
 
     @Id
@@ -34,7 +35,3 @@ public class RoomMember {
     @Column(name = "IsRoomOwner", nullable = false)
     private Boolean isRoomOwner;
 }
-
-
-//INSERT INTO room_member (is_room_owner, join_date, userid, roomid) VALUES
-//(0, '2024-03-30 12:30:00.123000', 2, 1);
