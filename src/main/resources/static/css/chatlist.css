@@ -3,8 +3,8 @@ body {
 }
 
 .icon {
-    width: 25px;
-    margin-right: 10px
+    width: 1.56rem;
+    margin-right: 0.625rem;
 }
 
 .title {
@@ -12,9 +12,9 @@ body {
 }
 
 .chatBox {
-    border-radius: 30px;
+    border-radius: 1.87rem;
     background-color: #FFFFFF;
-    box-shadow: 4px 4px 10px lightgray ;
+    box-shadow: 0.25rem 0.25rem 0.625rem lightgray;
 
     transition: 0.2s;
 }

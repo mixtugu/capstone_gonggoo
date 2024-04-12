@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-    max-width: 560px;
+    max-width: 35rem;
 }
 
 .field-error {
@@ -12,13 +12,13 @@ body {
 }
 
 .box {
-    border-radius: 32px;
+    border-radius: 2rem;
     background-color: #FFFFFF;
-    box-shadow: 4px 4px 10px lightgray ;
+    box-shadow: 0.25rem 0.25rem 0.625rem lightgray;
 }
 
 .b_join {
-    border-radius: 10px;
+    border-radius: 0.625rem;
     background-color: #4f856e;
     color: #FFFFFF;
 }
@@ -28,7 +28,7 @@ body {
 }
 
 .b_no {
-    border-radius: 10px;
+    border-radius: 0.625rem;
     background-color: #5b5b5b;
     color: #FFFFFF;
 }

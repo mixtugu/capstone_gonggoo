@@ -1,5 +1,5 @@
 .b_home {
-    border-radius: 10px;
+    border-radius: 0.7rem;
     border-color: #ffffff;
     border-width: medium;
     background-color: #4f856e;
@@ -13,13 +13,13 @@
 
 
 .menu_image {
-    margin-top: 7px;
-    width: 85px;
+    margin-top: 0.43rem;
+    width: 5.3rem;
 }
 
 .menu_title {
     color: #305546;
-    font-size: 29px;
+    font-size: 1.8rem;
     font-weight: bold;
     text-align: left;
     margin-bottom: 0;
@@ -27,15 +27,15 @@
 
 .menu_ex {
     color: #a3a3a3;
-    font-size: 14px;
+    font-size: 0.9rem;
     text-align: left;
     margin-bottom: 0;
 }
 
 .b_box {
-    border-radius: 20px;
+    border-radius: 1.25rem;
     background-color: #FFFFFF;
-    box-shadow: 4px 4px 10px lightgray ;
+    box-shadow: 0.25rem 0.25rem 0.625rem lightgray;
     transition: 0.2s;
 }
 
