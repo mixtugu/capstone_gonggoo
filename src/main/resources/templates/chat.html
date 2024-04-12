@@ -70,9 +70,11 @@
 </body>
 </html>
 <script>
+    window.onload = function() {
+    window.scrollTo(0, document.body.scrollHeight);
+    };
+
     var stompClient = null;
-    var messagesDiv = document.getElementById('messages');
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
     function connect() {
         var socket = new SockJS('/chat');
@@ -160,7 +162,7 @@
         messageElement.appendChild(messageTimestampContainer);
 
         messages.appendChild(messageElement);
-        messages.scrollTop = messages.scrollHeight;
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     window.addEventListener("load", connect, false);
