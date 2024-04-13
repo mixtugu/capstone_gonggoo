@@ -9,18 +9,18 @@ import java.util.List;
 
 @Component
 public class CommunityGathering {
-    private String name;
+    private String roomName;
     private String category;
     private String region;
 
 
     @Getter
-    private List<Room> rooms;
+    private List<CRoom> rooms;
 
     public CommunityGathering() {
         this.rooms = new ArrayList<>();
     }
-    public void setName(String name) {this.name =name;}
+    public void setRoomName(String roomName) {this.roomName =roomName;}
 
     public void setCategory(String category) {
         this.category =category;
@@ -29,7 +29,7 @@ public class CommunityGathering {
         this.region =region;
     }
 
-    public void createNewSharingRoom(Room room, Representative representative) {
+    public void createNewSharingRoom(CRoom room, Representative representative) {
         rooms.add(room);
     }
 

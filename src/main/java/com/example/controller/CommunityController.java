@@ -26,28 +26,28 @@ public class CommunityController {
         this.managing = managing;
     }
 
-    @GetMapping("/communityIndex")
+    /*@GetMapping("/communityIndex")
     public String accountIndex(Model model) {
         model.addAttribute("group", group);
         return "community/communityIndex"; // Updated path
-    }
+    }*/
 
     @GetMapping("/createRoom")
     public String createRoom(Model model) {
-        model.addAttribute("room", new Room());
+        model.addAttribute("room", new CRoom());
         return "community/createRoom"; // Updated path
     }
 
     @PostMapping("/createRoom")
-    public String createRoomSubmit(@ModelAttribute Room roomForm, BindingResult result, Model model, HttpServletRequest request) {
+    public String createRoomSubmit(@ModelAttribute CRoom roomForm, BindingResult result, Model model, HttpServletRequest request) {
         if (result.hasErrors()) {
             return "community/createRoom";
         }
 
         boolean roomExists = group.getRooms().stream()
-                .anyMatch(existingRoom -> existingRoom.getName().equals(roomForm.getName()));
+                .anyMatch(existingRoom -> existingRoom.getRoomName().equals(roomForm.getRoomName()));
         if (roomExists) {
-            model.addAttribute("room", new Room());
+            model.addAttribute("room", new CRoom());
             model.addAttribute("nameError", "동일한 이름의 방이 이미 존재합니다.");
             return "community/createRoom";
         }
@@ -74,7 +74,7 @@ public class CommunityController {
         representative.setName(loginMember.getName());
 
         // Room 객체를 모든 필드를 포함하는 생성자를 사용하여 생성 ///추가
-        Room newRoom = new Room(roomForm.getName(), roomForm.getCategory(), customCategory, roomForm.getRegion(),
+        CRoom newRoom = new CRoom(roomForm.getRoomName(), roomForm.getCategory(), customCategory, roomForm.getRegion(),
                 customRegion, roomForm.getNumberOfParticipants(), roomForm.getPayment(), representative);
 
         group.createNewSharingRoom(newRoom, representative);
@@ -88,8 +88,8 @@ public class CommunityController {
     public String searchRooms(@RequestParam(name = "searchName", required = false) String searchName,
                               @RequestParam(name = "searchCategory", required = false) String searchCategory,//추가
                               @RequestParam(name = "searchRegion", required = false) String searchRegion, Model model) {
-        List<Room> filteredRooms = group.getRooms().stream()
-                .filter(room -> (searchName == null || searchName.isEmpty() || room.getName().contains(searchName)) &&
+        List<CRoom> filteredRooms = group.getRooms().stream()
+                .filter(room -> (searchName == null || searchName.isEmpty() || room.getRoomName().contains(searchName)) &&
                         (searchCategory == null || searchCategory.isEmpty() || room.getCategory().equalsIgnoreCase(searchCategory) ||
                                 (room.getDetailCategory() != null && room.getDetailCategory().equalsIgnoreCase(searchCategory)))//추가
                         &&(searchRegion == null || searchRegion.isEmpty() || room.getRegion().equalsIgnoreCase(searchRegion) ||
@@ -105,7 +105,7 @@ public class CommunityController {
     @GetMapping("/joinRoom")
     public String joinRoom(@RequestParam(name = "selectedRoom", required = false) String selectedName,
                            @RequestParam(name = "Category", required = false) String Category, Model model) {
-        List<Room> rooms;
+        List<CRoom> rooms;
         if (Category != null && !Category.isEmpty()) {
             rooms = group.getRooms().stream()
                     .filter(room -> room.getCategory().equals(Category))
@@ -131,8 +131,8 @@ public class CommunityController {
         }
 
         // 방 이름으로 방을 찾음
-        Room selectedRoom = group.getRooms().stream()
-                .filter(room -> room.getName().equals(name))
+        CRoom selectedRoom = group.getRooms().stream()
+                .filter(room -> room.getRoomName().equals(name))
                 .findFirst()
                 .orElse(null);
 
@@ -159,7 +159,7 @@ public class CommunityController {
    public String roomsByCategory(@RequestParam("category") String category, Model model) {
        List<String> categorysWithDetail = List.of("스터디","운동","보드게임","취미모임");
 
-       List<Room> filteredRooms = group.getRooms().stream()
+       List<CRoom> filteredRooms = group.getRooms().stream()
                .filter(room -> {
                    if (categorysWithDetail.contains(room.getRegion()) && room.getDetailCategory() != null && !room.getDetailCategory().isEmpty()) {
                        return room.getDetailCategory().equalsIgnoreCase(category);
@@ -180,7 +180,7 @@ public class CommunityController {
     public String roomsByRegion(@RequestParam("region") String region, Model model) {
         List<String> regionsWithDetail = List.of("충청남도", "충청북도", "강원도", "전라남도", "전라북도", "경상북도", "경상남도");
 
-        List<Room> filteredRooms = group.getRooms().stream()
+        List<CRoom> filteredRooms = group.getRooms().stream()
                 .filter(room -> {
                     if (regionsWithDetail.contains(room.getRegion()) && room.getDetailRegion() != null && !room.getDetailRegion().isEmpty()) {
                         return room.getDetailRegion().equalsIgnoreCase(region);
@@ -201,8 +201,8 @@ public class CommunityController {
         HttpSession session = request.getSession(false);
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
-        Room selectedRoom = group.getRooms().stream()
-                .filter(room -> room.getName().equals(name))
+        CRoom selectedRoom = group.getRooms().stream()
+                .filter(room -> room.getRoomName().equals(name))
                 .findFirst()
                 .orElse(null);
 
@@ -217,15 +217,15 @@ public class CommunityController {
             return "redirect:/joinRoom";
         }
 
-        return "redirect:/communityIndex";
+        return "redirect:/loginHome";
     }
 
     @GetMapping("/roomDetails")
     public String roomDetails(@RequestParam("name") String name, HttpServletRequest request, Model model) {
         HttpSession session = request.getSession(false);
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        Room selectedRoom = group.getRooms().stream()
-                .filter(room -> room.getName().equals(name))
+        CRoom selectedRoom = group.getRooms().stream()
+                .filter(room -> room.getRoomName().equals(name))
                 .findFirst()
                 .orElse(null);
 

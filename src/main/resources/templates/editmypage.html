@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit My Page</title>
+  <link th:href="@{/css/bootstrap.min.css}" href="../static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="max-width: 600px; margin-top: 20px;">
+  <div class="text-center mt-4">
+  <h2>개인정보 수정</h2>
+  </div>
+  <hr class="my-4">
+  <form th:action="@{/mypage/update}" th:object="${mypage}" method="post">
+    <input type="hidden" name="id" th:value="${mypage.id}">
+
+    <div class="mb-3">
+      <label for="password" class="form-label">새로운 비밀번호</label>
+      <input type="password" class="form-control" id="password" name="password" th:value="${mypage.member.password}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">새로운 Email</label>
+      <input type="email" class="form-control" id="email" name="email" th:value="${mypage.email}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="phonenumber" class="form-label">휴대폰 번호 수정</label>
+      <input type="text" class="form-control" id="phonenumber" name="phonenumber" th:value="${mypage.phonenumber}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="birthday" class="form-label">생일 수정</label>
+      <input type="date" class="form-control" id="birthday" name="birthday" th:value="${#dates.format(mypage.birthday, 'yyyy-MM-dd')}" required>
+    </div>
+
+    <div class="mb-3">
+      <div class="row">
+        <div class="col">
+          <label for="bank" class="form-label">은행 선택</label>
+          <select class="form-select" id="bank" name="bank">
+            <option value="국민" th:selected="${mypage.bank == '국민'}">국민</option>
+            <option value="우리" th:selected="${mypage.bank == '우리'}">우리</option>
+            <option value="신한" th:selected="${mypage.bank == '신한'}">신한</option>
+            <option value="한화" th:selected="${mypage.bank == '한화'}">한화</option>
+            <option value="토스" th:selected="${mypage.bank == '토스'}">토스</option>
+          </select>
+        </div>
+        <div class="col">
+          <label for="account" class="form-label">계좌번호</label>
+          <input type="text" class="form-control" id="account" name="account" th:value="${mypage.account}" required>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">변경 완료</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+</body>
+</html>

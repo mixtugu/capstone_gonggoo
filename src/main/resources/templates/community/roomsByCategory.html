@@ -37,10 +37,19 @@
 </div>
 <div th:each="room : ${rooms}">
   <form th:action="@{/roomDetails}" method="get">
-    <input type="hidden" th:name="name" th:value="${room.name}" />
-    <button type="submit" th:text="${room.detailCategory != null} ? ${room.name} + '(' + ${room.detailCategory} + ')' : ${room.name}">Room Name</button>
+    <input type="hidden" th:name="name" th:value="${room.roomName}" />
+    <button type="submit" th:text="${room.detailCategory != null} ? ${room.roomName} + '(' + ${room.detailCategory} + ')' : ${room.roomName}">Room Name</button>
   </form>
 </div>
 <a href="/joinRoom">다른 소모임 찾기</a>
+
+<div class="row">
+  <div class="col-auto mr-auto"></div>
+  <div class="col-auto">
+    <a class="btn btn-primary" th:href="@{/createRoom}" role="button">+</a>
+  </div>
+</div>
+
 </body>
+
 </html>

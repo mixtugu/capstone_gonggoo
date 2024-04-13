@@ -1,4 +1,4 @@
-package com.example.community;
+/*package com.example.community;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,19 +19,8 @@ public class Room {
     private Representative representative;
     private List<Participant> participants;
 
-    public Room() {
-        this.name = name;
-        this.category = category;
 
-        this.detailCategory= detailCategory;//추가
 
-        this.region = region;
-        this.detailRegion = detailRegion;
-        this.numberOfParticipants = numberOfParticipants;
-        this.payment = payment;
-        this.representative = representative;
-        this.participants = new ArrayList<>();
-    }
 
     public String getCategory() {
         return category;
@@ -64,6 +53,9 @@ public class Room {
 
     public void setDetailRegion(String detailRegion) {
         this.detailRegion = detailRegion;
+    }
+    public Room() {
+        this.participants = new ArrayList<>(); // 참가자 목록만 초기화
     }
 
 
@@ -136,4 +128,4 @@ public class Room {
     public boolean removeParticipant(String participantName) {
         return participants.removeIf(participant -> participant.getName().equals(participantName));
     }
-}
+}*/

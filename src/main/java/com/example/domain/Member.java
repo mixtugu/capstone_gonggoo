@@ -1,5 +1,9 @@
 package com.example.domain;
 
+
+import com.example.groupbuying.domain.entity.Participant;
+import lombok.Builder;
+import com.example.mypage.domain.MyPage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,5 +33,23 @@ public class Member {
 //    @Size(min = 3, max = 20)
     private String name;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Participant> participants = new ArrayList<>();
 
+    public Member() {
+
+    }
+
+    @Builder
+    public Member(Long id, String loginId, String password, String name) {
+        this .id = id;
+        this.loginId = loginId;
+        this.password = password;
+        this.name = name;
+    }
+
+    public void addParticipant(Participant participant) {
+        participants.add(participant);
+        participant.setMember(this);
+    }
 }

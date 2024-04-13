@@ -13,7 +13,7 @@ public class ManagingParticipants {
         this.communityGathering = communityGathering;
     }
 
-    public void manageParticipantRooms(Room selectedRoom) {
+    public void manageParticipantRooms(CRoom selectedRoom) {
         Scanner scanner = new Scanner(System.in);
     }
 }
