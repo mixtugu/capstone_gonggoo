@@ -10,12 +10,12 @@
 <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
-<body style="background-color: #f2f2f2">
+<body>
 
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
-<div class="container p-3 mb-5" style="max-width: 600px;">
+<div class="container p-3 mb-5">
     <div class="d-flex justify-content-between align-items-center px-3 py-4">
         <p th:text="|${member.name}님 안녕하세요!|" class="fs-3 fw-bold">로그인 사용자 이름</p>
     </div>

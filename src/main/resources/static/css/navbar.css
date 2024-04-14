@@ -54,9 +54,13 @@ body {
 .CategoryDiv {
     padding-top: 1.25rem;
     padding-bottom: 0.3125rem;
-    border-radius: 0 0 3px 3px;
+    border-radius: 0 0 0.19rem 0.19rem;
     font-size: 1.25rem;
     color: #838383;
+}
+
+.CategoryDiv:hover {
+    color: #367257;
 }
 
 .CD_select {

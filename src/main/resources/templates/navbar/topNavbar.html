@@ -1,7 +1,7 @@
 <nav th:fragment="navbarFragment" class="navbar sticky-top navbar-light topLayout">
     <div class="container-fluid">
         <a class="navbar-brand" th:onclick="|location.href='@{/}'|">
-            <img  th:src="@{img/logo.png}" class="logo"/>
+            <img  th:src="@{/img/logo.png}" class="logo"/>
         </a>
 
         <form th:action="@{/logout}" method="post">
