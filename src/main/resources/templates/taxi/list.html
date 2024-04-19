@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>택시 동승 - 목록</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../static/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<header th:insert="common/taxi_header.html"></header>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col">
+            <form th:action="@{/taxiList}" method="get">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="제목 검색" name="search">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">검색</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+<div class="container">
+    <table class="table">
+        <thead class="thead-light">
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">현재 참여인원</th>
+            <th scope="col">예상 금액</th>
+            <th scope="col">작성일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-center" th:each="taxi_post : ${postList}">
+            <th scope="row">
+                <span th:text="${taxi_post.roomId}"></span>
+            </th>
+            <td>
+                <a th:href="@{'/taxi_post/' + ${taxi_post.roomId}}">
+                    <span th:text="${taxi_post.roomTitle}"></span>
+                </a>
+            </td>
+            <td>
+                <span th:text="${taxi_post.author}"></span>
+            </td>
+            <td>
+                <span th:text="${taxi_post.currentNum}"></span>
+            </td>
+            <td>
+                <span th:text="${taxi_post.predicttotalprice}"></span>
+            </td>
+            <td>
+                <span th:text="${#temporals.format(taxi_post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-auto mr-auto"></div>
+        <div class="col-auto">
+            <a class="btn btn-primary" th:href="@{/taxi_post}" role="button">+</a>
+        </div>
+    </div>
+</div></div>
+</body>
+</html>
