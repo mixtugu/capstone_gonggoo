@@ -70,9 +70,11 @@
 </body>
 </html>
 <script>
+    window.onload = function () {
+        window.scrollTo(0, document.body.scrollHeight);
+    };
+
     var stompClient = null;
-    var messagesDiv = document.getElementById('messages');
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
 
     function connect() {
         var socket = new SockJS('/chat');
@@ -97,6 +99,10 @@
             'from_id': memberId,
             'room_id': roomId
         }));
+
+        // 인풋 박스 초기화
+        var inputElement = document.getElementById('text');
+        inputElement.value = "";
     }
 
     function showMessage(from, message, formattedTimestamp) {
@@ -114,10 +120,8 @@
         // Create a span for the sender's name
         var senderSpan = document.createElement('span');
         senderSpan.classList.add("sender-name");
-        if (mine) {
-            senderSpan.textContent = from + ": ";
-        } else {
-            senderSpan.textContent = " :" + from;
+        if (!mine) {
+            senderSpan.textContent = from;
         }
 
         // Create a container for the message and timestamp
@@ -160,7 +164,7 @@
         messageElement.appendChild(messageTimestampContainer);
 
         messages.appendChild(messageElement);
-        messages.scrollTop = messages.scrollHeight;
+        window.scrollTo(0, document.body.scrollHeight);
     }
 
     window.addEventListener("load", connect, false);
