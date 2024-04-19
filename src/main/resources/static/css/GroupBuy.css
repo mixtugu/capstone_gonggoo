@@ -49,7 +49,7 @@ body {
 
 .roomImage {
     display: inline-block;
-    width: 5rem;
+    width: 5.5rem;
     margin: 0 1.3rem 0 0;
 }
 
@@ -123,4 +123,41 @@ body {
 
 .postInput {
     margin-bottom: 0.8rem;
+}
+
+
+/* detail.html */
+.detailItem {
+    font-size: 0.9rem;
+    color: #969696;
+}
+
+.detailTitle {
+    font-size: 1.6rem;
+}
+
+.detailCount {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 2rem 0 2rem 0;
+    font-size: 1.5rem;
+    color: #46967c;
+}
+
+.detailInfo {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.attr {
+    margin-right: auto;
+}
+
+.value {
+    margin-left: auto;
 }
