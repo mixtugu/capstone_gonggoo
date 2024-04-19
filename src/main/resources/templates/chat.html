@@ -99,7 +99,6 @@
             'from_id': memberId,
             'room_id': roomId
         }));
-
         // 인풋 박스 초기화
         var inputElement = document.getElementById('text');
         inputElement.value = "";
@@ -120,6 +119,7 @@
         // Create a span for the sender's name
         var senderSpan = document.createElement('span');
         senderSpan.classList.add("sender-name");
+      
         if (!mine) {
             senderSpan.textContent = from;
         }

@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
-    <title th:text="@{'공동구매 - ' + ${post.roomTitle}}"></title>
+    <title th:text="'공동구매 - ' + ${post.roomTitle}"></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link th:href="@{/css/bootstrap.min.css}"
@@ -13,7 +13,7 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title" th:text="@{${post.roomTitle} + ' - ' + ${post.author}}"></h5>
+            <h5 class="card-title" th:text="${post.roomTitle + ' - ' + post.author}"></h5>
             <p class="card-text">
                 <small
                         class="text-muted"

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>방 세부 사항</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .content {
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background-color: #007BFF;
+            color: white;
+            margin-top: 50px;
+        }
+        a, .btn {
+            color: #FFF;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #4CAF50;
+        }
+        .btn-danger {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+<div class="content">
+    <h1>방 세부 사항</h1>
+    <div>
+        <h2 th:text="${room.roomName}">Room Name</h2>
+        <p>분류: <span th:text="${room.category}">Category</span>
+            <span th:if="${room.detailCategory != null}" th:text="${room.detailCategory}">
+                Detail Category
+            </span>
+            <span th:if="${room.detailCategory == null}" th:text="${room.category}">
+                Category
+            </span>
+        </p>
+        <p>지역:
+            <span th:if="${room.detailRegion != null}" th:text="${room.detailRegion}">
+                Detail Region
+            </span>
+            <span th:if="${room.detailRegion == null}" th:text="${room.region}">
+                Region
+            </span>
+        </p>
+        <p>참여비용: <span th:text="${room.payment}">Payment</span></p>
+        <p>참여인원: <span th:text="${room.numberOfParticipants}">Number of Participants</span></p>
+        <p>방장: <span th:text="${room.representative.name}">Representative Name</span></p>
+        <p>참여자 리스트:</p>
+        <ul>
+            <li th:each="taxiParticipant : ${room.taxiParticipants}">
+                <span th:text="${taxiParticipant.name}">Participant Name</span>
+            </li>
+        </ul>
+
+        <div th:if="${isParticipant}">
+            <form action="/leaveRoom" method="post">
+                <input type="hidden" name="name" th:value="${room.roomName}" />
+                <button type="submit" class="btn btn-danger">방에서 나가기</button>
+            </form>
+        </div>
+        <div th:if="${!isParticipant}">
+            <form action="/joinRoom" method="post">
+                <input type="hidden" name="name" th:value="${room.roomName}" />
+                <button type="submit" class="btn btn-primary">참여하기</button>
+            </form>
+        </div>
+    </div>
+    <a href="/joinRoom">다른 소모임 찾기</a>
+</div>
+</body>
+</html>

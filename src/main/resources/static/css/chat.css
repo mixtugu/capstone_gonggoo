@@ -75,7 +75,6 @@
     word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
 }
 
-
 .chatroomName {
     padding-left: 0.94rem;
     color: #FFFFFF;
@@ -89,6 +88,19 @@
     font-size: 0.94rem;
 }
 
+
+.chatroomName {
+    padding-left: 0.94rem;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.chatroomUserCount {
+    padding-left: 0.94rem;
+    color: #92efc3;
+    font-size: 0.94rem;
+}
 .inputText {
     height: 3.1rem;
     background-color: rgb(255, 255, 255);
