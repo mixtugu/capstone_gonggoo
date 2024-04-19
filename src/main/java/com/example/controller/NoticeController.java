@@ -16,10 +16,10 @@ public class NoticeController {
   @Autowired
   private NoticeService noticeService;
 
-  // 메소드 이름과 변수명 수정
+
   @GetMapping("/notice")
   public String showNotices(Model model) {
-    List<Notice> notice = noticeService.getAllNotices();  // Service 메소드 호출
+    List<Notice> notice = noticeService.getAllNotices();
     model.addAttribute("notice", notice);
     return "notice";
   }
@@ -28,6 +28,6 @@ public class NoticeController {
   public String showNoticeDetail(@PathVariable Long id, Model model) {
     Notice notice = noticeService.getNoticeById(id);
     model.addAttribute("notice", notice);
-    return "noticeall";  //
+    return "noticeall";
   }
 }
