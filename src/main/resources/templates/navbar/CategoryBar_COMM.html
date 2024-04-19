@@ -1,10 +1,10 @@
 <nav th:fragment="navbarFragment" class="navbar sticky-top navbar-light CategoryLayout">
     <div class="container-fluid" role="navigation">
         <div class="row navbar-collapse px-4" id="navbarScroll">
-            <div class="col d-flex justify-content-center CategoryDiv CD_select">
+            <div class="col d-flex justify-content-center CategoryDiv CD_select" th:onclick="|location.href='@{/joinRoom}'|">
                 모임
             </div>
-            <div class="col d-flex justify-content-center CategoryDiv">
+            <div class="col d-flex justify-content-center CategoryDiv" th:onclick="|location.href='@{/group}'|">
                 공동구매
             </div>
             <div class="col d-flex justify-content-center CategoryDiv">

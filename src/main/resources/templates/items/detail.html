@@ -37,14 +37,14 @@
             <br>
             <h5 class="card-title">참여자 리스트</h5>
             <ul>
-                <li th:each="taxiParticipant : ${participantDtos}">
-                    <span th:text="${taxiParticipant.participantName} + '   - 수량: ' + ${taxiParticipant.quantity}"></span>
-                    <div th:if="${post.author == currentUserName && taxiParticipant.participantName != currentUserName && taxiParticipant.participantName != post.author}">
+                <li th:each="participant : ${participantDtos}">
+                    <span th:text="${participant.participantName} + '   - 수량: ' + ${participant.quantity}"></span>
+                    <div th:if="${post.author == currentUserName && participant.participantName != currentUserName && participant.participantName != post.author}">
                         <button onclick="toggleButtonText(this);" class="btn btn-warning">입금 확인</button>
                     </div>
                 </li>
             </ul>
-            <!-- <p class="card-text" th:text="${post.author}"></p>-->
+           <!-- <p class="card-text" th:text="${post.author}"></p>-->
         </div>
     </div>
     <div class="col-auto" th:if="${post.author == currentUserName}">
@@ -91,9 +91,9 @@
         <div th:unless="${isParticipated}">
             <div class="row mt-3">
                 <div class="col-3">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
-                        참여하기
-                    </button>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
+                    참여하기
+                </button>
                 </div>
 
                 <!-- 모달 -->
