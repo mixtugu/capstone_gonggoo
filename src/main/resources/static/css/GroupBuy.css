@@ -49,7 +49,7 @@ body {
 
 .roomImage {
     display: inline-block;
-    width: 5.5rem;
+    width: 22%;
     margin: 0 1.3rem 0 0;
 }
 
@@ -57,7 +57,7 @@ body {
     display: inline-block;
     align-items: center;
     vertical-align: middle;
-    width: 15rem;
+    width: 70%;
 }
 
 .infoItem {
@@ -68,7 +68,6 @@ body {
 .infoTitle {
     font-size: 1.35rem;
     font-weight: bold;
-    width: 15rem;
     margin: 0.15rem 0 0.15rem 0;
 }
 
@@ -127,7 +126,11 @@ body {
 
 
 /* detail.html */
-.detailItem {
+.detailCard {
+    margin-top: 1rem;
+}
+
+.detailDate {
     font-size: 0.9rem;
     color: #969696;
 }
@@ -141,7 +144,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    margin: 2rem 0 2rem 0;
+    margin: 3rem 0 3rem 0;
     font-size: 1.5rem;
     color: #46967c;
 }
@@ -149,15 +152,79 @@ body {
 .detailInfo {
     list-style: none;
     padding-left: 0;
+    width: 100%;
+}
+
+.detailInfo > li {
     display: flex;
     justify-content: flex-start;
-    width: 100%;
+    padding: 0 0.8rem 0.8rem 0.8rem;
+    margin: 1rem 0 1.5rem 0;
+    border-bottom: #bebebe dashed thin;
+}
+
+.detailInfo > li:last-child {
+    border-bottom: none;
 }
 
 .attr {
     margin-right: auto;
+    width: 20%;
+    padding-top: 0.4rem;
 }
 
 .value {
     margin-left: auto;
+    width: 70%;
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.35rem;
+}
+
+.textUserlist {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin: 2.3rem 0 0.6rem 1.2rem;
+}
+
+.userList {
+    list-style: none;
+    padding-left: 0;
+    width: 100%;
+}
+
+.userList > li {
+    padding: 1.1rem;
+    margin: 0.8rem 0.5rem 0.8rem 0.5rem;
+}
+
+.profileImage {
+    width: 2.5rem;
+    margin: 0 0.6rem 0 0.4rem;
+}
+
+.userIcon {
+    width: 1rem;
+    margin: 0 0 0.3rem 0.1rem;
+}
+
+.quantity {
+    font-size: 0.9rem;
+    color: #309976;
+}
+
+.paymentBTN {
+    width: 4.2rem;
+    height: 1.8rem;
+    float: right;
+    margin: 0.3rem 0.5rem 0.3rem 0;
+    background-color: #23917d;
+    color: #FFFFFF;
+    font-size: small;
+    border-radius: 0.6rem;
+    border: none;
+}
+
+.paymentBTN_yes {
+    background-color: #757575;
 }

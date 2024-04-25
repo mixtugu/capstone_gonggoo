@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title th:text="'공동구매 - ' + ${post.roomTitle}"></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -23,10 +23,12 @@
 <div class="container">
 
     <div class="box">
-        <div>
+        <div class="detailCard">
             <img th:src="@{/img/image.png}" class="roomImage">
             <div class="roomInfo">
-                <div class="infoItem detailItem">
+                <div class="infoItem detailDate">
+                    <span th:text="${post.author}"></span>
+                    ,&nbsp
                     <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
                 </div>
                 <div class="infoTitle detailTitle">
@@ -36,23 +38,58 @@
         </div>
 
         <div class="detailCount">
-            <span th:text="${post.recruitNum} + '명 중'">목표인원</span>&nbsp
-            <span th:text="${post.currentNum} + '명'" class="fw-bold">현재인원</span>&nbsp모였어요!
+            <span th:text="${post.recruitNum} + '명 중'"></span>&nbsp
+            <span th:text="${post.currentNum} + '명'" class="fw-bold"></span>&nbsp모였어요!
         </div>
 
-        <ul>
-           <li class="detailInfo">
-               <div class="attr">
-                   구매처
-               </div>
-               <div class="value">
-                   <span th:text="${post.siteName}">구매처 이름</span>
-               </div>
-           </li>
+        <ul class="detailInfo">
+            <li>
+                <span class="attr">구매처</span>
+                <span th:text="${post.siteName}" class="value"></span>
+            </li>
+            <li>
+                <span class="attr">물품</span>
+                <span th:text="${post.itemName}" class="value"></span>
+            </li>
+            <li>
+                <span class="attr">가격(1개)</span>
+                <span th:text="${#numbers.formatInteger(post.itemPrice, 1, 'COMMA') + '원'}" class="value"></span>
+            </li>
+            <li>
+                <span class="attr">목표금액</span>
+                <span th:text="${#numbers.formatInteger(post.totalPrice, 1, 'COMMA') + '원'}" class="value"></span>
+            </li>
+            <li>
+                <span class="attr">현재금액</span>
+                <span th:text="${#numbers.formatInteger(post.currentPrice, 1, 'COMMA') + '원'}" class="value"></span>
+            </li>
         </ul>
-
-
     </div>
+
+    <div class="textUserlist">
+        참여자 목록
+    </div>
+    <ul class="userList">
+        <li th:each="participant : ${participantDtos}" class="box">
+            <img th:src="@{/img/user.png}" class="profileImage">
+            <span th:text="${participant.participantName}"></span>
+            <img th:src="@{/img/author.png}" th:if="${participant.participantName == post.author}" class="userIcon">
+            &nbsp<span th:text="'- ' + ${participant.quantity} + '개'" class="quantity"></span>
+            <button th:if="${post.author == currentUserName && participant.participantName != currentUserName
+                 && participant.participantName != post.author}" onclick="toggleButtonText(this);"
+                    class="paymentBTN">
+                입금 확인
+            </button>
+        </li>
+    </ul>
+
+
+
+
+
+
+
+
 
     <div class="card">
         <div class="card-body">
@@ -66,9 +103,12 @@
             <p class="card-text">총 인원 수 : <span th:text="${post.currentNum}"></span></p>
             <p class="card-text">사이트 이름 : <span th:text="${post.siteName}"></span></p>
             <p class="card-text">물품 : <span th:text="${post.itemName}"></span></p>
-            <p class="card-text">개당 가격 : <span th:text="${#numbers.formatInteger(post.itemPrice, 1, 'COMMA')}"></span>원</p>
-            <p class="card-text">목표 금액 : <span th:text="${#numbers.formatInteger(post.totalPrice, 1, 'COMMA')}"></span>원</p>
-            <p class="card-text">현재 금액 : <span th:text="${#numbers.formatInteger(post.currentPrice, 1, 'COMMA')}"></span>원</p>
+            <p class="card-text">개당 가격 : <span th:text="${#numbers.formatInteger(post.itemPrice, 1, 'COMMA')}"></span>원
+            </p>
+            <p class="card-text">목표 금액 : <span th:text="${#numbers.formatInteger(post.totalPrice, 1, 'COMMA')}"></span>원
+            </p>
+            <p class="card-text">현재 금액 : <span
+                    th:text="${#numbers.formatInteger(post.currentPrice, 1, 'COMMA')}"></span>원</p>
             <div th:if="${post.fileId != null}">
                 <strong>첨부파일 : </strong>
                 <a
@@ -87,7 +127,7 @@
                     </div>
                 </li>
             </ul>
-           <!-- <p class="card-text" th:text="${post.author}"></p>-->
+            <!-- <p class="card-text" th:text="${post.author}"></p>-->
         </div>
     </div>
     <div class="col-auto" th:if="${post.author == currentUserName}">
@@ -95,16 +135,19 @@
     </div>
     <div class="col-auto" th:if="${post.author == currentUserName}">
         <form id="delete-form" th:action="@{'/post/' + ${post.roomId}}" method="post">
-            <input type="hidden" name="_method" value="delete" />
+            <input type="hidden" name="_method" value="delete"/>
             <button id="delete-btn" type="submit" class="btn btn-danger">삭제</button>
         </form>
     </div>
 
     <div class="row mt-5">
         <div th:if="${isParticipated}">
-            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editQuantityModal">구매 개수 수정</button>
+            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editQuantityModal">구매 개수
+                수정
+            </button>
             <!-- 구매 개수 수정 모달 -->
-            <div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog" aria-labelledby="editQuantityModalLabel" aria-hidden="true">
+            <div class="modal fade" id="editQuantityModal" tabindex="-1" role="dialog"
+                 aria-labelledby="editQuantityModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -114,7 +157,8 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="editQuantityForm" th:action="@{/post/{id}/editQuantity(id=${post.roomId})}" method="post">
+                            <form id="editQuantityForm" th:action="@{/post/{id}/editQuantity(id=${post.roomId})}"
+                                  method="post">
                                 <div class="form-group">
                                     <label for="newQuantity" class="col-form-label">구매 개수:</label>
                                     <input type="number" class="form-control" id="newQuantity" name="newQuantity">
@@ -134,13 +178,14 @@
         <div th:unless="${isParticipated}">
             <div class="row mt-3">
                 <div class="col-3">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
-                    참여하기
-                </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
+                        참여하기
+                    </button>
                 </div>
 
                 <!-- 모달 -->
-                <div class="modal fade" id="participateModal" tabindex="-1" role="dialog" aria-labelledby="participateModalLabel" aria-hidden="true">
+                <div class="modal fade" id="participateModal" tabindex="-1" role="dialog"
+                     aria-labelledby="participateModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -150,10 +195,12 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="participateForm" th:action="@{/post/{id}/participate(id=${post.roomId})}" method="post">
+                                <form id="participateForm" th:action="@{/post/{id}/participate(id=${post.roomId})}"
+                                      method="post">
                                     <div class="form-group">
                                         <label for="quantity" class="col-form-label">수량:</label>
-                                        <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+                                        <input type="number" class="form-control" id="quantity" name="quantity" min="1"
+                                               required>
                                     </div>
                                 </form>
                             </div>
@@ -173,12 +220,10 @@
     function toggleButtonText(button) {
         if (button.innerText === '입금 확인') {
             button.innerText = '입금 완료';
-            button.classList.remove('btn-warning');
-            button.classList.add('btn-success');
+            button.classList.add('paymentBTN_yes');
         } else {
             button.innerText = '입금 확인';
-            button.classList.remove('btn-success');
-            button.classList.add('btn-warning');
+            button.classList.remove('paymentBTN_yes');
         }
     }
 </script>
