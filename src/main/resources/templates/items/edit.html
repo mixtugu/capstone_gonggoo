@@ -24,8 +24,8 @@
         <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">방 정보 수정</p>
     </div>
 
-    <div class="box">
-        <form th:action="@{'/post/edit/' + ${post.roomId}}" method="post">
+    <form th:action="@{'/post/edit/' + ${post.roomId}}" method="post">
+        <div class="box">
             <input type="hidden" name="_method" value="put"/>
             <input type="hidden" name="id" th:value="${post.roomId}"/>
             <div class="form-group">
@@ -113,11 +113,12 @@
                     />
                 </div>
             </div>
-            <div>
-                <button class="w-100 btn btn-lg createBTN" type="submit">수정하기</button>
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="mx-3 my-5">
+            <button class="w-100 btn btn-lg createBTN" type="submit">수정하기</button>
+        </div>
+    </form>
+
 </div>
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
