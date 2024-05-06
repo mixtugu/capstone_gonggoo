@@ -54,10 +54,16 @@
 <h1>소모임 참여하기</h1>
 <div class="search-form">
     <form action="/joinRoom/search" method="get">
-        <label for="searchName">방 이름 검색:</label>
-        <input type="text" id="searchName" name="searchName">
+        <input type="text" id="searchRoomTitle" name="roomTitle" placeholder="방 이름 검색">
+        <select id="searchCategory" name="communityCategory">
+            <option value="">전체</option>
+            <option value="스터디">스터디</option>
+            <option value="운동">운동</option>
+            <option value="보드게임">보드게임</option>
+            <option value="취미모임">취미모임</option>
+        </select>
         <label for="searchRegion">지역 검색:</label>
-        <select id="searchRegion" name="searchRegion">
+        <select id="searchRegion" name="region">
             <option value="">전체</option>
             <option value="서울">서울</option>
             <option value="인천">인천</option>
@@ -74,18 +80,15 @@
             <option value="경상남도">경상남도</option>
             <option value="경상북도">경상북도</option>
             <option value="강원도">강원도</option>
-
         </select>
-        <label for="searchCategory">세부 카테고리 검색:</label>
-        <input type="text" id="searchCategory" name="searchCategory">
         <button type="submit" class="search-button">검색</button>
     </form>
 </div>
 <div class="button-container">
-    <a href="/roomsByCategory?category=스터디" class="button">스터디</a>
-    <a href="/roomsByCategory?category=운동" class="button">운동</a>
-    <a href="/roomsByCategory?category=보드게임" class="button">보드게임</a>
-    <a href="/roomsByCategory?category=취미모임" class="button">취미모임</a>
+    <a href="/roomsByCategory?communityCategory=스터디" class="button">스터디</a>
+    <a href="/roomsByCategory?communityCategory=운동" class="button">운동</a>
+    <a href="/roomsByCategory?communityCategory=보드게임" class="button">보드게임</a>
+    <a href="/roomsByCategory?communityCategory=취미모임" class="button">취미모임</a>
 </div>
 
 

@@ -1,270 +1,238 @@
 package com.example.controller;
-
-import com.example.community.*;
 import com.example.domain.Member;
-import com.example.session.SessionConst;
-import jakarta.servlet.http.HttpSession;
+import com.example.community.dto.CroomDto;
+import com.example.community.dto.CparticipantDto;
+import com.example.community.service.CroomService;
+import com.example.community.service.CparticipantService;
+import com.example.groupbuying.dto.BoardDto;
+import com.example.groupbuying.dto.FileDto;
+import com.example.groupbuying.dto.ParticipantDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import com.example.session.SessionConst;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
-import java.util.ServiceLoader;
-import java.util.stream.Collectors;
 
-@Controller//
+@Controller
 public class CommunityController {
-    private final CommunityGathering group;
-    private final ManagingParticipants managing;
+    @Autowired
+    private CroomService croomService;
+    @Autowired
+    private CparticipantService cparticipantService;
 
-    public CommunityController(CommunityGathering group, ManagingParticipants managing) {
-        this.group = group;
-        this.managing = managing;
-    }
-
-    /*@GetMapping("/communityIndex")
-    public String accountIndex(Model model) {
-        model.addAttribute("group", group);
-        return "community/communityIndex"; // Updated path
+    // 방 생성 페이지 요청
+    /*@GetMapping("/createRoom")
+    public String createRoomPage(Model model) {
+        model.addAttribute("room", new CroomDto());
+        return "community/createRoom";
     }*/
 
     @GetMapping("/createRoom")
-    public String createRoom(Model model) {
-        model.addAttribute("room", new CRoom());
-        return "community/createRoom"; // Updated path
+    public String createRoomPage(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        Member loginMember = session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+        if (loginMember != null) {
+            model.addAttribute("currentUserName", loginMember.getName());
+        }
+        return "community/createRoom";
     }
 
-    @PostMapping("/createRoom")
-    public String createRoomSubmit(@ModelAttribute CRoom roomForm, BindingResult result, Model model, HttpServletRequest request) {
-        if (result.hasErrors()) {
-            return "community/createRoom";
-        }
 
-        boolean roomExists = group.getRooms().stream()
-                .anyMatch(existingRoom -> existingRoom.getRoomName().equals(roomForm.getRoomName()));
-        if (roomExists) {
-            model.addAttribute("room", new CRoom());
-            model.addAttribute("nameError", "동일한 이름의 방이 이미 존재합니다.");
-            return "community/createRoom";
-        }
-
+    // 방 생성 제출 처리
+    /*@PostMapping("/createRoom")
+    public String createRoom( CroomDto croomDto, HttpServletRequest request) {
+        Integer croomId = null;
+        try {
+        croomId =  croomService.savePost(croomDto);
+        } catch(Exception e) {e.printStackTrace();}
         HttpSession session = request.getSession(false);
-        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (session != null) {Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        cparticipantService.addParticipant(croomId, loginMember.getLoginId(), true);}
+        return "redirect:/roomDetails";
+    }*/
+    /*@PostMapping("/createRoom")
+    public String createRoom(CroomDto croomDto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            if (loginMember != null) {
+                croomDto.setAuthor(loginMember.getName());  // Set author name from the logged-in user
+                Integer croomId = croomService.savePost(croomDto);
+                cparticipantService.addParticipant(croomId, loginMember.getLoginId(), true);
+                return "redirect:/roomDetails?roomId=" + croomId;  // Redirect to room details with room ID
+            }
+        }
+        return "redirect:/login";  // Redirect to login if no user is logged in
+    }*///ㅇㄹㅇㄹㅇ러ㅏ임아ㅣ러;
+    @PostMapping("/createRoom")
+    public String createRoom(CroomDto croomDto, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+            if (loginMember != null) {
+                croomDto.setAuthor(loginMember.getName());  // Set author name from the logged-in user
+                Integer croomId = croomService.savePost(croomDto);
+                cparticipantService.addParticipant(croomId, loginMember.getLoginId(), true);
+                return "redirect:/roomDetails?roomId=" + croomId;  // Redirect to room details with room ID
+            }
+        }
+        return "redirect:/login";  // Redirect to login if no user is logged in
+    }
 
-        //추가
-        String customCategory = request.getParameter("customCategory");
-        if (!List.of("스터디","운동","보드게임","취미모임").contains(roomForm.getCategory())) {
-            customCategory = null; // 세부 지역이 필요 없는 지역인 경우 null로 설정
+
+    @GetMapping("/createRoom/{id}")
+    public String detail(@PathVariable("id") Integer id, Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        Member loginMember = session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+
+        CroomDto croomDto = croomService.getPost(id);
+        List<CparticipantDto> cparticipantDtos = cparticipantService.getCparticipantDtosByCroomId(id);
+        boolean isParticipated = false;
+        Long cparticipantId = null;
+
+        if (loginMember != null) {
+            for (CparticipantDto cparticipant : cparticipantDtos) {
+                if (cparticipant.getMemberLoginId().equals(loginMember.getLoginId())) {
+                    isParticipated = true;
+                    cparticipantId = cparticipant.getId();
+                    break;
+                }
+            }
+            model.addAttribute("currentUserName", loginMember.getName());
         }
 
-        // 세부 지역 정보 처리
-        String customRegion = request.getParameter("customRegion");
-        if (!List.of("충청남도", "충청북도", "강원도", "전라남도", "전라북도", "경상북도", "경상남도").contains(roomForm.getRegion())) {
-            customRegion = null; // 세부 지역이 필요 없는 지역인 경우 null로 설정
+        model.addAttribute("createRoom", croomDto);
+        model.addAttribute("cparticipantDtos", cparticipantDtos);
+        model.addAttribute("isParticipated", isParticipated);
+        if (cparticipantId != null) {
+            model.addAttribute("participantId", cparticipantId);
         }
+        return "community/roomDetails.html";
+    }
 
-
-
-        // 방 생성에 필요한 Representative 객체 생성
-        Representative representative = new Representative();
-        representative.setName(loginMember.getName());
-
-        // Room 객체를 모든 필드를 포함하는 생성자를 사용하여 생성 ///추가
-        CRoom newRoom = new CRoom(roomForm.getRoomName(), roomForm.getCategory(), customCategory, roomForm.getRegion(),
-                customRegion, roomForm.getNumberOfParticipants(), roomForm.getPayment(), representative);
-
-        group.createNewSharingRoom(newRoom, representative);
-
+    @PutMapping("createRoom/edit/{id}")
+    public String update(CroomDto croomDto) {
+        croomService.savePost(croomDto);
         return "redirect:/";
     }
 
-
-
-    @GetMapping("/joinRoom/search")
-    public String searchRooms(@RequestParam(name = "searchName", required = false) String searchName,
-                              @RequestParam(name = "searchCategory", required = false) String searchCategory,//추가
-                              @RequestParam(name = "searchRegion", required = false) String searchRegion, Model model) {
-        List<CRoom> filteredRooms = group.getRooms().stream()
-                .filter(room -> (searchName == null || searchName.isEmpty() || room.getRoomName().contains(searchName)) &&
-                        (searchCategory == null || searchCategory.isEmpty() || room.getCategory().equalsIgnoreCase(searchCategory) ||
-                                (room.getDetailCategory() != null && room.getDetailCategory().equalsIgnoreCase(searchCategory)))//추가
-                        &&(searchRegion == null || searchRegion.isEmpty() || room.getRegion().equalsIgnoreCase(searchRegion) ||
-                                (room.getDetailRegion() != null && room.getDetailRegion().equalsIgnoreCase(searchRegion))))
-                .collect(Collectors.toList());
-
-        model.addAttribute("rooms", filteredRooms);
-        model.addAttribute("searchCategory", searchCategory);
-        model.addAttribute("searchRegion", searchRegion);
-        return "community/roomsByCategory";
+    @DeleteMapping("createRoom/{id}")
+    public String delete(@PathVariable("id") Integer id) {
+        croomService.deletePost(id);
+        return "redirect:/";
     }
 
-    @GetMapping("/joinRoom")
-    public String joinRoom(@RequestParam(name = "selectedRoom", required = false) String selectedName,
-                           @RequestParam(name = "Category", required = false) String Category, Model model) {
-        List<CRoom> rooms;
-        if (Category != null && !Category.isEmpty()) {
-            rooms = group.getRooms().stream()
-                    .filter(room -> room.getCategory().equals(Category))
-                    .collect(Collectors.toList());
-        } else {
-            rooms = group.getRooms();
-        }
-        model.addAttribute("rooms", rooms);
-        return "community/joinRoom"; // Updated path
-    }
-
-
-    @PostMapping("/joinRoom")
-    public String joinRoomSubmit(@RequestParam("name") String name, HttpServletRequest request, Model model) {
+    @PostMapping("createRoom/{id}/cparticipant")
+    public String participate(@PathVariable Integer id,  HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return "redirect:/login";
         }
-
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (loginMember == null) {
             return "redirect:/login";
         }
-
-        // 방 이름으로 방을 찾음
-        CRoom selectedRoom = group.getRooms().stream()
-                .filter(room -> room.getRoomName().equals(name))
-                .findFirst()
-                .orElse(null);
-
-        if (selectedRoom == null) {
-            model.addAttribute("error", "방을 찾을 수 없습니다");
-            return "redirect:/joinRoom";
-        }
-
-        // 이미 참여자가 존재하는지 확인
-        if (selectedRoom.isParticipantExists(loginMember.getName())) {
-            model.addAttribute("error", "이미 참여한 방입니다");
-            return "redirect:/roomDetails?name=" + name;
-        }
-
-        // 참여자를 추가
-        Participant participant = new Participant();
-        participant.setName(loginMember.getName());
-        selectedRoom.addParticipant(participant);
-
-        return "redirect:/roomDetails?name=" + name;
+        cparticipantService.addParticipant(id, loginMember.getLoginId(), false);
+        croomService.increaseCparticipantCount(id);
+        return "redirect:/createRoom/" + id;
     }
 
-   @GetMapping("/roomsByCategory")
-   public String roomsByCategory(@RequestParam("category") String category, Model model) {
-       List<String> categorysWithDetail = List.of("스터디","운동","보드게임","취미모임");
+    // 방 검색
+    @GetMapping("/joinRoom/search")
+    public String searchRooms(@RequestParam(required = false) String roomTitle,
+                              @RequestParam(required = false) String communityCategory,
+                              @RequestParam(required = false) String region, Model model) {
+        model.addAttribute("rooms", croomService.searchRooms(roomTitle, communityCategory, region));
+        return "community/roomsByCategory";
+    }
 
-       List<CRoom> filteredRooms = group.getRooms().stream()
-               .filter(room -> {
-                   if (categorysWithDetail.contains(room.getRegion()) && room.getDetailCategory() != null && !room.getDetailCategory().isEmpty()) {
-                       return room.getDetailCategory().equalsIgnoreCase(category);
-                   } else {
-                       return room.getCategory().equalsIgnoreCase(category);
-                   }
-               })
-               .collect(Collectors.toList());
-
-       model.addAttribute("rooms", filteredRooms);
-       model.addAttribute("region", category);
-       return "community/roomsByCategory";
-   }
-
+    // roomsByCategory의 검색 로직을 위한 컨트롤러 메소드 수정
+    @GetMapping("/roomsByCategory/search")
+    public String searchRoomsByCategory(@RequestParam(required = false) String roomTitle,
+                                        @RequestParam(required = false) String detailCategory,
+                                        @RequestParam(required = false) String detailRegion, Model model) {
+        model.addAttribute("rooms", croomService.searchRoomsByDetail(roomTitle, detailCategory, detailRegion));
+        return "community/roomsByCategory";
+    }
 
 
-    @GetMapping("/roomsByRegion")
-    public String roomsByRegion(@RequestParam("region") String region, Model model) {
-        List<String> regionsWithDetail = List.of("충청남도", "충청북도", "강원도", "전라남도", "전라북도", "경상북도", "경상남도");
 
-        List<CRoom> filteredRooms = group.getRooms().stream()
-                .filter(room -> {
-                    if (regionsWithDetail.contains(room.getRegion()) && room.getDetailRegion() != null && !room.getDetailRegion().isEmpty()) {
-                        return room.getDetailRegion().equalsIgnoreCase(region);
-                    } else {
-                        return room.getRegion().equalsIgnoreCase(region);
-                    }
-                })
-                .collect(Collectors.toList());
 
-        model.addAttribute("rooms", filteredRooms);
-        model.addAttribute("region", region);
+    // 방 참여 페이지 요청
+    @GetMapping("/joinRoom")
+    public String joinRoomPage() {
+        return "community/joinRoom";
+    }
+
+    // 방 참여 제출 처리
+    @PostMapping("/joinRoom")
+    public String joinRoom(@RequestParam Integer roomId, @RequestParam String loginId, Model model) {
+        if (cparticipantService.isUserParticipated(roomId, loginId)) {
+            model.addAttribute("error", "이미 참여중인 방입니다.");
+            return "community/joinRoom";
+        }
+        Integer participantId = cparticipantService.addParticipant(roomId, loginId, false);
+        return "redirect:/roomDetails?roomId=" + roomId;
+    }
+
+    // 카테고리별 방 조회
+    @GetMapping("/roomsByCategory")
+    public String roomsByCategory(@RequestParam String communityCategory, Model model) {
+        model.addAttribute("rooms", croomService.findByCommunityCategory(communityCategory));
+        return "community/roomsByCategory";
+    }
+
+    // 지역별 방 조회
+    /*@GetMapping("/roomsByRegion")
+    public String roomsByRegion(@RequestParam String region, Model model) {
+        model.addAttribute("rooms", croomService.findByRegion(region));
         return "community/roomsByRegion";
-    }
+    }*/
 
-
+    // 방 나가기 처리
     @PostMapping("/leaveRoom")
-    public String leaveRoomSubmit(@RequestParam("name") String name, HttpServletRequest request, Model model) {
-        HttpSession session = request.getSession(false);
-        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
-        CRoom selectedRoom = group.getRooms().stream()
-                .filter(room -> room.getRoomName().equals(name))
-                .findFirst()
-                .orElse(null);
-
-        if (selectedRoom != null && loginMember != null) {
-            boolean success = selectedRoom.removeParticipant(loginMember.getName());
-            if (!success) {
-                model.addAttribute("error", "Error leaving the room.");
-                return "redirect:/roomDetails?name=" + name;
-            }
+    public String leaveRoom(@RequestParam Integer roomId, @RequestParam String loginId) {
+        boolean success = cparticipantService.withdrawFromCroom(roomId, loginId);
+        if (success) {
+            return "redirect:/";
         } else {
-            model.addAttribute("error", "The room could not be found or user is not valid.");
-            return "redirect:/joinRoom";
+            return "redirect:/roomDetails?roomId=" + roomId + "&error=true";
         }
-
-        return "redirect:/loginHome";
     }
 
     @GetMapping("/roomDetails")
-    public String roomDetails(@RequestParam("name") String name, HttpServletRequest request, Model model) {
+    public String roomDetails(@RequestParam("roomId") Integer roomId, HttpServletRequest request, Model model) {
+        CroomDto roomDetails = croomService.getRoomDetails(roomId);
+        List<CparticipantDto> cparticipants = cparticipantService.getCparticipantDtosByCroomId(roomId);
         HttpSession session = request.getSession(false);
-        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        CRoom selectedRoom = group.getRooms().stream()
-                .filter(room -> room.getRoomName().equals(name))
-                .findFirst()
-                .orElse(null);
+        Member loginMember = (session != null) ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
+        boolean isParticipated = (loginMember != null) && cparticipantService.isUserParticipated(roomId, loginMember.getLoginId());
 
-        if (selectedRoom != null) {
-            boolean isParticipant = selectedRoom.isParticipantExists(loginMember.getName());
-            model.addAttribute("room", selectedRoom);
-            model.addAttribute("isParticipant", isParticipant);
-            return "community/roomDetails";
-        } else {
-            model.addAttribute("error", "The specified room could not be found.");
-            return "redirect:/";
-        }
+        model.addAttribute("room", roomDetails);
+        model.addAttribute("cparticipants", cparticipants);
+        model.addAttribute("isParticipated", isParticipated);
+        model.addAttribute("loginMember", loginMember);  // 로그인한 사용자 정보를 모델에 추가
+
+        return "community/roomDetails";
     }
 
-
-
-    /*@GetMapping("/manageRooms")
-    public String manageRooms(Model model) {
-        model.addAttribute("rooms", group.getRooms());
-        return "community/manageRooms"; // Updated path
-    }
-
-    @PostMapping("/manageRooms")
-    public String manageRoomsSubmit(@ModelAttribute Room selectedRoom) {
-        managing.manageParticipantRooms(selectedRoom);
-        return "redirect:/";
-    }*/
-
-
-
-
-
+    // 이전 페이지로 돌아가기
     @GetMapping("/goBack")
-    public String goBack(HttpServletRequest request) {
-        String referer = request.getHeader("Referer");
-        if (referer != null && !referer.isEmpty()) {
-            return "redirect:" + referer;
-        } else {
-            return "redirect:/";
-        }
+    public String goBack(@RequestHeader(value = "Referer", required = false) String referer) {
+        return "redirect:" + (referer != null ? referer : "/");
     }
 }

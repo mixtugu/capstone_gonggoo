@@ -39,8 +39,8 @@
 <h1>Rooms</h1>
 <div th:each="room : ${rooms}">
   <form th:action="@{/roomDetails}" method="get">
-    <input type="hidden" th:name="name" th:value="${room.roomName}" />
-    <button type="submit" th:text="${room.roomName}">Room Name</button>
+    <input type="hidden" th:name="roomTitle" th:value="${room.roomTitle}" />
+    <button type="submit" th:text="${room.roomTitle}">Room Title</button>
   </form>
 </div>
 <a href="/joinRoom">다른 소모임 찾기</a>
