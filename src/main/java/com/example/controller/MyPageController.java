@@ -53,7 +53,16 @@ public class MyPageController {
     return "mypage";
   }
 
+  @GetMapping("/firstmypage")
+  public String firstMyPage(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
 
+    Optional<MyPage> myPageOptional = myPageService.findById(loginMember.getId());
+    if (loginMember == null) {
+      return "redirect:/login";
+    }
+    model.addAttribute("mypage", myPageOptional.get());
+    return "firstmypage";
+  }
   @PostMapping("/mypage/update")
   public String updateMyPage(@ModelAttribute MyPage myPage,  @RequestParam("password") String password, RedirectAttributes redirectAttributes) {
 
@@ -69,7 +78,7 @@ public class MyPageController {
 
     redirectAttributes.addFlashAttribute("successMessage", "Your information has been updated successfully!");
 
-    
+
     return "redirect:/mypage/info";
   }
 
@@ -85,5 +94,6 @@ public class MyPageController {
 
     return "editmypage";
   }
+
 
 }
