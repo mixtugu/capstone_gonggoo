@@ -1,5 +1,6 @@
 package com.example.community.domain.entity;
 
+import com.example.community.dto.CroomDto;
 import com.example.domain.Member;
 import com.example.domain.Room;
 import com.example.community.domain.entity.Cparticipant;
@@ -75,4 +76,32 @@ public class Croom extends Room {
             this.currentNum += 1;
         }
     }
+
+
+
+
+
+    public void updateFromDto(CroomDto croomDto) {
+        if (croomDto.getRoomTitle() != null) {
+            this.setRoomTitle(croomDto.getRoomTitle());
+        }
+        if (croomDto.getCommunityCategory() != null) {
+            this.communityCategory = croomDto.getCommunityCategory();
+        }
+        if (croomDto.getDetailCategory() != null) {
+            this.detailCategory = croomDto.getDetailCategory();
+        }
+        if (croomDto.getRegion() != null) {
+            this.region = croomDto.getRegion();
+        }
+        if (croomDto.getDetailRegion() != null) {
+            this.detailRegion = croomDto.getDetailRegion();
+        }
+        if (croomDto.getPayment() != null) {
+            this.payment = croomDto.getPayment();
+        }
+    }
+
+
+
 }

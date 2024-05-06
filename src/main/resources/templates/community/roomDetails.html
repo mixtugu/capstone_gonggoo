@@ -31,12 +31,19 @@
         .leave {
             background-color: #f44336;
         }
+        .edit {
+            background-color: #ffc107;
+        }
+        .delete {
+            background-color: #dc3545;
+        }
     </style>
 </head>
 <body>
 <div class="content">
     <h1 th:text="${room.roomTitle}">Room Title</h1>
     <h2>상세 보기</h2>
+    <p th:text="'Author: ' + ${authorName}">Author</p> <!-- 방 생성자 이름 출력 -->
     <p th:text="'Category: ' + ${room.communityCategory}">Category</p>
     <p th:text="'DetailCategory: ' + ${room.detailCategory}">DetailCategory</p>
     <p th:text="'Region: ' + ${room.region}">Region</p>
@@ -44,21 +51,31 @@
     <p th:text="'Participation fee: ' + ${room.payment} + '₩'">Participation fee</p>
     <p th:text="'Participants: ' + ${room.currentNum} + '/' + ${room.recruitNum}">Participants</p>
 
-
     <ul>
         <li th:each="participant : ${cparticipants}" th:text="${participant.cparticipantName}">Participant Name</li>
     </ul>
 
     <form th:if="${isParticipated}" th:action="@{/leaveRoom}" method="post">
         <input type="hidden" th:name="roomId" th:value="${room.roomId}">
-        <input type="hidden" th:name="loginId" th:value="${loginMember.loginId}"> <!-- 추가된 부분 -->
-        <button type="submit" class="leave">Leave Room</button>
+        <input type="hidden" th:name="loginId" th:value="${loginMember.loginId}">
+        <button type="submit" class="leave">탈퇴하기</button>
     </form>
     <form th:unless="${isParticipated}" th:action="@{/joinRoom}" method="post">
         <input type="hidden" th:name="roomId" th:value="${room.roomId}">
-        <input type="hidden" th:name="loginId" th:value="${loginMember.loginId}"> <!-- 로그인한 사용자의 ID를 자동으로 추가 -->
-        <button type="submit" class="join">Join Room</button>
+        <input type="hidden" th:name="loginId" th:value="${loginMember.loginId}">
+        <button type="submit" th:class="join">Join Room</button>
     </form>
+
+    <!-- 방 수정 및 삭제 버튼 추가 -->
+    <div th:if="${loginMember.name == authorName}">
+        <a th:href="@{/editRoom/{roomId}(roomId=${room.roomId})}">
+            <button class="edit">방 정보 수정하기</button>
+        </a>
+        <form th:action="@{'/createRoom/delete/' + ${room.roomId}}" method="post">
+            <button type="submit" class="delete">방 삭제하기</button>
+        </form>
+    </div>
+
 </div>
 </body>
 </html>

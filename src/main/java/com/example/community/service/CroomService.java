@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,7 +53,6 @@ public class CroomService {
                     .communityCategory(croom.getCommunityCategory())
                     .region(croom.getRegion())
                     .detailRegion(croom.getDetailRegion())
-                    //.numberOfParticipants(croom.getNumberOfParticipants())
                     .payment(croom.getPayment())
                     .createdDate(croom.getCreatedDate())
 
@@ -133,6 +133,7 @@ public class CroomService {
     private CroomDto convertToDto(Croom croom) {
         return CroomDto.builder()
                 .roomId(croom.getRoomId())
+                .author(croom.getAuthor())
                 .recruitNum(croom.getRecruitNum())
                 .currentNum(croom.getCurrentNum())
                 .roomCategory(croom.getRoomCategory())
@@ -141,7 +142,6 @@ public class CroomService {
                 .detailCategory(croom.getDetailCategory())
                 .region(croom.getRegion())
                 .detailRegion(croom.getDetailRegion())
-                //.numberOfParticipants(croom.getNumberOfParticipants())
                 .payment(croom.getPayment())
                 .member(croom.getMember())
                 .build();
@@ -176,4 +176,34 @@ public class CroomService {
     public void increaseCparticipantCount(Integer id) {
         Croom croom = croomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
     }
+
+
+
+    // ID를 이용한 Croom 조회
+    public Croom findById(Integer roomId) {
+        Optional<Croom> croom = croomRepository.findById(roomId);
+        if (croom.isPresent()) {
+            return croom.get();
+        } else {
+            throw new IllegalArgumentException("Invalid room ID: " + roomId);
+        }
+    }
+
+
+    // 방 수정
+    public void updateRoom(Integer roomId, CroomDto croomDto) {
+        Croom room = croomRepository.findById(roomId).orElseThrow(() -> new IllegalArgumentException("Invalid room ID"));
+        room.updateFromDto(croomDto);
+        croomRepository.save(room);
+    }
+
+    // 방 삭제
+    public void deleteRoom(Integer roomId) {
+        croomRepository.deleteById(roomId);
+    }
+
+
+
+
+
 }

@@ -21,7 +21,6 @@ public class CroomDto {
     private String detailCategory;
     private String region;
     private String detailRegion;
-    //private Integer numberOfParticipants;
     private Double payment;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
@@ -41,7 +40,6 @@ public class CroomDto {
                 .detailCategory(detailCategory)
                 .region(region)
                 .detailRegion(detailRegion)
-                //.numberOfParticipants(numberOfParticipants)
                 .payment(payment)
 
                 .member(member)
