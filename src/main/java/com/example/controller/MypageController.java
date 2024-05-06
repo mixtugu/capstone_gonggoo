@@ -69,7 +69,7 @@ public class MyPageController {
 
     redirectAttributes.addFlashAttribute("successMessage", "Your information has been updated successfully!");
 
-
+    
     return "redirect:/mypage/info";
   }
 
