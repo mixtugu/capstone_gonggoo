@@ -130,6 +130,38 @@
     right: 0;
 }
 
+.mapSend {
+    position: absolute;
+    border-style: none;
+    background-color: rgba(120,120,120,0);
+    right: 150px;
+}
+
+#mapCover {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    border: 0.0625rem solid #ccc;
+    padding: 0.625rem;
+    margin: 0.31rem 0 0.625rem 0;
+    border-radius: 0.31rem;
+    background-color: #F9F9F9;
+    width: 630px;
+    margin-bottom: 70px;
+}
+
+#mapDiv {
+    height: 400px;
+    width: 600px;
+    display: none;
+}
+
+#mapContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .chatSend > img {
     width: 1.56rem;
 }
