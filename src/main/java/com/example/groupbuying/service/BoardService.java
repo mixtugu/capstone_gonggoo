@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 public class BoardService {
     private final BoardRepository boardRepository;
-
     private final ParticipantRepository participantRepository;
 
     public BoardService(BoardRepository boardRepository, ParticipantRepository participantRepository) {
@@ -133,7 +132,6 @@ public class BoardService {
                 .fileId(board.getFileId())
                 .build()).collect(Collectors.toList());
     }
-
     public com.example.groupbuying.domain.repository.ParticipantRepository getParticipantRepository() {
         return participantRepository;
     }

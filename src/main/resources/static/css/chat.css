@@ -1,12 +1,13 @@
 .sender-name {  /* 전송자 */
     font-weight: bold;
     color: #2b5742;
-    margin-right: 0.31rem;
+    margin-top: 1rem;
 }
 
 .message-with-timestamp {  /* 전송 시간 */
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    flex-direction: row;
     align-items: center;
     max-width: 70%;
 }
@@ -18,8 +19,8 @@
     border-radius: 0.31rem;
     background-color: #F9F9F9;
     display: flex; /* 또는 'inline-block' 유지 */
-    flex-direction: column; /* 'display: flex'를 사용할 경우에만 유용 */
-    max-width: 26.25rem; /* 부모 요소를 넘지 않는 최대 너비 */
+    flex-direction: row; /* 'display: flex'를 사용할 경우에만 유용 */
+    max-width: 25rem; /* 부모 요소를 넘지 않는 최대 너비 */
     word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
 }
 
@@ -34,19 +35,10 @@
 }
 
 .messages {
-    height: 100vh; /* 채팅 상자의 페이지 높이 대비 비율 */
-    overflow-y: auto;  /* Enables vertical scrolling */
     list-style-type: none; /* Optional: Removes the bullet points */
-    padding: 0.625rem;           /* Optional: Removes the default padding */
-
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    margin-bottom: 4rem;
+    padding: 1.4rem 0.625rem 3.7rem 0.625rem;           /* Optional: Removes the default padding */
 }
 
-.messages::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-}
 
 /* 여기부터 내 메세지 스타일 */
 .mine-message-timestamp {  /* 전송 시간과 텍스트 박스 나란히 */
@@ -78,8 +70,8 @@
     border-radius: 0.31rem;
     background-color: #d2f3e0;
     display: flex; /* 또는 'inline-block' 유지 */
-    flex-direction: column; /* 'display: flex'를 사용할 경우에만 유용 */
-    max-width: 26.25rem; /* 부모 요소를 넘지 않는 최대 너비 */
+    flex-direction: row; /* 'display: flex'를 사용할 경우에만 유용 */
+    max-width: 20rem; /* 부모 요소를 넘지 않는 최대 너비 */
     word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
 }
 
@@ -96,6 +88,19 @@
     font-size: 0.94rem;
 }
 
+
+.chatroomName {
+    padding-left: 0.94rem;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+.chatroomUserCount {
+    padding-left: 0.94rem;
+    color: #92efc3;
+    font-size: 0.94rem;
+}
 .inputText {
     height: 3.1rem;
     background-color: rgb(255, 255, 255);

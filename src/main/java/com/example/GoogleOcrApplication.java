@@ -12,6 +12,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"com.example.chat.repository",
 		"com.example.taxi.domain.repository"
 })
+
 public class
 GoogleOcrApplication {
 

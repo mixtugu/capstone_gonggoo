@@ -85,6 +85,21 @@ public class TaxiService {
         taxiRepository.save(taxi);
     }
 
+    public void updateTaxiInfo(Integer id, TaxiDto taxiDto) {
+        Taxi post = taxiRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
+
+        post.setCurrentNum(taxiDto.getRecruitNum());
+        post.setDeparture(taxiDto.getDeparture());
+        post.setCreatedDate(taxiDto.getCreatedDate());
+        post.setModifiedDate(taxiDto.getModifiedDate());
+        post.setRecruitNum(taxiDto.getRecruitNum());
+        post.setPredicttotalprice(taxiDto.getPredicttotalprice());
+        post.setRoomTitle(taxiDto.getRoomTitle());
+        post.setDestination(taxiDto.getDestination());
+        taxiRepository.save(post);
+    }
+
 //    public boolean withdrawFromTaxi(Integer taxiId, String loginId) {
 //
 //        Optional<Participant> participantOpt = participantRepository.findByTaxiRoomIdAndMember_LoginId(taxiId, loginId);
