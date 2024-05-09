@@ -92,8 +92,9 @@ public class TaxiController {
     }
 
     @PutMapping("/taxi_post/edit/{id}")
-    public String update(TaxiDto taxiDto) {
-        taxiService.savePost(taxiDto);
+    public String update(@PathVariable("id") Integer id, TaxiDto taxiDto) {
+        System.out.println(taxiDto);
+        taxiService.updateTaxiInfo(id, taxiDto);
         return "redirect:/";
     }
 
@@ -123,32 +124,28 @@ public class TaxiController {
         if (loginMember == null) {
             return "redirect:/login";
         }
-        System.out.println("0") ;
+
         taxiParticipantService.addParticipant(id, loginMember.getLoginId(), false);
-        System.out.println("1") ;
         taxiService.increaseParticipantCount(id);
-        System.out.println("2") ;
         return "redirect:/taxi_post/" + id;
     }
 
-//    @GetMapping("/taxi_post/{id}/withdraw")
-//    public String withdrawParticipation(@PathVariable Integer id, HttpServletRequest request) {
-//        HttpSession session = request.getSession(false);
-//        if (session == null) {
-//            return "redirect:/login";
-//        }
-//        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-//        if (loginMember == null) {
-//            return "redirect:/login";
-//        }
-//        boolean success = participantService.withdrawFromTaxi(id, loginMember.getLoginId());
-//        if (success) {
-//            taxiService.decreaseParticipantCount(id);
-//        } else {
-//
-//        }
-//        return "redirect:/taxi_post/" + id;
-//    }
+
+    @GetMapping("/taxi_post/{id}/withdraw")
+    public String withdrawParticipation(@PathVariable Integer id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "redirect:/login";
+        }
+        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+        taxiParticipantService.removeParticipant(id, loginMember.getLoginId());
+        taxiService.decreaseParticipantCount(id);
+
+        return "redirect:/taxi_post/" + id;
+    }
 
 //    @PostMapping("/taxi_post/{taxiId}/editQuantity")
 //    public String updateParticipantQuantity(@PathVariable Integer taxiId, @RequestParam("newQuantity") int quantity, HttpServletRequest request) {
