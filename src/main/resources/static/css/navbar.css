@@ -118,7 +118,7 @@ body {
 }
 
 #RCB_menu {
-    bottom: 37.5rem;
+    bottom: 35.5rem;
     right: 25rem;
     padding-bottom: 0.75rem;
 }
@@ -130,6 +130,7 @@ body {
     color: rgb(77, 77, 77);
     border: #c4c4c4 solid thin;
     border-radius: 1.25rem;
+    margin-bottom: 0.8rem;
 
     transition: 0.2s;
 }
