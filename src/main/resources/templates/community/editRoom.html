@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Room</title>
+    <!-- 스타일 및 기타 필요 리소스 추가 -->
+</head>
+<body>
+<div>
+    <h1>Edit Room Details</h1>
+    <form th:action="@{/createRoom/edit/{id}(id=${room.roomId})}" method="post">
+        <input type="hidden" name="author" th:value="${room.author}" />
+        <input type="hidden" name="_method" value="put" />
+
+        <label for="roomTitle">Room Title:</label>
+        <input type="text" id="roomTitle" name="roomTitle" th:value="${room.roomTitle}" required />
+
+        <label for="communityCategory">Category:</label>
+        <input type="text" id="communityCategory" name="communityCategory" th:value="${room.communityCategory}" required />
+
+        <label for="detailCategory">detailCategory:</label>
+        <input type="text" id="detailCategory" name="detailCategory" th:value="${room.detailCategory}" required />
+
+        <label for="region">Region:</label>
+        <input type="text" id="region" name="region" th:value="${room.region}" required />
+
+        <label for="detailRegion">Detail Region:</label>
+        <input type="text" id="detailRegion" name="detailRegion" th:value="${room.detailRegion}" required />
+
+        <label for="payment">payment:</label>
+        <input type="text" id="payment" name="payment" th:value="${room.payment}" required />
+
+        <label for="recruitNum">recruitNum:</label>
+        <input type="text" id="recruitNum" name="recruitNum" th:value="${room.recruitNum}" required />
+
+
+        <!-- 나머지 필드 추가 -->
+        <button type="submit">Submit Changes</button>
+    </form>
+    <a th:href="@{/roomDetails(roomId=${room.roomId})}">Cancel</a>
+</div>
+</body>
+</html>
