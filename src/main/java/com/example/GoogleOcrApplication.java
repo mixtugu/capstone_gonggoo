@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {
 		"com.example.groupbuying.domain.repository",
 		"com.example.chat.repository",
-		"com.example.taxi.domain.repository"
+		"com.example.taxi.domain.repository",
+		"com.example.community.domain.repository",
 })
 
 public class
