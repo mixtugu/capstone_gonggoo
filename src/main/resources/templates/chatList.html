@@ -33,6 +33,12 @@
                     /
                     <span th:text="${room.recruitNum}">모집 인원 수</span>)
                 </span>
+                <span th:switch="${room.roomCategory}">
+                    <span th:case="1">모임 모집</span>
+                    <span th:case="2">공동 구매</span>
+                    <span th:case="3">택시 모집</span>
+                    <span th:case="*">기타</span>
+                </span>
             </button>
         </div>
     </div>
