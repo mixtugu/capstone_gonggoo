@@ -1,74 +1,92 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Edit My Page</title>
+    <meta charset="UTF-8">
+    <title>Edit My Page</title>
 
-  <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-  <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
-  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
-  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
-
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #f2f2f2">
+<body>
 
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
-<div class="container p-3" style="max-width: 600px">
-  <div class="pt-4 pb-3 text-start b">
-    <h4 class="title fw-bold"><img th:src="@{img/label.png}" class="icon">개인 정보 수정</h4>
-  </div>
-  <hr class="my-4">
-  <form th:action="@{/mypage/update}" th:object="${mypage}" method="post">
-    <input type="hidden" name="id" th:value="${mypage.id}">
+<div class="container px-4 py-5">
 
-    <div class="mb-3">
-      <label for="password" class="form-label">새로운 비밀번호</label>
-      <input type="password" class="form-control" id="password" name="password" th:value="${mypage.member.password}" required>
+    <div class="mb-3 text-start b">
+        <h4 class="title fw-bold"><img th:src="@{/img/label.png}" class="icon">내 정보 수정</h4>
     </div>
 
-    <div class="mb-3">
-      <label for="email" class="form-label">새로운 Email</label>
-      <input type="email" class="form-control" id="email" name="email" th:value="${mypage.email}" required>
-    </div>
+    <div class="box pt-4">
+        <form th:action="@{/mypage/update}" th:object="${mypage}" method="post">
+            <input type="hidden" name="id" th:value="${mypage.id}">
+            <ul class="myInfoList">
+                <li>
+                    <label for="password" class="myInfoLabel">비밀번호 변경</label>
+                    <div>
+                        <input type="password" class="myInfoInput" id="password" name="password"
+                               th:value="${mypage.member.password}" required>
+                    </div>
+                </li>
+                <li>
+                    <label for="email" class="myInfoLabel">이메일</label>
+                    <div>
+                        <input type="email" class="myInfoInput" id="email" name="email" th:value="${mypage.email}"
+                               required>
+                    </div>
+                </li>
+                <li>
+                    <label for="phonenumber" class="myInfoLabel">휴대폰 번호</label>
+                    <div>
+                        <input type="text" class="myInfoInput" id="phonenumber" name="phonenumber"
+                               th:value="${mypage.phonenumber}"
+                               required>
+                    </div>
+                </li>
+                <li>
+                    <label for="birthday" class="myInfoLabel">생년월일</label>
+                    <div>
+                        <input type="date" class="myInfoInput" id="birthday" name="birthday"
+                               th:value="${#dates.format(mypage.birthday, 'yyyy-MM-dd')}" required>
+                    </div>
+                </li>
+                <li>
+                    <div class="row">
+                        <div class="col-3">
+                            <label for="bank" class="myInfoLabel">은행</label>
+                            <div>
+                                <select class="myInfoInput" id="bank" name="bank">
+                                    <option value="국민" th:selected="${mypage.bank == '국민'}">국민</option>
+                                    <option value="우리" th:selected="${mypage.bank == '우리'}">우리</option>
+                                    <option value="신한" th:selected="${mypage.bank == '신한'}">신한</option>
+                                    <option value="한화" th:selected="${mypage.bank == '한화'}">한화</option>
+                                    <option value="토스" th:selected="${mypage.bank == '토스'}">토스</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="account" class="myInfoLabel">계좌번호</label>
+                            <div>
+                                <input type="text" class="myInfoInput" id="account" name="account"
+                                       th:value="${mypage.account}"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
 
-    <div class="mb-3">
-      <label for="phonenumber" class="form-label">휴대폰 번호 수정</label>
-      <input type="text" class="form-control" id="phonenumber" name="phonenumber" th:value="${mypage.phonenumber}" required>
+            <div class="text-center">
+                <button type="submit" class="btn myInfoBTN">변경 완료</button>
+            </div>
+        </form>
     </div>
-
-    <div class="mb-3">
-      <label for="birthday" class="form-label">생일 수정</label>
-      <input type="date" class="form-control" id="birthday" name="birthday" th:value="${#dates.format(mypage.birthday, 'yyyy-MM-dd')}" required>
-    </div>
-
-    <div class="mb-3">
-      <div class="row">
-        <div class="col">
-          <label for="bank" class="form-label">은행 선택</label>
-          <select class="form-select" id="bank" name="bank">
-            <option value="국민" th:selected="${mypage.bank == '국민'}">국민</option>
-            <option value="우리" th:selected="${mypage.bank == '우리'}">우리</option>
-            <option value="신한" th:selected="${mypage.bank == '신한'}">신한</option>
-            <option value="한화" th:selected="${mypage.bank == '한화'}">한화</option>
-            <option value="토스" th:selected="${mypage.bank == '토스'}">토스</option>
-          </select>
-        </div>
-        <div class="col">
-          <label for="account" class="form-label">계좌번호</label>
-          <input type="text" class="form-control" id="account" name="account" th:value="${mypage.account}" required>
-        </div>
-      </div>
-      <div class="text-center mt-4">
-        <button type="submit" class="btn btn-primary">변경 완료</button>
-      </div>
-    </div>
-
-  </form>
 </div>
 </body>
 </html>

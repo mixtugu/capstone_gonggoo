@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>공지사항</title>
-  <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-  <link rel="stylesheet" th:href="@{/css/notice.css}"/>
-  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
-  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>공지사항</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/notice.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #f2f2f2">
+<body style="background-color: #FFFFFF">
+
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
-<div class="container p-3" style="max-width: 600px">
-  <div class="pt-4 pb-3 text-start b">
-    <h4 class="title fw-bold">📢 공지사항</h4>
-    <hr class="my-4">
-    <div class = "notice-container">
-    <table class="notice-table">
-      <thead>
-      <tr>
-        <th>순번</th>
-        <th>제목</th>
-        <th>Date</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr th:each="notice : ${notice}">
-        <td th:text="${notice.noticeNum}"></td>
-        <td><a th:href="@{/notice/{id}(id=${notice.noticeNum})}" th:text="${notice.noticeTitle}"></a></td>
-        <td th:text="${notice.noticeDate}"></td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-    <div class="text-center mt-4">
-      <a href="/firstmypage" class="btn btn-primary btn-lg">돌아가기</a>
+<div class="container px-4 py-5">
+
+    <div class="mb-3 text-start b">
+        <h4 class="title fw-bold"><img th:src="@{/img/label.png}" class="icon">공지사항</h4>
+    </div>
+    
+
+
+    <div class="notice-container">
+        <table class="notice-table">
+            <thead>
+            <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>게시일자</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="notice : ${notice}">
+                <td th:text="${notice.noticeNum}"></td>
+                <td><a th:href="@{/notice/{id}(id=${notice.noticeNum})}" th:text="${notice.noticeTitle}"></a></td>
+                <td th:text="${notice.noticeDate}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 </div>
