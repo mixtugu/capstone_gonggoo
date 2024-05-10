@@ -1,70 +1,62 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>택시 동승 - 목록</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
+    <link rel="stylesheet" th:href="@{/css/taxi.css}"/>
 </head>
 <body>
-<header th:insert="common/taxi_header.html"></header>
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+
+<nav th:replace="~{/navbar/CategoryBar_TAXI :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/roomCreateBTN :: roomCreate}"></nav>
+
 <div class="container">
-    <div class="row mb-3">
-        <div class="col">
-            <form th:action="@{/taxiList}" method="get">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="제목 검색" name="search">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary" type="submit">검색</button>
-                    </div>
+
+    <form th:action="@{/taxiList}" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="방 제목 검색" name="search">
+            <div class="input-group-append">
+                <button class="btn searchBTN" type="submit">
+                    <img th:src="@{img/search.png}" class="searchImage">
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="roomUl">
+        <li th:each="taxi_post : ${postList}" class="roomLi">
+            <div role="button" th:onclick="|location.href='@{'/taxi_post/' + ${taxi_post.roomId}}'|" class="roomBTN p-4">
+                <table class="taxiRoomCard mb-4">
+                    <tr>
+                        <th class="departure">출발지</th>
+                        <th rowspan="2" class="imageCell"><img th:src="@{/img/move.png}" class="moveImage"></th>
+                        <th class="destination">목적지</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${taxi_post.departure}" class="departure"></td>
+                        <td th:text="${taxi_post.destination}" class="destination"></td>
+                    </tr>
+                </table>
+                <hr>
+                <div class="taxiRoomInfo">
+                        <span th:text="${taxi_post.predicttotalprice} + '원 '"></span>예상
+                        <br>
+                        지금은<span th:text="' ' + ${taxi_post.currentNum} + '명 '"></span>모였어요.
                 </div>
-            </form>
-        </div>
-    </div>
-<div class="container">
-    <table class="table">
-        <thead class="thead-light">
-        <tr class="text-center">
-            <th scope="col">#</th>
-            <th scope="col">제목</th>
-            <th scope="col">작성자</th>
-            <th scope="col">현재 참여인원</th>
-            <th scope="col">예상 금액</th>
-            <th scope="col">작성일</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="text-center" th:each="taxi_post : ${postList}">
-            <th scope="row">
-                <span th:text="${taxi_post.roomId}"></span>
-            </th>
-            <td>
-                <a th:href="@{'/taxi_post/' + ${taxi_post.roomId}}">
-                    <span th:text="${taxi_post.roomTitle}"></span>
-                </a>
-            </td>
-            <td>
-                <span th:text="${taxi_post.author}"></span>
-            </td>
-            <td>
-                <span th:text="${taxi_post.currentNum}"></span>
-            </td>
-            <td>
-                <span th:text="${taxi_post.predicttotalprice}"></span>
-            </td>
-            <td>
-                <span th:text="${#temporals.format(taxi_post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="row">
-        <div class="col-auto mr-auto"></div>
-        <div class="col-auto">
-            <a class="btn btn-primary" th:href="@{/taxi_post}" role="button">+</a>
-        </div>
-    </div>
-</div></div>
+            </div>
+        </li>
+    </ul>
+</div>
 </body>
 </html>
