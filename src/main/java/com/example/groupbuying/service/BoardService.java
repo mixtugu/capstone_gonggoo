@@ -5,6 +5,7 @@ import com.example.groupbuying.domain.entity.Participant;
 import com.example.groupbuying.domain.repository.BoardRepository;
 import com.example.groupbuying.domain.repository.ParticipantRepository;
 import com.example.groupbuying.dto.BoardDto;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,25 @@ public class BoardService {
     }
 
     @Transactional
-    public Long savePost(BoardDto boardDto) {
-        return boardRepository.save(boardDto.toEntity()).getId();
+    public Integer savePost(BoardDto boardDto) {
+        return boardRepository.save(boardDto.toEntity()).getRoomId();
+    }
+    @Transactional
+    public void updateBoard(Integer id, BoardDto boardDto) {
+        Board post = boardRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
+
+        post.setCurrentNum(boardDto.getRecruitNum());
+        post.setAuthor(boardDto.getAuthor());
+        post.setItemName(boardDto.getItemName());
+        post.setSiteName(boardDto.getSiteName());
+        post.setItemPrice(boardDto.getItemPrice());
+        post.setTotalPrice(boardDto.getTotalPrice());
+        post.setCreatedDate(boardDto.getCreatedDate());
+        post.setModifiedDate(boardDto.getModifiedDate());
+        post.setRecruitNum(boardDto.getRecruitNum());
+        post.setRoomTitle(boardDto.getRoomTitle());
+        boardRepository.save(post);
     }
     @Transactional
     public List<BoardDto> getBoardList() {
@@ -37,65 +55,68 @@ public class BoardService {
 
         for(Board board : boardList) {
             BoardDto boardDto = BoardDto.builder()
-                    .id(board.getId())
-                    .title(board.getTitle())
+                    .roomId(board.getRoomId())
+                    .roomTitle(board.getRoomTitle())
                     .author(board.getAuthor())
                     .itemName(board.getItemName())
-                    .headCount(board.getHeadCount())
+                    .recruitNum(board.getRecruitNum())
+                    .currentNum(board.getCurrentNum())
                     .currentPrice(board.getCurrentPrice())
                     .totalPrice(board.getTotalPrice())
                     .itemPrice(board.getItemPrice())
                     .createdDate(board.getCreatedDate())
                     .siteName(board.getSiteName())
-
+                    .member(board.getMember())
                     .build();
             boardDtoList.add(boardDto);
         }
         return boardDtoList;
     }
 
-    public BoardDto getPost(Long id) {
+    public BoardDto getPost(Integer id) {
         Board board = boardRepository.findById(id).get();
 
         BoardDto boardDto = BoardDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
+                .roomId(board.getRoomId())
+                .roomTitle(board.getRoomTitle())
                 .author(board.getAuthor())
                 .itemName(board.getItemName())
-                .headCount(board.getHeadCount())
+                .recruitNum(board.getRecruitNum())
+                .currentNum(board.getCurrentNum())
                 .currentPrice(board.getCurrentPrice())
                 .totalPrice(board.getTotalPrice())
                 .createdDate(board.getCreatedDate())
                 .itemPrice(board.getItemPrice())
                 .siteName(board.getSiteName())
                 .fileId(board.getFileId())
+                .member(board.getMember())
                 .build();
         return boardDto;
     }
 
     @Transactional
-    public void deletePost(Long id) {
+    public void deletePost(Integer id) {
         boardRepository.deleteById(id);
     }
 
-    public void increaseParticipantCount(Long id) {
+    public void increaseParticipantCount(Integer id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
 
-        board.increaseHeadCount();
+        board.increaseCurrentNum();
         boardRepository.save(board);
     }
 
-    public void decreaseParticipantCount(Long id) {
+    public void decreaseParticipantCount(Integer id) {
         Board board = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
-        board.setHeadCount(board.getHeadCount() - 1);
+        board.setCurrentNum(board.getCurrentNum() - 1);
         boardRepository.save(board);
     }
 
-    public boolean withdrawFromBoard(Long boardId, String loginId) {
+    public boolean withdrawFromBoard(Integer boardId, String loginId) {
 
-        Optional<Participant> participantOpt = participantRepository.findByBoardIdAndMember_LoginId(boardId, loginId);
+        Optional<Participant> participantOpt = participantRepository.findByBoardRoomIdAndMember_LoginId(boardId, loginId);
 
         if (participantOpt.isEmpty()) {
             return false;
@@ -112,13 +133,14 @@ public class BoardService {
     }
 
     public List<BoardDto> searchByTitle(String title) {
-        List<Board> boards = boardRepository.findByTitleContaining(title);
+        List<Board> boards = boardRepository.findByRoomTitleContaining(title);
         return boards.stream().map(board -> BoardDto.builder()
-                .id(board.getId())
-                .title(board.getTitle())
+                .roomId(board.getRoomId())
+                .roomTitle(board.getRoomTitle())
                 .author(board.getAuthor())
                 .itemName(board.getItemName())
-                .headCount(board.getHeadCount())
+                .recruitNum(board.getRecruitNum())
+                .currentNum(board.getCurrentNum())
                 .currentPrice(board.getCurrentPrice())
                 .totalPrice(board.getTotalPrice())
                 .itemPrice(board.getItemPrice())

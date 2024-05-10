@@ -1,18 +1,18 @@
 package com.example.domain; // Adjust the package name to match your project structure
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter@Setter
 @Entity
 @Table(name = "Room")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Room {
 
     @Id
@@ -23,19 +23,21 @@ public class Room {
     @Column(name = "RoomTitle", nullable = false, length = 255)
     private String roomTitle;
 
-    @Column(name = "RoomCategory", nullable = false)
+    @Column(name = "RoomCategory")
     private Integer roomCategory;
 
-    @Column(name = "RecruitNum", nullable = false)
+    @Column(name = "RecruitNum")
     private Integer recruitNum;
 
     @Column(name = "CurrentNum", nullable = false)
-    private Integer currentNum;
+    protected Integer currentNum;
 
     @ManyToOne
     @JoinColumn(name="MEMBER_ID")
     private Member member;
 }
+
+
 
 
 // INSERT INTO room (current_num, recruit_num, room_category, room_title, member_id) VALUES

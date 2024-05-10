@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
-    <title th:text="@{'공동구매 - ' + ${post.title}}"></title>
+    <title th:text="@{'공동구매 - ' + ${post.roomTitle}}"></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link th:href="@{/css/bootstrap.min.css}"
@@ -13,14 +13,14 @@
 <div class="container">
     <div class="card">
         <div class="card-body">
-            <h5 class="card-title" th:text="@{${post.title} + ' - ' + ${post.author}}"></h5>
+            <h5 class="card-title" th:text="@{${post.roomTitle} + ' - ' + ${post.author}}"></h5>
             <p class="card-text">
                 <small
                         class="text-muted"
                         th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"
                 ></small>
             </p>
-            <p class="card-text">총 인원 수 : <span th:text="${post.headCount}"></span></p>
+            <p class="card-text">총 인원 수 : <span th:text="${post.currentNum}"></span></p>
             <p class="card-text">사이트 이름 : <span th:text="${post.siteName}"></span></p>
             <p class="card-text">물품 : <span th:text="${post.itemName}"></span></p>
             <p class="card-text">개당 가격 : <span th:text="${#numbers.formatInteger(post.itemPrice, 1, 'COMMA')}"></span>원</p>
@@ -44,14 +44,14 @@
                     </div>
                 </li>
             </ul>
-           <!-- <p class="card-text" th:text="${post.author}"></p>-->
+            <!-- <p class="card-text" th:text="${post.author}"></p>-->
         </div>
     </div>
     <div class="col-auto" th:if="${post.author == currentUserName}">
-        <a class="btn btn-info" th:href="@{'/post/edit/' + ${post.id}}" role="button">수정</a>
+        <a class="btn btn-info" th:href="@{'/post/edit/' + ${post.roomId}}" role="button">수정</a>
     </div>
     <div class="col-auto" th:if="${post.author == currentUserName}">
-        <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
+        <form id="delete-form" th:action="@{'/post/' + ${post.roomId}}" method="post">
             <input type="hidden" name="_method" value="delete" />
             <button id="delete-btn" type="submit" class="btn btn-danger">삭제</button>
         </form>
@@ -71,7 +71,7 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <form id="editQuantityForm" th:action="@{/post/{id}/editQuantity(id=${post.id})}" method="post">
+                            <form id="editQuantityForm" th:action="@{/post/{id}/editQuantity(id=${post.roomId})}" method="post">
                                 <div class="form-group">
                                     <label for="newQuantity" class="col-form-label">구매 개수:</label>
                                     <input type="number" class="form-control" id="newQuantity" name="newQuantity">
@@ -86,14 +86,14 @@
                 </div>
             </div>
 
-            <a th:href="@{/post/{id}/withdraw(id=${post.id})}" class="btn btn-danger">탈퇴하기</a>
+            <a th:href="@{/post/{id}/withdraw(id=${post.roomId})}" class="btn btn-danger">탈퇴하기</a>
         </div>
         <div th:unless="${isParticipated}">
             <div class="row mt-3">
                 <div class="col-3">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
-                    참여하기
-                </button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
+                        참여하기
+                    </button>
                 </div>
 
                 <!-- 모달 -->
@@ -107,7 +107,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form id="participateForm" th:action="@{/post/{id}/participate(id=${post.id})}" method="post">
+                                <form id="participateForm" th:action="@{/post/{id}/participate(id=${post.roomId})}" method="post">
                                     <div class="form-group">
                                         <label for="quantity" class="col-form-label">수량:</label>
                                         <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>

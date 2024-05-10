@@ -13,7 +13,7 @@ public class File {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(nullable = false)
     private String origFilename;
@@ -25,7 +25,7 @@ public class File {
     private String filePath;
 
     @Builder
-    public File(Long id, String origFilename, String filename, String filePath) {
+    public File(Integer id, String origFilename, String filename, String filePath) {
         this.id = id;
         this.origFilename = origFilename;
         this.filename = filename;

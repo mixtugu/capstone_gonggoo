@@ -16,12 +16,12 @@ public class FileService {
     }
 
     @Transactional
-    public Long saveFile(FileDto fileDto) {
+    public Integer saveFile(FileDto fileDto) {
         return fileRepository.save(fileDto.toEntity()).getId();
     }
 
     @Transactional
-    public FileDto getFile(Long id) {
+    public FileDto getFile(Integer id) {
         File file = fileRepository.findById(id).get();
 
         FileDto fileDto = FileDto.builder()

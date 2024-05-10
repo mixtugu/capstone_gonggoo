@@ -25,12 +25,13 @@ public class MyPageRepository {
     return Optional.ofNullable(myPage);
   }
 
-  public void updateMemberInfo(Long id, String email, String phonenumber, String payment, Date birthday, String password) {
+  public void updateMemberInfo(Long id, String email, String phonenumber, String bank, String account, Date birthday, String password) {
     MyPage myPage = em.find(MyPage.class, id);
     if (myPage != null) {
       myPage.setEmail(email);
       myPage.setPhonenumber(phonenumber);
-      myPage.setPayment(payment);
+      myPage.setBank(bank);
+      myPage.setAccount(account);
       myPage.setBirthday(birthday);
       myPage.getMember().setPassword(password);
 
