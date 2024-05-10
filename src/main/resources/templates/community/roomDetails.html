@@ -62,8 +62,8 @@
         <p>방장: <span th:text="${room.representative.name}">Representative Name</span></p>
         <p>참여자 리스트:</p>
         <ul>
-            <li th:each="participant : ${room.participants}">
-                <span th:text="${participant.name}">Participant Name</span>
+            <li th:each="taxiParticipant : ${room.taxiParticipants}">
+                <span th:text="${taxiParticipant.name}">Participant Name</span>
             </li>
         </ul>
 

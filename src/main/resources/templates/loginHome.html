@@ -15,7 +15,7 @@
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
-<div class="container p-3 mb-5" style="max-width: 600px;">
+<div class="container p-3 mb-5">
     <div class="d-flex justify-content-between align-items-center px-3 py-4">
         <p th:text="|${member.name}님 안녕하세요!|" class="fs-3 fw-bold">로그인 사용자 이름</p>
     </div>
@@ -34,7 +34,7 @@
                 <p class="menu_ex">원하는 물건을 나눠 구매해요</p>
             </div>
         </button>
-        <button class="btn btn-lg mb-3 p-4 b_box" type="button">
+        <button class="btn btn-lg mb-3 p-4 b_box" type="button" th:onclick="|location.href='@{/taxi}'|">
             <img  th:src="@{img/taxi.png}" class="menu_image img-fluid float-start">
             <div class="d-flex flex-column px-4 py-3">
                 <p class="menu_title">택시 동승</p>

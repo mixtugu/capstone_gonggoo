@@ -1,14 +1,25 @@
 package com.example.controller;
 
 import com.example.domain.Member;
+
+import com.example.groupbuying.dto.BoardDto;
+import com.example.groupbuying.service.BoardService;
+
 import com.example.mypage.domain.MyPage;
 import com.example.mypage.service.MyPageService;
+
+import com.example.taxi.dto.TaxiDto;
+import com.example.taxi.service.TaxiService;
+
 import com.example.session.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.sql.Date;
 import java.util.Optional;
 
@@ -16,9 +27,13 @@ import java.util.Optional;
 public class MyPageController {
 
   private final MyPageService myPageService;
+  private final TaxiService taxiService;
+  private BoardService boardService;
 
-  public MyPageController(MyPageService myPageService) {
+  public MyPageController(MyPageService myPageService, TaxiService taxiService, BoardService boardService) {
     this.myPageService = myPageService;
+    this.taxiService = taxiService;
+    this.boardService = boardService;
   }
 
   @GetMapping("/mypage")
@@ -95,4 +110,28 @@ public class MyPageController {
     return "editmypage";
   }
 
-}
+  @GetMapping("/groupbuylist")
+  public String groupbuyListPosts(@RequestParam(name = "search", required = false) String search, Model model) {
+
+    List<TaxiDto> taxiDtoList;
+    if (search != null && !search.trim().isEmpty()) {
+      taxiDtoList = taxiService.searchByTitle(search);
+    } else {
+      taxiDtoList = taxiService.getTaxiList();
+    }
+
+    List<BoardDto> boardDtoList;
+    if (search != null && !search.trim().isEmpty()) {
+      boardDtoList = boardService.searchByTitle(search);
+    } else {
+      boardDtoList = boardService.getBoardList();
+    }
+
+
+    model.addAttribute("taxiPostList", taxiDtoList);
+    model.addAttribute("boardPostList", boardDtoList);
+
+    return "groupbuylist.html";
+  }
+
+  }
