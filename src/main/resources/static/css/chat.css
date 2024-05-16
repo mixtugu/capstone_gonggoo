@@ -154,7 +154,7 @@
 
 #mapDiv {
     height: 400px;
-    width: 600px;
+    width: 100%;
     display: none;
 }
 
@@ -176,8 +176,8 @@
     margin-bottom: 3.75rem;
 }
 
-.category {
-    color: #e8e8e8;
+.chatroomCategory {
+    color: #70bd96;
     font-size: 0.95rem;
     padding-left: 0.5rem;
 }

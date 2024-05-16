@@ -23,12 +23,12 @@
 
 <div class="container">
 
-    <form th:action="@{/taxiList}" method="get">
+    <form th:action="@{/taxiList}" method="get" class="m-2">
         <div class="input-group">
             <input type="text" class="form-control" placeholder="방 제목 검색" name="search">
             <div class="input-group-append">
                 <button class="btn searchBTN" type="submit">
-                    <img th:src="@{img/search.png}" class="searchImage">
+                    <img th:src="@{/img/search.png}" class="searchImage">
                 </button>
             </div>
         </div>
