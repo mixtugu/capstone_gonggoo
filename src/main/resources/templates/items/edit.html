@@ -1,123 +1,138 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8" />
     <title>공동구매 - 글 수정</title>
-    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/font.css}"/>
-    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('editForm').addEventListener('submit', function (e) {
+                let hasEmptyFields = false;
+                let fields = [
+                    { id: 'inputSiteName', name: '구매하려는 사이트' },
+                    { id: 'inputRecruitNum', name: '모집 인원' },
+                    { id: 'inputItemName', name: '상품명' },
+                    { id: 'inputRoomTitle', name: '제목' },
+                    { id: 'inputItemPrice', name: '상품가격' },
+                    { id: 'inputTotalPrice', name: '목표금액' },
+                ];
+
+                fields.forEach(field => {
+                    let value = document.getElementById(field.id).value.trim();
+                    if (!value) {
+                        alert(`${field.name} 필드를 채워주세요.`);
+                        hasEmptyFields = true;
+                    }
+                });
+
+                if (hasEmptyFields) {
+                    e.preventDefault();
+                    return false;
+                }
+                return true;
+            });
+        });
+    </script>
 </head>
 <body>
-
-<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
-<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
-
-<nav th:replace="~{/navbar/CategoryBar_G.B :: navbarFragment}"></nav>
-
+<header th:insert="common/header.html"></header>
 <div class="container">
-
-    <div>
-        <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">방 정보 수정</p>
-    </div>
-
-    <div class="box">
-        <form th:action="@{'/post/edit/' + ${post.roomId}}" method="post">
-            <input type="hidden" name="_method" value="put"/>
-            <input type="hidden" name="id" th:value="${post.roomId}"/>
-            <div class="form-group">
-                <label for="inputAuthor" class="postLabel">작성자</label>
-                <div class="">
-                    <input
-                            type="text"
-                            name="author"
-                            class="form-control postInput"
-                            id="inputAuthor"
-                            th:value="${post.author}"
-                            readonly
-                    />
-                </div>
+    <form id="editForm" th:action="@{'/post/edit/' + ${post.roomId}}" method="post">
+        <input type="hidden" name="_method" value="put" />
+        <input type="hidden" name="roomId" th:value="${post.roomId}" />
+        <div class="form-group row">
+            <label for="inputRoomTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="text"
+                        name="roomTitle"
+                        class="form-control"
+                        id="inputRoomTitle"
+                        th:value="${post.roomTitle}"
+                />
             </div>
-            <div class="form-group">
-                <label for="inputRoomTitle" class="postLabel">제목</label>
-                <div>
-                    <input
-                            type="text"
-                            name="roomTitle"
-                            class="form-control postInput"
-                            id="inputRoomTitle"
-                            th:value="${post.roomTitle}"
-                    />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputAuthor" class="col-sm-2 col-form-label"><strong>작성자</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="text"
+                        name="author"
+                        class="form-control"
+                        id="inputAuthor"
+                        th:value="${post.author}"
+                        readonly
+                />
             </div>
-            <div class="form-group">
-                <label for="inputSiteName" class="postLabel">구매하려는 사이트</label>
-                <div>
-                    <input
-                            type="text"
-                            name="siteName"
-                            class="form-control postInput"
-                            id="inputSiteName"
-                            th:value="${post.siteName}"
-                    />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputItemName" class="col-sm-2 col-form-label"><strong>상품명</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="text"
+                        name="itemName"
+                        class="form-control"
+                        id="inputItemName"
+                        th:value="${post.itemName}"
+                />
             </div>
-            <div class="form-group">
-                <label for="inputItemName" class="postLabel">상품명</label>
-                <div>
-                    <input
-                            type="text"
-                            name="itemName"
-                            class="form-control postInput"
-                            id="inputItemName"
-                            th:value="${post.itemName}"
-                    />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputSiteName" class="col-sm-2 col-form-label"><strong>구매하려는 사이트</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="text"
+                        name="siteName"
+                        class="form-control"
+                        id="inputSiteName"
+                        th:value="${post.siteName}"
+                />
             </div>
-            <div class="form-group">
-                <label for="inputItemPrice" class="postLabel">상품가격</label>
-                <div>
-                    <input
-                            type="text"
-                            name="itemPrice"
-                            class="form-control postInput"
-                            id="inputItemPrice"
-                            th:value="${post.itemPrice}"
-                    />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputRecruitNum" class="col-sm-2 col-form-label"><strong>모집인원</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="number"
+                        name="recruitNum"
+                        class="form-control"
+                        id="inputRecruitNum"
+                        th:value="${post.recruitNum}"
+                />
             </div>
-            <div class="form-group">
-                <label for="inputRecruitNum" class="postLabel">모집인원</label>
-                <div>
-                    <input
-                            type="text"
-                            name="recruitNum"
-                            class="form-control postInput"
-                            id="inputRecruitNum"
-                            th:value="${post.recruitNum}"
-                    />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputItemPrice" class="col-sm-2 col-form-label"><strong>상품가격</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="number"
+                        name="itemPrice"
+                        class="form-control"
+                        id="inputItemPrice"
+                        th:value="${post.itemPrice}"
+                />
             </div>
-            <div class="form-group">
-                <label for="inputTotalPrice" class="postLabel">목표금액</label>
-                <div>
-                    <input
-                            type="text"
-                            name="totalPrice"
-                            class="form-control postInput"
-                            id="inputTotalPrice"
-                            th:value="${post.totalPrice}"
-                    />
-                </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputTotalPrice" class="col-sm-2 col-form-label"><strong>목표금액</strong></label>
+            <div class="col-sm-10">
+                <input
+                        type="number"
+                        name="totalPrice"
+                        class="form-control"
+                        id="inputTotalPrice"
+                        th:value="${post.totalPrice}"
+                />
             </div>
-            <div>
-                <button class="w-100 btn btn-lg createBTN" type="submit">수정하기</button>
+        </div>
+        <div class="row">
+            <div class="col-auto mr-auto"></div>
+            <div class="col-auto">
+                <input class="btn btn-primary" type="submit" role="button" value="수정" />
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 <script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
 <script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>

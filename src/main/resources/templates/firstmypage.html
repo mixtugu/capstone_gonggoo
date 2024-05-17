@@ -1,50 +1,74 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-  <title>First My page</title>
-  <meta charset="utf-8">
-  <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-  <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
-  <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
-  <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
+    <title>First My page</title>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #f2f2f2">
+<body style="background-color: #FFFFFF">
 
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
-<div class="container p-3" style="max-width: 600px">
-  <div class="pt-4 pb-3 text-start b">
-    <h4 class="title fw-bold"><img th:src="@{img/label.png}" class="icon">마이 페이지</h4>
-  </div>
-  <hr class="my-4">
-  <div class="profile-img-container">
-    <div class="text-center mt-4"><img src="img/profile.png" alt="profile" width="200" height="200"></div>
-  </div>
-  <div class ="text-center mt-4">
-    <h1 class="profile-name"><span th:text="${mypage.member.name}">사용자 이름</span></h1>
-  </div>
-  <div class="menu-container">
-    <a href="/mypage/info" class="btn btn-primary btn-lg">
-      <span class="menu-icon">👤</span><br>
-      <span class="menu-text">내 정보 확인</span>
-    </a>
-    <a href="/groupbuylist" class="btn btn-primary btn-lg">
-      <span class="menu-icon">🏃</span><br>
-      <span class="menu-text">모집 중인 공구</span>
-    </a>
-    <a href="/closedgroups" class="btn btn-primary btn-lg">
-      <span class="menu-icon">🔚</span><br>
-      <span class="menu-text">모집 종료 공구</span>
-    </a>
-    <a href="/notice" class="btn btn-primary btn-lg">
-      <span class="menu-icon">📢</span><br>
-      <span class="menu-text">공지사항</span>
-    </a>
-  </div>
+<div class="container p-4">
+    <div class="profileCard">
+        <a th:href="@{/mypage/info}">
+            <img th:src="@{/img/user1.png}" alt="profile" class="profile-image">
+        </a>
+        <div>
+            <a th:href="@{/mypage/info}" th:text="${mypage.member.name}" class="profile-name">사용자 이름</a>
+        </div>
+    </div>
+
+    <div>
+        <ul>
+            <li>
+                <a th:href="@{/groupbuylist}">
+                    <img th:src="@{img/label.png}" class="icon">
+                    <span class="title">모집 중인 공구</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/closedgroups}">
+                    <img th:src="@{img/label.png}" class="icon">
+                    <span class="title">모집 종료 공구</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/notice}">
+                    <img th:src="@{img/label.png}" class="icon">
+                    <span class="title">공지사항</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+<!--
+    <div class="menu-container">
+        <a href="/mypage/info" class="btn btn-primary btn-lg">
+            <span class="menu-icon">👤</span><br>
+            <span class="menu-text">내 정보 확인</span>
+        </a>
+        <a href="/opengroups" class="btn btn-primary btn-lg">
+            <span class="menu-icon">🏃</span><br>
+            <span class="menu-text">모집 중인 공구</span>
+        </a>
+        <a href="/closedgroups" class="btn btn-primary btn-lg">
+            <span class="menu-icon">🔚</span><br>
+            <span class="menu-text">모집 종료 공구</span>
+        </a>
+        <a href="/notice" class="btn btn-primary btn-lg">
+            <span class="menu-icon">📢</span><br>
+            <span class="menu-text">공지사항</span>
+        </a>
+    </div>
+-->
 </div>
 </body>
 </html>

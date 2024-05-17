@@ -5,6 +5,7 @@ import com.example.groupbuying.domain.entity.Board;
 import com.example.groupbuying.domain.entity.Participant;
 import com.example.groupbuying.domain.repository.BoardRepository;
 import com.example.groupbuying.domain.repository.ParticipantRepository;
+import com.example.groupbuying.dto.BoardDto;
 import com.example.groupbuying.dto.ParticipantDto;
 import com.example.repository.MemberRepository;
 import org.springframework.stereotype.Service;
@@ -128,6 +129,33 @@ public class ParticipantService {
             participantRepository.save(participant);
         }
     }
+
+    //서경원 수정 추가부분
+    public List<BoardDto> getParticipatedBoardListByMemberId(Long memberId) {
+        return participantRepository.findByMemberId(memberId).stream()
+            .map(participant -> {
+                Board board = participant.getBoard();
+                return new BoardDto(
+                    board.getRoomId(),
+                    board.getAuthor(),
+                    board.getRoomTitle(),
+                    String.valueOf(board.getRoomCategory()),
+                    board.getItemName(),
+                    board.getRecruitNum(),
+                    board.getCurrentNum(),
+                    board.getTotalPrice(),
+                    board.getCurrentPrice(),
+                    board.getItemPrice(),
+                    board.getCreatedDate(),
+                    board.getModifiedDate(),
+                    board.getSiteName(),
+                    board.getFileId(),
+                    board.getMember()
+                );
+            })
+            .collect(Collectors.toList());
+    }
+
 
 }
 

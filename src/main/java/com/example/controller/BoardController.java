@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -140,11 +141,13 @@ public class BoardController {
         return "items/detail.html";
     }
 
-    @PutMapping("/post/edit/{id}")
-    public String update(BoardDto boardDto) {
-        boardService.savePost(boardDto);
+    @PutMapping("/post/edit/{roomId}")
+    public String updatePost(@PathVariable Integer roomId, BoardDto boardDto) {
+        System.out.println(boardDto);
+        boardService.updateBoard(roomId, boardDto);
         return "redirect:/";
     }
+
 
     @DeleteMapping("/post/{id}")
     public String delete(@PathVariable("id") Integer id) {
