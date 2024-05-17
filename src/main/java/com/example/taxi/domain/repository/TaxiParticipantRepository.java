@@ -15,9 +15,12 @@ public interface TaxiParticipantRepository extends JpaRepository<TaxiParticipant
     Optional<TaxiParticipant> findByTaxiRoomIdAndMember_LoginId(Integer taxiId, String loginId);
 
     Optional<TaxiParticipant> findByTaxiRoomId(Integer taxiId);
-
+    TaxiParticipant findByMember_Name(String name);
+  
+  
     //서경원 추가부
     List<TaxiParticipant> findByMemberId(Long memberId);
 
+    
 
 }

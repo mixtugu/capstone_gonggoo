@@ -202,6 +202,7 @@ public class CroomService {
         croomRepository.deleteById(roomId);
     }
 
+
     //서경원 구현부-진행중인공구리스트
     public List<CroomDto> getParticipatedCroomListByMemberId(Long memberId) {
         return cparticipantRepository.findByMemberId(memberId).stream()
@@ -225,6 +226,6 @@ public class CroomService {
                 );
             })
             .collect(Collectors.toList());
-    }
+
 
 }

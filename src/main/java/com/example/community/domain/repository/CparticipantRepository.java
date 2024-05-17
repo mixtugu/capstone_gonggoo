@@ -25,4 +25,5 @@ public interface CparticipantRepository extends JpaRepository<Cparticipant, Inte
 
   //서경원 추가부
    List<Cparticipant> findByMemberId(Long memberId);
+
 }

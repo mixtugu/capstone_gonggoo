@@ -6,7 +6,6 @@ import com.example.domain.Member;
 
 import com.example.groupbuying.dto.BoardDto;
 import com.example.groupbuying.service.BoardService;
-
 import com.example.groupbuying.service.ParticipantService;
 import com.example.mypage.domain.MyPage;
 import com.example.mypage.service.MyPageService;
@@ -41,6 +40,7 @@ public class MyPageController {
     this.taxiParticipantService = taxiParticipantService;
     this.participantService = participantService;
     this.croomService = croomService;
+
   }
 
   @GetMapping("/mypage")
@@ -118,6 +118,7 @@ public class MyPageController {
   }
 
   @GetMapping("/groupbuylist")
+
   public String groupbuyListPosts(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
     if (loginMember == null) {
       return "redirect:/login";

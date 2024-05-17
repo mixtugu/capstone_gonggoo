@@ -77,8 +77,8 @@ public class TaxiParticipantService {
         taxiParticipantRepository.delete(taxiParticipant);
     }
 
-    
-    
+
+        
     //서경원 추가부분
     @Transactional(readOnly = true)
     public List<TaxiDto> getParticipatedTaxiListByMemberId(Long memberId) {
@@ -103,7 +103,6 @@ public class TaxiParticipantService {
             })
             .collect(Collectors.toList());
     }
-
 
 
 
