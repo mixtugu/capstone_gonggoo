@@ -203,7 +203,29 @@ public class CroomService {
     }
 
 
-
+    //서경원 구현부-진행중인공구리스트
+    public List<CroomDto> getParticipatedCroomListByMemberId(Long memberId) {
+        return cparticipantRepository.findByMemberId(memberId).stream()
+            .map(cparticipant -> {
+                Croom croom = cparticipant.getCroom();
+                return new CroomDto(
+                    croom.getRoomId(),
+                    croom.getAuthor(),
+                    croom.getRecruitNum(),
+                    croom.getCurrentNum(),
+                    croom.getRoomCategory(),
+                    croom.getRoomTitle(),
+                    croom.getCommunityCategory(),
+                    croom.getDetailCategory(),
+                    croom.getRegion(),
+                    croom.getDetailRegion(),
+                    croom.getPayment(),
+                    croom.getCreatedDate(),
+                    croom.getModifiedDate(),
+                    croom.getMember()
+                );
+            })
+            .collect(Collectors.toList());
 
 
 }

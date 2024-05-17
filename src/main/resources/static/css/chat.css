@@ -136,7 +136,9 @@
     position: absolute;
     border-style: none;
     background-color: rgba(120,120,120,0);
+
     right: 3.5rem;
+
 }
 
 #mapCover {
@@ -154,6 +156,7 @@
 
 #mapDiv {
     height: 400px;
+
     width: 100%;
     display: none;
 }
