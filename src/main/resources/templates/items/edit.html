@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>공동구매 - 글 수정</title>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -100,13 +101,13 @@
             </div>
             <div class="form-group">
                 <label for="inputItemPrice" class="postLabel">상품가격</label>
-                    <input
-                            type="number"
-                            name="itemPrice"
-                            class="form-control postInput"
-                            id="inputItemPrice"
-                            th:value="${post.itemPrice}"
-                    />
+                <input
+                        type="number"
+                        name="itemPrice"
+                        class="form-control postInput"
+                        id="inputItemPrice"
+                        th:value="${post.itemPrice}"
+                />
             </div>
             <div class="form-group">
                 <label for="inputRecruitNum" class="postLabel">모집인원</label>
@@ -120,13 +121,13 @@
             </div>
             <div class="form-group">
                 <label for="inputTotalPrice" class="postLabel">목표금액</label>
-                    <input
-                            type="number"
-                            name="totalPrice"
-                            class="form-control postInput"
-                            id="inputTotalPrice"
-                            th:value="${post.totalPrice}"
-                    />
+                <input
+                        type="number"
+                        name="totalPrice"
+                        class="form-control postInput"
+                        id="inputTotalPrice"
+                        th:value="${post.totalPrice}"
+                />
             </div>
         </div>
 
