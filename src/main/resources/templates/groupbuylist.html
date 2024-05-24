@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>진행중인 공동구매</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/groupbuylist.css}"/>
+  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+
+</head>
+<body style="background-color: #f2f2f2">
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+<div class="container p-3" style="max-width: 600px">
+  <div class="pt-4 pb-3 text-start b">
+    <h4 class="title fw-bold">🏃 진행중인 공구</h4>
+    <hr class="my-4">
+    <div class = "groupbuylist-container">
+      <table class="groupbuylist-table">
+  <tr class="text-center" th:each="taxi_post : ${taxiPostList}">
+    <td>
+      <a th:href="@{'/taxi_post/' + ${taxi_post.roomId}}">
+        <span th:text="${taxi_post.roomTitle}"></span></a>
+    </td>
+  </tr>
+
+        <tr class="text-center" th:each="board_post : ${boardPostList}">
+          <td>
+            <a th:href="@{'/post/' + ${board_post.roomId}}">
+              <span th:text="${board_post.roomTitle}"></span></a>
+          </td>
+        </tr>
+
+        <tr class="text-center" th:each="croom_post : ${croomPostList}">
+          <td>
+            <a th:href="@{'/roomDetails?roomId=' + ${croom_post.roomId}}">
+              <span th:text="${croom_post.roomTitle}"></span>
+            </a>
+          </td>
+        </tr>
+</table>
+
+      <div class="text-center mt-4">
+        <a href="/firstmypage" class="btn btn-primary btn-lg">돌아가기</a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

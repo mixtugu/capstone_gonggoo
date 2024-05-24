@@ -1,0 +1,31 @@
+.searchSelect {
+    font-size: 0.9rem;
+    color: #505050;
+    padding-right: 0;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.cateBTN {
+    width: 40%;
+    text-align: center;
+    padding: 0.3rem;
+    margin: 2.5%;
+    border: #e1f5eb 0.3rem solid;
+    box-shadow: none;
+}
+
+.cateImage {
+    width: 75%;
+    padding-top: 1rem;
+}
+
+.cateP {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding-top: 1.5rem;
+    color: #3f645e;
+}

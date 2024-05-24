@@ -1,14 +1,28 @@
 package com.example.controller;
 
+import com.example.community.dto.CroomDto;
+import com.example.community.service.CroomService;
 import com.example.domain.Member;
+
+import com.example.groupbuying.dto.BoardDto;
+import com.example.groupbuying.service.BoardService;
+import com.example.groupbuying.service.ParticipantService;
 import com.example.mypage.domain.MyPage;
 import com.example.mypage.service.MyPageService;
+
+import com.example.taxi.dto.TaxiDto;
+import com.example.taxi.service.TaxiParticipantService;
+import com.example.taxi.service.TaxiService;
+
 import com.example.session.SessionConst;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
 import java.sql.Date;
 import java.util.Optional;
 
@@ -16,9 +30,17 @@ import java.util.Optional;
 public class MyPageController {
 
   private final MyPageService myPageService;
+  private final TaxiParticipantService taxiParticipantService;
+  private final ParticipantService participantService;
+  private final CroomService croomService;
 
-  public MyPageController(MyPageService myPageService) {
+  public MyPageController(MyPageService myPageService, TaxiParticipantService taxiParticipantService, ParticipantService participantService, CroomService croomService) {
+
     this.myPageService = myPageService;
+    this.taxiParticipantService = taxiParticipantService;
+    this.participantService = participantService;
+    this.croomService = croomService;
+
   }
 
   @GetMapping("/mypage")
@@ -95,5 +117,23 @@ public class MyPageController {
     return "editmypage";
   }
 
+  @GetMapping("/groupbuylist")
 
-}
+  public String groupbuyListPosts(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
+    if (loginMember == null) {
+      return "redirect:/login";
+    }
+
+
+    List<TaxiDto> taxiDtoList = taxiParticipantService.getParticipatedTaxiListByMemberId(loginMember.getId());
+    List<BoardDto> boardDtoList = participantService.getParticipatedBoardListByMemberId(loginMember.getId());
+    List<CroomDto> croomDtoList = croomService.getParticipatedCroomListByMemberId(loginMember.getId());
+
+    model.addAttribute("taxiPostList", taxiDtoList);
+    model.addAttribute("boardPostList", boardDtoList);
+    model.addAttribute("croomPostList", croomDtoList);
+
+    return "groupbuylist.html";
+  }
+
+  }

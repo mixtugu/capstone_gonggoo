@@ -22,6 +22,7 @@
     flex-direction: row; /* 'display: flex'를 사용할 경우에만 유용 */
     max-width: 25rem; /* 부모 요소를 넘지 않는 최대 너비 */
     word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
+    word-break:break-all;
 }
 
 .message-timestamp {  /* 전송 시간과 텍스트 박스 나란히 */
@@ -73,6 +74,7 @@
     flex-direction: row; /* 'display: flex'를 사용할 경우에만 유용 */
     max-width: 20rem; /* 부모 요소를 넘지 않는 최대 너비 */
     word-wrap: break-word; /* 긴 단어가 줄바꿈되도록 설정 */
+    word-break:break-all;
 }
 
 .chatroomName {
@@ -119,7 +121,8 @@
     border-style: none;
     height: 1.56rem;
     background-color: rgba(120,120,120,0);
-    width: 90%;
+    width: 100%;
+    padding-right: 5rem;
 }
 
 .chatSend {
@@ -127,14 +130,15 @@
     right: 0;
     border-style: none;
     background-color: rgba(120,120,120,0);
-    right: 0;
 }
 
 .mapSend {
     position: absolute;
     border-style: none;
     background-color: rgba(120,120,120,0);
-    right: 150px;
+
+    right: 3.5rem;
+
 }
 
 #mapCover {
@@ -152,7 +156,8 @@
 
 #mapDiv {
     height: 400px;
-    width: 600px;
+
+    width: 100%;
     display: none;
 }
 
@@ -166,6 +171,16 @@
     width: 1.56rem;
 }
 
+.mapSend > img {
+    width: 1.56rem;
+}
+
 .messages-margin {
     margin-bottom: 3.75rem;
+}
+
+.chatroomCategory {
+    color: #70bd96;
+    font-size: 0.95rem;
+    padding-left: 0.5rem;
 }

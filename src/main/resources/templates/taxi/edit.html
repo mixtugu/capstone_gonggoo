@@ -3,93 +3,109 @@
 <head>
     <meta charset="UTF-8" />
     <title>택시 동승 - 글 수정</title>
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
 </head>
 <body>
-<header th:insert="common/taxi_header.html"></header>
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+
+<nav th:replace="~{/navbar/CategoryBar_TAXI :: navbarFragment}"></nav>
+
 <div class="container">
+
+    <div>
+        <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">방 정보 수정</p>
+    </div>
+
     <form th:action="@{'/taxi_post/edit/' + ${taxi_post.roomId}}" method="post">
-        <input type="hidden" name="_method" value="put" />
-        <input type="hidden" name="id" th:value="${taxi_post.roomId}" />
-        <div class="form-group row">
-            <label for="inputRoomTitle" class="col-sm-2 col-form-label"><strong>제목</strong></label>
-            <div class="col-sm-10">
-                <input
-                        type="text"
-                        name="roomTitle"
-                        class="form-control"
-                        id="inputRoomTitle"
-                        th:value="${taxi_post.roomTitle}"
-                />
+
+        <div class="box">
+            <input type="hidden" name="_method" value="put" />
+            <input type="hidden" name="id" th:value="${taxi_post.roomId}" />
+            <div class="form-group">
+                <label for="inputAuthor" class="postLabel">작성자</label>
+                <div>
+                    <input
+                            type="text"
+                            name="author"
+                            class="form-control postInput"
+                            id="inputAuthor"
+                            th:value="${taxi_post.author}"
+                            readonly
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputRoomTitle" class="postLabel">제목</label>
+                <div>
+                    <input
+                            type="text"
+                            name="roomTitle"
+                            class="form-control postInput"
+                            id="inputRoomTitle"
+                            th:value="${taxi_post.roomTitle}"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDestination" class="postLabel">목적지</label>
+                <div>
+                    <input
+                            type="text"
+                            name="destination"
+                            class="form-control postInput"
+                            id="inputDestination"
+                            th:value="${taxi_post.destination}"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputDeparture" class="postLabel">출발지</label>
+                <div>
+                    <input
+                            type="text"
+                            name="departure"
+                            class="form-control postInput"
+                            id="inputDeparture"
+                            th:value="${taxi_post.departure}"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputRecruitNum" class="postLabel">모집인원</label>
+                <div>
+                    <input
+                            type="text"
+                            name="recruitNum"
+                            class="form-control postInput"
+                            id="inputRecruitNum"
+                            th:value="${taxi_post.recruitNum}"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="inputPredictTotalPrice" class="postLabel">예상 금액</label>
+                <div>
+                    <input
+                            type="text"
+                            name="predicttotalprice"
+                            class="form-control postInput"
+                            id="inputPredictTotalPrice"
+                            th:value="${taxi_post.predicttotalprice}"
+                    />
+                </div>
             </div>
         </div>
-        <div class="form-group row">
-            <label for="inputAuthor" class="col-sm-2 col-form-label"><strong>작성자</strong></label>
-            <div class="col-sm-10">
-                <input
-                        type="text"
-                        name="author"
-                        class="form-control"
-                        id="inputAuthor"
-                        th:value="${taxi_post.author}"
-                        readonly
-                />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputDestination" class="col-sm-2 col-form-label"><strong>목적지</strong></label>
-            <div class="col-sm-10">
-                <input
-                        type="text"
-                        name="destination"
-                        class="form-control"
-                        id="inputDestination"
-                        th:value="${taxi_post.destination}"
-                />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputDeparture" class="col-sm-2 col-form-label"><strong>출발지</strong></label>
-            <div class="col-sm-10">
-                <input
-                        type="text"
-                        name="departure"
-                        class="form-control"
-                        id="inputDeparture"
-                        th:value="${taxi_post.departure}"
-                />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputRecruitNum" class="col-sm-2 col-form-label"><strong>모집인원</strong></label>
-            <div class="col-sm-10">
-                <input
-                        type="text"
-                        name="recruitNum"
-                        class="form-control"
-                        id="inputRecruitNum"
-                        th:value="${taxi_post.recruitNum}"
-                />
-            </div>
-        </div>
-        <div class="form-group row">
-            <label for="inputPredictTotalPrice" class="col-sm-2 col-form-label"><strong>예상 가격</strong></label>
-            <div class="col-sm-10">
-                <input
-                        type="text"
-                        name="predicttotalprice"
-                        class="form-control"
-                        id="inputPredictTotalPrice"
-                        th:value="${taxi_post.predicttotalprice}"
-                />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-auto mr-auto"></div>
-            <div class="col-auto">
-                <input class="btn btn-primary" type="submit" role="button" value="수정" />
-            </div>
+
+        <div class="mx-3 my-5">
+            <button class="w-100 btn btn-lg createBTN" type="submit">수정하기</button>
         </div>
     </form>
 </div>
