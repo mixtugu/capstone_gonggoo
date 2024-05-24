@@ -29,20 +29,13 @@
     </td>
   </tr>
 
-        <tr class="text-center" th:each="board_post : ${boardPostList}">
-          <td>
-            <a th:href="@{'/post/' + ${board_post.roomId}}">
-              <span th:text="${board_post.roomTitle}"></span></a>
-          </td>
-        </tr>
-
-        <tr class="text-center" th:each="croom_post : ${croomPostList}">
-          <td>
-            <a th:href="@{'/roomDetails?roomId=' + ${croom_post.roomId}}">
-              <span th:text="${croom_post.roomTitle}"></span>
-            </a>
-          </td>
-        </tr>
+  <tr class="text-center" th:each="board_post : ${boardPostList}">
+    <td>
+      <a th:href="@{'/post/' + ${board_post.roomId}}">
+        <span th:text="${board_post.roomTitle}"></span>
+      </a>
+    </td>
+  </tr>
 </table>
 
       <div class="text-center mt-4">
