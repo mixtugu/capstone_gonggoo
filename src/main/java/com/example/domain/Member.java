@@ -36,21 +36,16 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Participant> participants = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "MYPAGE_ID") // 외래키 이름을 명시
-    private MyPage myPage;
-
     public Member() {
 
     }
 
     @Builder
-    public Member(Long id, String loginId, String password, String name, MyPage myPage) {
+    public Member(Long id, String loginId, String password, String name) {
         this .id = id;
         this.loginId = loginId;
         this.password = password;
         this.name = name;
-        this.myPage = myPage;
     }
 
     public void addParticipant(Participant participant) {
