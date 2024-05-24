@@ -48,4 +48,23 @@ public class BoardDto {
                 .build();
         return build;
     }
+
+    @Builder
+    public BoardDto(Integer roomId, String author, String roomTitle, String roomCategory, String itemName, Integer recruitNum, Integer currentNum, Integer totalPrice, Integer currentPrice, Integer itemPrice, LocalDateTime createdDate, LocalDateTime modifiedDate, String siteName, Integer fileId, Member member) {
+        this.roomId = roomId;
+        this.author = author;
+        this.roomTitle = roomTitle;
+        this.roomCategory = roomCategory;
+        this.itemName = itemName;
+        this.recruitNum = recruitNum;
+        this.currentNum = currentNum;
+        this.totalPrice = totalPrice;
+        this.currentPrice = currentPrice;
+        this.itemPrice = itemPrice;
+        this.createdDate = createdDate;
+        this.modifiedDate = modifiedDate;
+        this.siteName = siteName;
+        this.fileId = fileId;
+        this.member = member;
+    }
 }
