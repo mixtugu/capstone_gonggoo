@@ -2,28 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>공지사항</title>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/notice.css}"/>
     <link rel="stylesheet" th:href="@{/css/font.css}"/>
     <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
     <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
     <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #FFFFFF">
+<body>
 
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
 <div class="container px-4 py-5">
 
-    <div class="mb-3 text-start b">
+    <div class="mb-3 mt-5 text-start b">
         <h4 class="title fw-bold"><img th:src="@{/img/label.png}" class="icon">공지사항</h4>
     </div>
-    
-
 
     <div class="notice-container">
         <table class="notice-table">

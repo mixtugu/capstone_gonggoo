@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <title>First My page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
@@ -32,12 +33,6 @@
                 <a th:href="@{/groupbuylist}">
                     <img th:src="@{img/label.png}" class="icon">
                     <span class="title">모집 중인 공구</span>
-                </a>
-            </li>
-            <li>
-                <a th:href="@{/closedgroups}">
-                    <img th:src="@{img/label.png}" class="icon">
-                    <span class="title">모집 종료 공구</span>
                 </a>
             </li>
             <li>
