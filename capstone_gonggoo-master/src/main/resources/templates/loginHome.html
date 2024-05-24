@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<meta charset="utf-8">
+<title>Login Home</title>
+
+<link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+<link rel="stylesheet" th:href="@{/css/home.css}"/>
+<link rel="stylesheet" th:href="@{/css/font.css}"/>
+<link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+<link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+<body style="background-color: #f2f2f2">
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+
+<div class="container p-3 mb-5">
+    <div class="d-flex justify-content-between align-items-center px-3 py-4">
+        <p th:text="|${member.name}님 안녕하세요!|" class="fs-3 fw-bold">로그인 사용자 이름</p>
+    </div>
+    <div class="d-flex flex-column container-fluid">
+        <button class="btn btn-lg mb-3 p-4 b_box" type="button" th:onclick="|location.href='@{/joinRoom}'|">
+            <img  th:src="@{img/community.png}" class="menu_image img-fluid float-start">
+            <div class="d-flex flex-column px-4 py-3">
+                <p class="menu_title">모임</p>
+                <p class="menu_ex">나의 취미생활을 함께해요</p>
+            </div>
+        </button>
+        <button class="btn btn-lg mb-3 p-4 b_box" type="button" th:onclick="|location.href='@{/group}'|">
+            <img  th:src="@{img/groupbuy.png}" class="menu_image img-fluid float-start">
+            <div class="d-flex flex-column px-4 py-3">
+                <p class="menu_title">공동구매</p>
+                <p class="menu_ex">원하는 물건을 나눠 구매해요</p>
+            </div>
+        </button>
+        <button class="btn btn-lg mb-3 p-4 b_box" type="button" th:onclick="|location.href='@{/taxi}'|">
+            <img  th:src="@{img/taxi.png}" class="menu_image img-fluid float-start">
+            <div class="d-flex flex-column px-4 py-3">
+                <p class="menu_title">택시 동승</p>
+                <p class="menu_ex">목적지가 같다면 함께 탑승해요</p>
+            </div>
+        </button>
+    </div>
+</div> <!-- /container -->
+</body>

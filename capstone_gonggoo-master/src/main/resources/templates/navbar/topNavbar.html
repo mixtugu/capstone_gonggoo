@@ -1,0 +1,15 @@
+    <nav th:fragment="navbarFragment" class="navbar sticky-top navbar-light topLayout">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:onclick="|location.href='@{/}'|">
+                <img  th:src="@{/img/logo.png}" class="logo"/>
+            </a>
+
+            <form th:action="@{/logout}" method="post">
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-sm b_logout" type="submit">
+                        로그아웃
+                    </button>
+                </div>
+            </form>
+        </div>
+    </nav>

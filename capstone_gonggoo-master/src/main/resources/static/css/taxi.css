@@ -1,0 +1,73 @@
+.taxiRoomCard {
+    width: 100%;
+}
+
+.departure {
+    width: 40%;
+    text-align: left;
+}
+
+.imageCell {
+    width: 20%;
+    text-align: center;
+}
+
+.moveImage {
+    width: 50%;
+}
+
+.destination {
+    width: 40%;
+    text-align: right;
+}
+
+th.departure {
+    color: #328a77;
+}
+
+th.destination {
+    color: #bd4949;
+}
+
+td {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #424242;
+}
+
+.taxiRoomInfo {
+    text-align: center;
+    color: #565656;
+}
+
+.taxiRoomInfo span {
+    font-weight: bold;
+    color: #4b4b4b;
+}
+
+
+
+.editDIV {
+    padding-top: 0.15rem;
+    margin-bottom: 1rem;
+}
+
+.taxiInfo {
+    font-size: small;
+    color: #757575;
+}
+
+.taxiTitle {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.cardInfo {
+    width: 100%;
+}
+
+.box1 {
+    margin-bottom: 1.3rem;
+    padding: 1.5rem 1.8rem;
+}

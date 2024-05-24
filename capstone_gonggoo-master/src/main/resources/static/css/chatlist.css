@@ -1,0 +1,38 @@
+body {
+    background-color: #f2f2f2;
+}
+
+.icon {
+    width: 1.56rem;
+    margin-right: 0.625rem;
+}
+
+.title {
+    color: #494949;
+}
+
+.chatBox {
+    border-radius: 1.87rem;
+    background-color: #FFFFFF;
+    box-shadow: 0.25rem 0.25rem 0.625rem lightgray;
+
+    transition: 0.2s;
+}
+
+.chatBox:hover {
+    background-color: #FFFFFF;
+    border: rgba(34, 109, 83, 0.43) solid thin;
+
+    filter: brightness(0.9);
+}
+
+.userNum {
+    color: #919191;
+}
+
+.category {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #46967c;
+    margin-bottom: 0;
+}

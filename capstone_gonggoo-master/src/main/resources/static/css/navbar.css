@@ -1,0 +1,163 @@
+body {
+    padding-bottom: 4.37rem;
+    padding-top: 4rem;
+}
+
+
+.bottomLayout {
+    background-color: #e3e3e3;
+    border-radius: 1.87rem 1.87rem 0 0;
+    position: fixed;
+    bottom: 0;
+    width:100%;
+    height: 4.37rem;
+}
+
+
+.topLayout {
+    background-color: rgb(255, 255, 255);
+    border-bottom-style: dashed;
+    border-bottom-color: #eeeeee;
+    border-bottom-width: 0.125rem;
+    position: fixed;
+    top: 0;
+    width:100%;
+    height: 4rem;
+}
+
+.logo {
+    top: 0;
+    width: 6.25rem;
+}
+
+.b_logout {
+    background-color: #e7e7e7;
+    color: #696969;
+}
+
+.b_logout:hover {
+    background-color: #f1d6d6;
+    color: #9b5050;
+}
+
+
+
+
+.CategoryLayout {
+    top: 4rem;
+    width:100%;
+    height: 4rem;
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+.CategoryDiv {
+    padding-top: 1.25rem;
+    padding-bottom: 0.3125rem;
+    border-radius: 0 0 0.19rem 0.19rem;
+    font-size: 1.25rem;
+    color: #838383;
+}
+
+.CategoryDiv:hover {
+    color: #367257;
+}
+
+.CD_select {
+    border-bottom: medium solid #367257;
+    color: #2f2f2f;
+    font-weight: bold;
+}
+
+
+
+
+.roomCreateBTNLayout {
+    position: fixed;
+    bottom: 5.625rem;
+    right: 1.56rem;
+    z-index: 999;
+}
+
+#plusBTN {
+    display: none;
+}
+
+#plus, #x {
+    cursor: pointer;
+    background: rgba(64,64,64,0);
+}
+
+#plusBTN ~#plus {
+    display: block;
+}
+
+#plusBTN ~#x {
+    display: none;
+}
+
+#plusBTN:checked ~#plus {
+    display: none;
+}
+
+#plusBTN:checked ~#x {
+    display: block;
+}
+
+#plusBTN ~#RCB_menu {
+    display: none;
+}
+
+#plusBTN:checked ~#RCB_menu {
+    display: block;
+}
+
+
+.RCB_img {
+    width: 60px;
+}
+
+#RCB_menu {
+    bottom: 35.5rem;
+    right: 25rem;
+    padding-bottom: 0.75rem;
+}
+
+.RCB_btn {
+    width: 3.75rem;
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.53);
+    color: rgb(77, 77, 77);
+    border: #c4c4c4 solid thin;
+    border-radius: 1.25rem;
+    margin-bottom: 0.8rem;
+
+    transition: 0.2s;
+}
+
+.RCB_btn:hover {
+    filter: drop-shadow(0.125rem 0.125rem 0.125rem lightgray);
+    background-color: #FFFFFF;
+    color: rgb(42, 42, 42);
+    border: rgba(110, 232, 192, 0.43) solid thin;
+}
+
+.chatTopbar {
+    background-color: rgb(48, 85, 70);
+    position: fixed;
+    top: 0;
+    width:100%;
+    height: 4rem;
+    padding: 0 1.25rem 0 1.25rem;
+}
+
+.chat_backBTN {
+    width: 1.25rem;
+    right: 1.87rem;
+}
+
+.chatBottombar {
+    bottom: 3.75rem;
+    margin: 1.25rem;
+    background-color: rgba(120,120,120,0);
+}

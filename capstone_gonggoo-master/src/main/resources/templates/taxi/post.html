@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>택시 동승 - 게시물 작성</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
+</head>
+<body>
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+
+<nav th:replace="~{/navbar/CategoryBar_TAXI :: navbarFragment}"></nav>
+
+<div class="container px-3">
+
+    <div>
+        <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">택시 동승 방 만들기</p>
+    </div>
+
+
+    <form action="/taxi_post" method="post" enctype="multipart/form-data">
+        <div class="box">
+            <div class="form-group">
+                <label for="inputAuthor" class="postLabel">작성자</label>
+                <input type="text" name="author" class="form-control postInput" id="inputAuthor"
+                       th:value="${currentUserName}" readonly/>
+            </div>
+            <div class="form-group">
+                <label for="inputRecruitNum" class="postLabel">모집 인원</label>
+                <input type="text" name="recruitNum" class="form-control postInput" id="inputRecruitNum"/>
+            </div>
+            <div class="form-group">
+                <label for="inputRoomTitle" class="postLabel">제목</label>
+                <input type="text" name="roomTitle" class="form-control postInput" id="inputRoomTitle"/>
+            </div>
+            <div class="form-group">
+                <label for="inputPredictTotalPrice" class="postLabel">예상 금액</label>
+                <input type="number" name="predicttotalprice" class="form-control postInput" id="inputPredictTotalPrice"/>
+            </div>
+            <div class="form-group">
+                <label for="inputDeparture" class="postLabel">출발지</label>
+                <input type="text" name="departure" class="form-control postInput" id="inputDeparture"/>
+            </div>
+            <div class="form-group">
+                <label for="inputDestination" class="postLabel">목적지</label>
+                <input type="text" name="destination" class="form-control postInput" id="inputDestination"/>
+            </div>
+        </div>
+
+        <div class="mx-3 my-5">
+            <button class="w-100 btn btn-lg createBTN" type="submit">개설하기</button>
+        </div>
+    </form>
+</div>
+<script src="/webjars/jquery/3.5.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

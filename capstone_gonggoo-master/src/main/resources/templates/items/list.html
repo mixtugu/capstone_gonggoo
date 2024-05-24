@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>공동구매 - 목록</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
+</head>
+<body>
+
+
+<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+
+<nav th:replace="~{/navbar/roomCreateBTN :: roomCreate}"></nav>
+<nav th:replace="~{/navbar/CategoryBar_G.B :: navbarFragment}"></nav>
+
+<div class="container">
+
+    <form th:action="@{/boardList}" method="get">
+        <div class="input-group">
+            <input type="text" class="form-control searchInput" placeholder="방 제목 검색" name="search">
+            <div class="input-group-append">
+                <button class="btn searchBTN" type="submit"><img th:src="@{img/search.png}" class="searchImage">
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <ul class="roomUl">
+        <li th:each="post : ${postList}" class="roomLi">
+            <button th:onclick="|location.href='@{'/post/' + ${post.roomId}}'|" class="roomBTN">
+                <img th:src="@{/img/image.png}" class="roomImage">
+                <div class="roomInfo">
+                    <div class="infoItem">
+                        <span th:text="${post.siteName}">구매사이트</span>
+                        &nbsp&nbsp|&nbsp&nbsp
+                        <span th:text="${post.itemName}">구매물품</span>
+                    </div>
+                    <div class="infoTitle">
+                        <span th:text="${post.roomTitle}">방 제목</span>
+                        <span th:text="'(' + ${post.currentNum} + ')'" class="infoMemberCount">인원수</span>
+                    </div>
+                    <div class="infoPrice">
+                        <span th:text="${#numbers.formatInteger(post.currentPrice, 1, 'COMMA')}
+                         + '원 / ' +
+                         ${#numbers.formatInteger(post.totalPrice, 1, 'COMMA')} + '원'">현재/목표가격</span>
+                    </div>
+                </div>
+            </button>
+        </li>
+    </ul>
+
+    <!--
+        <div class="container">
+            <table class="table">
+                <thead class="thead-light">
+                <tr class="text-center">
+                    <th scope="col">#</th>
+                    <th scope="col">제목</th>
+                    <th scope="col">작성자</th>
+                    <th scope="col">현재 참여인원</th>
+                    <th scope="col">지불금액 / 목표금액</th>
+                    <th scope="col">작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" th:each="post : ${postList}">
+                    <th scope="row">
+                        <span th:text="${post.roomId}"></span>
+                    </th>
+                    <td>
+                        <a th:href="@{'/post/' + ${post.roomId}}">
+                            <span th:text="${post.roomTitle}"></span>
+                        </a>
+                    </td>
+                    <td>
+                        <span th:text="${post.author}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${post.currentNum}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#numbers.formatInteger(post.currentPrice, 1, 'COMMA')} + ' / ' + ${#numbers.formatInteger(post.totalPrice, 1, 'COMMA')}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col-auto mr-auto"></div>
+                <div class="col-auto">
+                    <a class="btn btn-primary" th:href="@{/post}" role="button">+</a>
+                </div>
+            </div>
+        </div>
+    -->
+</div>
+</body>
+</html>

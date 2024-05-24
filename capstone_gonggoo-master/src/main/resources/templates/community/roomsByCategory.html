@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Rooms by Category</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .room {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 5px;
+      width: 80%;
+      cursor: pointer;
+    }
+    .search-form {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+<h1>Search Rooms by Category</h1>
+<div class="search-form">
+  <form th:action="@{/roomsByCategory/search}" method="get">
+    <input type="text" id="searchRoomTitle" name="roomTitle" placeholder="방 이름 검색" />
+    <input type="text" id="searchDetailCategory" name="detailCategory" placeholder="세부 카테고리 검색" />
+    <input type="text" id="searchDetailRegion" name="detailRegion" placeholder="지역 검색" />
+    <button type="submit">검색</button>
+  </form>
+</div>
+<div th:each="room : ${rooms}" class="room">
+  <form th:action="@{/roomDetails}" method="get">
+    <input type="hidden" th:name="roomId" th:value="${room.roomId}" />
+    <button type="submit" th:text="${room.detailCategory != null} ? ${room.roomTitle} + ' (' + ${room.detailCategory} + ')' : ${room.roomTitle}">
+      Room Title
+    </button>
+  </form>
+  <p th:text="'Category: ' + ${room.detailCategory}">Detail Category</p>
+  <p th:text="'Region: ' + ${room.region}">Region</p>
+</div>
+</body>
+</html>

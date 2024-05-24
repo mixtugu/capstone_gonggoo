@@ -1,0 +1,35 @@
+
+.container {
+    max-width: 35rem;
+}
+
+.field-error {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.box {
+    border-radius: 2rem;
+    background-color: #FFFFFF;
+    box-shadow: 0.25rem 0.25rem 0.625rem lightgray;
+}
+
+.b_join {
+    border-radius: 0.625rem;
+    background-color: #4f856e;
+    color: #FFFFFF;
+}
+
+.b_join:hover {
+    background-color: #a8d5c2;
+}
+
+.b_no {
+    border-radius: 0.625rem;
+    background-color: #5b5b5b;
+    color: #FFFFFF;
+}
+
+.b_no:hover {
+    background-color: #a4a4a4;
+}
