@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import jakarta.persistence.PersistenceContext;
 
