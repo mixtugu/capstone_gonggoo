@@ -5,80 +5,98 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Join Room</title>
-    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/font.css}"/>
-    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
-    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .search-form, .button-container, .return-button-container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .search-form form {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+        .search-form form > * {
+            margin: 5px;
+        }
+        .search-button, .return-button {
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        .button-container a, .return-button-container a {
+            display: block;
+            width: 90%;
+            text-align: center;
+            padding: 10px 0;
+            margin: 5px 0;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
-<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
-<nav th:replace="~{/navbar/roomCreateBTN :: roomCreate}"></nav>
-<nav th:replace="~{/navbar/CategoryBar_COMM :: navbarFragment}"></nav>
-
-<div class="container px-3">
-
-    <form action="/joinRoom/search" method="get" class="m-2 mb-4">
-        <div class="input-group">
-            <select id="searchCategory" name="communityCategory" class="form-select searchSelect">
-                <option value="">유형 검색</option>
-                <option value="스터디">스터디</option>
-                <option value="운동">운동</option>
-                <option value="보드게임">보드게임</option>
-                <option value="취미모임">취미모임</option>
-            </select>
-            <select id="searchRegion" name="region" class="form-select searchSelect">
-                <option value="">지역 검색</option>
-                <option value="서울">서울</option>
-                <option value="인천">인천</option>
-                <option value="부산">부산</option>
-                <option value="대전">대전</option>
-                <option value="대구">대구</option>
-                <option value="광주">광주</option>
-                <option value="울산">울산</option>
-                <option value="제주도">제주도</option>
-                <option value="충청남도">충청남도</option>
-                <option value="충청북도">충청북도</option>
-                <option value="전라남도">전라남도</option>
-                <option value="전라북도">전라북도</option>
-                <option value="경상남도">경상남도</option>
-                <option value="경상북도">경상북도</option>
-                <option value="강원도">강원도</option>
-            </select>
-            <input type="text" id="searchRoomTitle" name="roomTitle" placeholder="방 제목"
-                   class="form-control searchInput">
-            <div class="input-group-append">
-                <button type="submit" class="btn searchBTN"><img th:src="@{/img/search.png}" class="searchImage">
-                </button>
-            </div>
-        </div>
+<h1>소모임 참여하기</h1>
+<div class="search-form">
+    <form action="/joinRoom/search" method="get">
+        <input type="text" id="searchRoomTitle" name="roomTitle" placeholder="방 이름 검색">
+        <select id="searchCategory" name="communityCategory">
+            <option value="">전체</option>
+            <option value="스터디">스터디</option>
+            <option value="운동">운동</option>
+            <option value="보드게임">보드게임</option>
+            <option value="취미모임">취미모임</option>
+        </select>
+        <label for="searchRegion">지역 검색:</label>
+        <select id="searchRegion" name="region">
+            <option value="">전체</option>
+            <option value="서울">서울</option>
+            <option value="인천">인천</option>
+            <option value="부산">부산</option>
+            <option value="대전">대전</option>
+            <option value="대구">대구</option>
+            <option value="광주">광주</option>
+            <option value="울산">울산</option>
+            <option value="제주도">제주도</option>
+            <option value="충청남도">충청남도</option>
+            <option value="충청북도">충청북도</option>
+            <option value="전라남도">전라남도</option>
+            <option value="전라북도">전라북도</option>
+            <option value="경상남도">경상남도</option>
+            <option value="경상북도">경상북도</option>
+            <option value="강원도">강원도</option>
+        </select>
+        <button type="submit" class="search-button">검색</button>
     </form>
+</div>
+<div class="button-container">
+    <a href="/roomsByCategory?communityCategory=스터디" class="button">스터디</a>
+    <a href="/roomsByCategory?communityCategory=운동" class="button">운동</a>
+    <a href="/roomsByCategory?communityCategory=보드게임" class="button">보드게임</a>
+    <a href="/roomsByCategory?communityCategory=취미모임" class="button">취미모임</a>
+</div>
 
-    <div>
-        <div class="row">
-            <div th:onclick="|location.href='@{/roomsByCategory?communityCategory=스터디}'|" class="roomBTN cateBTN">
-                <img th:src="@{/img/study.png}" class="cateImage">
-                <p class="cateP">스터디</p>
-            </div>
-            <div th:onclick="|location.href='@{/roomsByCategory?communityCategory=운동}'|" class="roomBTN cateBTN">
-                <img th:src="@{/img/sports.png}" class="cateImage">
-                <p class="cateP">운동</p>
-            </div>
-        </div>
-        <div class="row">
-            <div th:onclick="|location.href='@{/roomsByCategory?communityCategory=보드게임}'|" class="roomBTN cateBTN">
-                <img th:src="@{/img/boardgame.png}" class="cateImage">
-                <p class="cateP">보드게임</p>
-            </div>
-            <div th:onclick="|location.href='@{/roomsByCategory?communityCategory=취미모임}'|" class="roomBTN cateBTN">
-                <img th:src="@{/img/hobbies.png}" class="cateImage">
-                <p class="cateP">취미</p>
-            </div>
-        </div>
+
+<div class="row">
+    <div class="col-auto mr-auto"></div>
+    <div class="col-auto">
+        <a class="btn btn-primary" th:href="@{/createRoom}" role="button">+</a>
     </div>
 </div>
 </body>

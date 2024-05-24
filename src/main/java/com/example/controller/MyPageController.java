@@ -1,17 +1,14 @@
 package com.example.controller;
 
-import com.example.community.dto.CroomDto;
-import com.example.community.service.CroomService;
 import com.example.domain.Member;
 
 import com.example.groupbuying.dto.BoardDto;
 import com.example.groupbuying.service.BoardService;
-import com.example.groupbuying.service.ParticipantService;
+
 import com.example.mypage.domain.MyPage;
 import com.example.mypage.service.MyPageService;
 
 import com.example.taxi.dto.TaxiDto;
-import com.example.taxi.service.TaxiParticipantService;
 import com.example.taxi.service.TaxiService;
 
 import com.example.session.SessionConst;
@@ -30,17 +27,13 @@ import java.util.Optional;
 public class MyPageController {
 
   private final MyPageService myPageService;
-  private final TaxiParticipantService taxiParticipantService;
-  private final ParticipantService participantService;
-  private final CroomService croomService;
+  private final TaxiService taxiService;
+  private BoardService boardService;
 
-  public MyPageController(MyPageService myPageService, TaxiParticipantService taxiParticipantService, ParticipantService participantService, CroomService croomService) {
-
+  public MyPageController(MyPageService myPageService, TaxiService taxiService, BoardService boardService) {
     this.myPageService = myPageService;
-    this.taxiParticipantService = taxiParticipantService;
-    this.participantService = participantService;
-    this.croomService = croomService;
-
+    this.taxiService = taxiService;
+    this.boardService = boardService;
   }
 
   @GetMapping("/mypage")
@@ -118,20 +111,25 @@ public class MyPageController {
   }
 
   @GetMapping("/groupbuylist")
+  public String groupbuyListPosts(@RequestParam(name = "search", required = false) String search, Model model) {
 
-  public String groupbuyListPosts(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false) Member loginMember, Model model) {
-    if (loginMember == null) {
-      return "redirect:/login";
+    List<TaxiDto> taxiDtoList;
+    if (search != null && !search.trim().isEmpty()) {
+      taxiDtoList = taxiService.searchByTitle(search);
+    } else {
+      taxiDtoList = taxiService.getTaxiList();
+    }
+
+    List<BoardDto> boardDtoList;
+    if (search != null && !search.trim().isEmpty()) {
+      boardDtoList = boardService.searchByTitle(search);
+    } else {
+      boardDtoList = boardService.getBoardList();
     }
 
 
-    List<TaxiDto> taxiDtoList = taxiParticipantService.getParticipatedTaxiListByMemberId(loginMember.getId());
-    List<BoardDto> boardDtoList = participantService.getParticipatedBoardListByMemberId(loginMember.getId());
-    List<CroomDto> croomDtoList = croomService.getParticipatedCroomListByMemberId(loginMember.getId());
-
     model.addAttribute("taxiPostList", taxiDtoList);
     model.addAttribute("boardPostList", boardDtoList);
-    model.addAttribute("croomPostList", croomDtoList);
 
     return "groupbuylist.html";
   }

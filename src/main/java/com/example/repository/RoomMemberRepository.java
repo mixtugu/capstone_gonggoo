@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import jakarta.persistence.PersistenceContext;
 
@@ -65,5 +66,14 @@ public class RoomMemberRepository {
     public void clear() {
         em.clear();
     }
+
+    public Optional<RoomMember> findByRoom_RoomIdAndIsRoomOwnerTrue(int roomId) {
+            RoomMember roomMember = em.createQuery("SELECT rm FROM RoomMember rm WHERE rm.room.id = :roomId AND rm.isRoomOwner = true", RoomMember.class)
+                    .setParameter("roomId", roomId)
+                    .getSingleResult();
+            return Optional.of(roomMember);
+    }
+
+
 }
 
