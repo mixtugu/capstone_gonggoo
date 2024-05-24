@@ -37,11 +37,4 @@ public class MyPageRepository {
 
     }
   }
-
-  public Optional<MyPage> findByMemberId(Long memberId) {
-      MyPage myPage = em.createQuery("SELECT mp FROM MyPage mp WHERE mp.member.id = :memberId", MyPage.class)
-              .setParameter("memberId", memberId)
-              .getSingleResult();
-      return Optional.of(myPage);
-  }
 }
