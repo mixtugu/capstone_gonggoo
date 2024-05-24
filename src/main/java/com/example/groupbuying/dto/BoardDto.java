@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class BoardDto {
     private Integer roomId;
     private String author;
@@ -26,6 +28,7 @@ public class BoardDto {
     private String siteName;
     private Integer fileId;
     private Member member;
+    private MyPageDto myPageDto;
 
     public Board toEntity() {
         Board build = Board.builder()
@@ -44,24 +47,5 @@ public class BoardDto {
                 .member(member)
                 .build();
         return build;
-    }
-
-    @Builder
-    public BoardDto(Integer roomId, String author, String roomTitle, String roomCategory, String itemName, Integer recruitNum, Integer currentNum, Integer totalPrice, Integer currentPrice, Integer itemPrice, LocalDateTime createdDate, LocalDateTime modifiedDate, String siteName, Integer fileId, Member member) {
-        this.roomId = roomId;
-        this.author = author;
-        this.roomTitle = roomTitle;
-        this.roomCategory = roomCategory;
-        this.itemName = itemName;
-        this.recruitNum = recruitNum;
-        this.currentNum = currentNum;
-        this.totalPrice = totalPrice;
-        this.currentPrice = currentPrice;
-        this.itemPrice = itemPrice;
-        this.createdDate = createdDate;
-        this.modifiedDate = modifiedDate;
-        this.siteName = siteName;
-        this.fileId = fileId;
-        this.member = member;
     }
 }

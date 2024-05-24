@@ -3,71 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>Edit Room</title>
-    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/font.css}"/>
-    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
-    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+    <!-- 스타일 및 기타 필요 리소스 추가 -->
 </head>
 <body>
 <div>
+    <h1>Edit Room Details</h1>
+    <form th:action="@{/createRoom/edit/{id}(id=${room.roomId})}" method="post">
+        <input type="hidden" name="author" th:value="${room.author}" />
+        <input type="hidden" name="_method" value="put" />
 
-    <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
-    <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
+        <label for="roomTitle">Room Title:</label>
+        <input type="text" id="roomTitle" name="roomTitle" th:value="${room.roomTitle}" required />
 
-    <nav th:replace="~{/navbar/CategoryBar_COMM :: navbarFragment}"></nav>
+        <label for="communityCategory">Category:</label>
+        <input type="text" id="communityCategory" name="communityCategory" th:value="${room.communityCategory}" required />
 
-    <div class="container">
-        <div>
-            <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">모임 정보 수정하기</p>
-        </div>
+        <label for="detailCategory">detailCategory:</label>
+        <input type="text" id="detailCategory" name="detailCategory" th:value="${room.detailCategory}" required />
 
-        <form th:action="@{/createRoom/edit/{id}(id=${room.roomId})}" method="post">
-            <div class="box">
-                <div class="form-group">
-                    <input type="hidden" name="author" th:value="${room.author}"/>
-                    <input type="hidden" name="_method" value="put"/>
-                </div>
-                <div class="form-group">
-                    <label for="roomTitle" class="postLabel">제목</label>
-                    <input type="text" id="roomTitle" name="roomTitle" class="form-control postInput" th:value="${room.roomTitle}" required/>
-                </div>
-                <div class="form-group">
-                    <label for="communityCategory" class="postLabel">카테고리</label>
-                    <input type="text" id="communityCategory" name="communityCategory" class="form-select postInput"
-                           th:value="${room.communityCategory}" required/>
-                </div>
-                <div class="form-group">
-                    <label for="detailCategory" class="postLabel">세부 카테고리</label>
-                    <input type="text" id="detailCategory" name="detailCategory" class="form-control postInput" th:value="${room.detailCategory}"
-                           required/>
-                </div>
-                <div class="form-group">
-                    <label for="region" class="postLabel">지역</label>
-                    <input type="text" id="region" name="region" class="form-select postInput" th:value="${room.region}" required/>
-                </div>
-                <div class="form-group">
-                    <label for="detailRegion" class="postLabel">세부 지역</label>
-                    <input type="text" id="detailRegion" name="detailRegion" class="form-control postInput" th:value="${room.detailRegion}" required/>
-                </div>
-                <div class="form-group">
-                    <label for="recruitNum" class="postLabel">모집 인원</label>
-                    <input type="number" id="recruitNum" name="recruitNum" class="form-control postInput" th:value="${room.recruitNum}" required/>
-                </div>
-                <div class="form-group">
-                    <label for="payment" class="postLabel">참가비</label>
-                    <input type="number" id="payment" name="payment" class="form-control postInput" th:value="${room.payment}" required/>
-                </div>
-            </div>
+        <label for="region">Region:</label>
+        <input type="text" id="region" name="region" th:value="${room.region}" required />
 
-            <div class="mx-3 my-5">
-                <button class="w-100 btn btn-lg createBTN" type="submit">수정하기</button>
-            </div>
-        </form>
-    </div>
+        <label for="detailRegion">Detail Region:</label>
+        <input type="text" id="detailRegion" name="detailRegion" th:value="${room.detailRegion}" required />
+
+        <label for="payment">payment:</label>
+        <input type="text" id="payment" name="payment" th:value="${room.payment}" required />
+
+        <label for="recruitNum">recruitNum:</label>
+        <input type="text" id="recruitNum" name="recruitNum" th:value="${room.recruitNum}" required />
+
+
+        <!-- 나머지 필드 추가 -->
+        <button type="submit">Submit Changes</button>
+    </form>
+    <a th:href="@{/roomDetails(roomId=${room.roomId})}">Cancel</a>
 </div>
 </body>
 </html>

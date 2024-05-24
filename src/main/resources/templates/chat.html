@@ -27,12 +27,6 @@
     </a>
     <span th:text="|${room.roomTitle}|" th:data-room-id="${room.roomId}" id="room"
           class="chatroomName"></span>
-    <span th:switch="${room.roomCategory}" id="category" class="chatroomName chatroomCategory">
-        <span th:case="1">(모임)</span>
-        <span th:case="2">(공동구매)</span>
-        <span th:case="3">(택시)</span>
-        <span th:case="*">(기타)</span>
-    </span>
     <span th:text="|${room.currentNum}|" class="chatroomUserCount"></span>
     <span th:switch="${room.roomCategory}" id="category">
         <span th:case="1">모임 모집</span>
@@ -79,9 +73,7 @@
             <input type="text" id="text" placeholder="" class="chatText">
             <button type="submit" class="chatSend"><img th:src="@{img/send.png}"></button>
         </form>
-
-        <button class="mapSend" th:if="${room.roomCategory == 3}"><img id="mapButton" th:src="@{/img/map.png}"></button>
-
+        <button id="mapButton" class="mapSend" th:if="${room.roomCategory == 3}">지도 보기</button>
     </nav>
 </div> <!-- /container -->
 <div id="mapContainer">
@@ -142,7 +134,7 @@
         // Create a span for the sender's name
         var senderSpan = document.createElement('span');
         senderSpan.classList.add("sender-name");
-
+      
         if (!mine) {
             senderSpan.textContent = from;
         }
@@ -191,9 +183,7 @@
     }
 
     var category = document.getElementById('category').textContent;
-
-    if (category.trim() === "(택시)") {
-
+    if (category.trim() === "택시 모집") {
         function initMap() {
             const directionsService = new google.maps.DirectionsService();
             const directionsRenderer = new google.maps.DirectionsRenderer();

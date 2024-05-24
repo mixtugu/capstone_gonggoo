@@ -22,11 +22,12 @@
 <nav th:replace="~{/navbar/CategoryBar_G.B :: navbarFragment}"></nav>
 
 <div class="container">
-    <form th:action="@{/boardList}" method="get" class="mt-2">
+
+    <form th:action="@{/boardList}" method="get">
         <div class="input-group">
             <input type="text" class="form-control searchInput" placeholder="방 제목 검색" name="search">
             <div class="input-group-append">
-                <button class="btn searchBTN" type="submit"><img th:src="@{/img/search.png}" class="searchImage">
+                <button class="btn searchBTN" type="submit"><img th:src="@{img/search.png}" class="searchImage">
                 </button>
             </div>
         </div>
