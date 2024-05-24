@@ -7,6 +7,7 @@ import com.example.taxi.domain.entity.TaxiParticipant;
 import com.example.taxi.domain.repository.TaxiRepository;
 import com.example.taxi.domain.repository.TaxiParticipantRepository;
 import com.example.taxi.dto.ParticipantDto;
+import com.example.taxi.dto.TaxiDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -75,6 +76,36 @@ public class TaxiParticipantService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 참여 정보를 찾을 수 없습니다. taxiId: " + taxiId + ", loginId: " + loginId));
         taxiParticipantRepository.delete(taxiParticipant);
     }
+
+
+        
+    //서경원 추가부분
+    @Transactional(readOnly = true)
+    public List<TaxiDto> getParticipatedTaxiListByMemberId(Long memberId) {
+        return taxiParticipantRepository.findByMemberId(memberId).stream()
+            .map(participant -> {
+                Taxi taxi = participant.getTaxi();
+                String roomCategoryAsString = String.valueOf(taxi.getRoomCategory());
+                return new TaxiDto(
+                    taxi.getRoomId(),
+                    taxi.getAuthor(),
+                    taxi.getRoomTitle(),
+                    roomCategoryAsString,
+                    taxi.getRecruitNum(),
+                    taxi.getCurrentNum(),
+                    taxi.getPredicttotalprice(),
+                    taxi.getCreatedDate(),
+                    taxi.getModifiedDate(),
+                    taxi.getDeparture(),
+                    taxi.getDestination(),
+                    taxi.getMember()
+                );
+            })
+            .collect(Collectors.toList());
+    }
+
+
+
 
 //    @Transactional
 //    public boolean withdrawFromTaxi(Integer taxiId, String loginId) {

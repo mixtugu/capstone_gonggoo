@@ -120,23 +120,21 @@ public class BoardController {
         List<ParticipantDto> participantDtos = participantService.getParticipantDtosByBoardId(id);
         boolean isParticipated = false;
         Long participantId = null;
-        Integer participantQuantity = 0;
 
         if (loginMember != null) {
             for (ParticipantDto participant : participantDtos) {
                 if (participant.getMemberLoginId().equals(loginMember.getLoginId())) {
                     isParticipated = true;
                     participantId = participant.getId();
-                    participantQuantity = participant.getQuantity();
                     break;
                 }
             }
             model.addAttribute("currentUserName", loginMember.getName());
         }
+
         model.addAttribute("post", boardDto);
         model.addAttribute("participantDtos", participantDtos);
         model.addAttribute("isParticipated", isParticipated);
-        model.addAttribute("participantQuantity", participantQuantity);
         if (participantId != null) {
             model.addAttribute("participantId", participantId);
         }
