@@ -1,17 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Rooms by Category</title>
-    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-    <link rel="stylesheet" th:href="@{/css/font.css}"/>
-    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
-    <link rel="stylesheet" th:href="@{/css/community.css}"/>
+  <meta charset="UTF-8">
+  <title>Rooms by Category</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .room {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin: 5px;
+      width: 80%;
+      cursor: pointer;
+    }
+    .search-form {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
 <h1>Search Rooms by Category</h1>
