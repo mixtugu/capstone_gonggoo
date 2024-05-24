@@ -1,56 +1,89 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>진행중인 공동구매</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
-  <link rel="stylesheet" th:href="@{/css/groupbuylist.css}"/>
-  <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>진행중인 공동구매</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}"/>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
+    <link rel="stylesheet" th:href="@{/css/taxi.css}"/>
+    <link rel="preconnect" th:href="@{https://fonts.googleapis.com}">
+    <link rel="preconnect" th:href="@{https://fonts.gstatic.com}" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 </head>
-<body style="background-color: #f2f2f2">
+<body>
 <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
 <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
-<div class="container p-3" style="max-width: 600px">
-  <div class="pt-4 pb-3 text-start b">
-    <h4 class="title fw-bold">🏃 진행중인 공구</h4>
-    <hr class="my-4">
-    <div class = "groupbuylist-container">
-      <table class="groupbuylist-table">
-  <tr class="text-center" th:each="taxi_post : ${taxiPostList}">
-    <td>
-      <a th:href="@{'/taxi_post/' + ${taxi_post.roomId}}">
-        <span th:text="${taxi_post.roomTitle}"></span></a>
-    </td>
-  </tr>
+<div class="container px-4">
 
-        <tr class="text-center" th:each="board_post : ${boardPostList}">
-          <td>
-            <a th:href="@{'/post/' + ${board_post.roomId}}">
-              <span th:text="${board_post.roomTitle}"></span></a>
-          </td>
-        </tr>
-
-        <tr class="text-center" th:each="croom_post : ${croomPostList}">
-          <td>
-            <a th:href="@{'/roomDetails?roomId=' + ${croom_post.roomId}}">
-              <span th:text="${croom_post.roomTitle}"></span>
-            </a>
-          </td>
-        </tr>
-</table>
-
-      <div class="text-center mt-4">
-        <a href="/firstmypage" class="btn btn-primary btn-lg">돌아가기</a>
-      </div>
+    <div class="mb-3 text-start b">
+        <h4 class="title fw-bold"><img th:src="@{/img/label.png}" class="icon">진행 중인 공구</h4>
     </div>
-  </div>
+
+    <ul class="roomUl">
+        <li th:each="croom_post : ${croomPostList}" class="roomLi">
+            <div th:onclick="|location.href='@{'/roomDetails?roomId=' + ${croom_post.roomId}}'|" class="roomBTN">
+                <img th:src="@{/img/image.png}" class="roomImage">
+                <div class="roomInfo">
+                    <div class="infoItem">
+                        <span th:text="${croom_post.detailCategory}">세부 카테고리</span>
+                        &nbsp&nbsp|&nbsp&nbsp
+                        <span th:text="${croom_post.region + ' ' + croom_post.detailRegion}">지역</span>
+                    </div>
+                    <div class="infoTitle">
+                        <span th:text="${croom_post.roomTitle}">방 제목</span>
+                        <span th:text="'(' + ${croom_post.currentNum} + ')'" class="infoMemberCount">인원수</span>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li th:each="board_post : ${boardPostList}" class="roomLi">
+            <button th:onclick="|location.href='@{'/post/' + ${board_post.roomId}}'|" class="roomBTN">
+                <img th:src="@{/img/image.png}" class="roomImage">
+                <div class="roomInfo">
+                    <div class="infoItem">
+                        <span th:text="${board_post.siteName}">구매사이트</span>
+                        &nbsp&nbsp|&nbsp&nbsp
+                        <span th:text="${board_post.itemName}">구매물품</span>
+                    </div>
+                    <div class="infoTitle">
+                        <span th:text="${board_post.roomTitle}">방 제목</span>
+                        <span th:text="'(' + ${board_post.currentNum} + ')'" class="infoMemberCount">인원수</span>
+                    </div>
+                    <div class="infoPrice">
+                        <span th:text="${#numbers.formatInteger(board_post.currentPrice, 1, 'COMMA')}
+                         + '원 / ' +
+                         ${#numbers.formatInteger(board_post.totalPrice, 1, 'COMMA')} + '원'">현재/목표가격</span>
+                    </div>
+                </div>
+            </button>
+        </li>
+        <li th:each="taxi_post : ${taxiPostList}" class="roomLi">
+            <div role="button" th:onclick="|location.href='@{'/taxi_post/' + ${taxi_post.roomId}}'|" class="roomBTN p-4">
+                <table class="taxiRoomCard mb-4">
+                    <tr>
+                        <th class="departure">출발지</th>
+                        <th rowspan="2" class="imageCell"><img th:src="@{/img/move.png}" class="moveImage"></th>
+                        <th class="destination">목적지</th>
+                    </tr>
+                    <tr>
+                        <td th:text="${taxi_post.departure}" class="departure"></td>
+                        <td th:text="${taxi_post.destination}" class="destination"></td>
+                    </tr>
+                </table>
+                <hr>
+                <div class="taxiRoomInfo">
+                    <span th:text="${taxi_post.predicttotalprice} + '원 '"></span>예상
+                    <br>
+                    지금은<span th:text="' ' + ${taxi_post.currentNum} + '명 '"></span>모였어요.
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 </body>
 </html>
