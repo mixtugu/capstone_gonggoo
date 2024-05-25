@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title th:text="'택시 동승 - ' + ${post.roomTitle}"></title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -107,58 +108,18 @@
             </button>
         </div>
         <div th:unless="${isParticipated}">
-                <form id="participateForm" th:action="@{/taxi_post/{id}/participate(id=${post.roomId})}"
-                      method="post">
-                    <button type="submit" class="w-100 btn btn-lg memberBTN">
-                        참여하기
-                    </button>
-                </form>
-        </div>
-    </div>
-
-
-</div>
-
-
-<div class="row mt-5">
-    <div th:if="${isParticipated && post.author != currentUserName}">
-        <a th:href="@{/taxi_post/{id}/withdraw(id=${post.roomId})}" class="btn btn-danger">탈퇴하기</a>
-    </div>
-    <div th:unless="${isParticipated}">
-        <div class="row mt-3">
-            <div class="col-3">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#participateModal">
+            <form id="participateForm" th:action="@{/taxi_post/{id}/participate(id=${post.roomId})}"
+                  method="post">
+                <button type="submit" class="w-100 btn btn-lg memberBTN">
                     참여하기
                 </button>
-            </div>
-            <!-- 모달 -->
-            <div class="modal fade" id="participateModal" tabindex="-1" role="dialog"
-                 aria-labelledby="participateModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="participateModalLabel">택시 동승 함께하기</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <form id="participateForm000" th:action="@{/taxi_post/{id}/participate(id=${post.roomId})}"
-                                  method="post">
-                                <!-- Include any necessary inputs here -->
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                                    <button type="submit" class="btn btn-primary">제출</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+
+
 </div>
-</div>
+
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     function toggleButtonText(button) {

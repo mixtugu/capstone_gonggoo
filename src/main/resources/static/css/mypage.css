@@ -1,3 +1,7 @@
+body {
+    padding-top: 1rem;
+}
+
 .profileCard {
     width: 100%;
     text-align: center;
@@ -34,6 +38,10 @@ li {
 
 li:last-child {
     border-bottom: none;
+}
+
+.roomLi {
+    border: none;
 }
 
 a {
@@ -130,4 +138,54 @@ a {
 .myInfoList li {
     margin-bottom: 1rem;
     padding-bottom: 1rem;
+}
+
+
+
+
+
+
+.notice-table {
+    width: 100%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    margin: auto;
+}
+.notice-table th,
+.notice-table td {
+    text-align: center;
+    padding: 0.75rem;
+    vertical-align: middle;
+    border: 1px solid #dee2e6;
+}
+.notice-table th {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+.notice-header {
+    text-align: center;
+    justify-content: center;
+    align-items: baseline;
+    border-bottom: 0.125rem solid #ccc;
+    padding-bottom: 0.2rem;
+    margin: 2rem 0 0.8rem 0;
+}
+
+.notice-title {
+    font-size: x-large;
+    font-weight: bold;
+
+}
+
+.notice-date {
+    color: #959595;
+    margin-bottom: 0;
+}
+
+.notice-body {
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+    text-align: center;
 }

@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>공동구매 - 목록</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
@@ -22,11 +23,12 @@
 <nav th:replace="~{/navbar/CategoryBar_G.B :: navbarFragment}"></nav>
 
 <div class="container">
-    <form th:action="@{/boardList}" method="get" class="mt-2">
+
+    <form th:action="@{/boardList}" method="get">
         <div class="input-group">
             <input type="text" class="form-control searchInput" placeholder="방 제목 검색" name="search">
             <div class="input-group-append">
-                <button class="btn searchBTN" type="submit"><img th:src="@{/img/search.png}" class="searchImage">
+                <button class="btn searchBTN" type="submit"><img th:src="@{img/search.png}" class="searchImage">
                 </button>
             </div>
         </div>

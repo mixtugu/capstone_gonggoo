@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>소모임 생성 페이지</title>
-    <!-- Bootstrap CSS -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edit Room</title>
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,99 +12,63 @@
     <link rel="stylesheet" th:href="@{/css/font.css}"/>
     <link rel="stylesheet" th:href="@{/css/GroupBuy.css}"/>
     <link rel="stylesheet" th:href="@{/css/community.css}"/>
-    <style>
-        .container { max-width: 600px; }
-    </style>
 </head>
 <body>
+<div>
 
-<nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
-<nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
-<nav th:replace="~{/navbar/CategoryBar_COMM :: navbarFragment}"></nav>
+    <nav th:replace="~{/navbar/topNavbar :: navbarFragment}"></nav>
+    <nav th:replace="~{/navbar/bottomNavbar :: navbarFragment}"></nav>
 
-<div class="container">
-    <div>
-        <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">모임 만들기</p>
+    <nav th:replace="~{/navbar/CategoryBar_COMM :: navbarFragment}"></nav>
+
+    <div class="container">
+        <div>
+            <p class="postTitle"><img th:src="@{/img/label.png}" class="postIcon">모임 정보 수정하기</p>
+        </div>
+
+        <form th:action="@{/createRoom/edit/{id}(id=${room.roomId})}" method="post">
+            <div class="box">
+                <div class="form-group">
+                    <input type="hidden" name="author" th:value="${room.author}"/>
+                    <input type="hidden" name="_method" value="put"/>
+                </div>
+                <div class="form-group">
+                    <label for="roomTitle" class="postLabel">제목</label>
+                    <input type="text" id="roomTitle" name="roomTitle" class="form-control postInput" th:value="${room.roomTitle}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="communityCategory" class="postLabel">카테고리</label>
+                    <input type="text" id="communityCategory" name="communityCategory" class="form-select postInput"
+                           th:value="${room.communityCategory}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="detailCategory" class="postLabel">세부 카테고리</label>
+                    <input type="text" id="detailCategory" name="detailCategory" class="form-control postInput" th:value="${room.detailCategory}"
+                           required/>
+                </div>
+                <div class="form-group">
+                    <label for="region" class="postLabel">지역</label>
+                    <input type="text" id="region" name="region" class="form-select postInput" th:value="${room.region}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="detailRegion" class="postLabel">세부 지역</label>
+                    <input type="text" id="detailRegion" name="detailRegion" class="form-control postInput" th:value="${room.detailRegion}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="recruitNum" class="postLabel">모집 인원</label>
+                    <input type="number" id="recruitNum" name="recruitNum" class="form-control postInput" th:value="${room.recruitNum}" required/>
+                </div>
+                <div class="form-group">
+                    <label for="payment" class="postLabel">참가비</label>
+                    <input type="number" id="payment" name="payment" class="form-control postInput" th:value="${room.payment}" required/>
+                </div>
+            </div>
+
+            <div class="mx-3 my-5">
+                <button class="w-100 btn btn-lg createBTN" type="submit">수정하기</button>
+            </div>
+        </form>
     </div>
-
-    <form action="/createRoom" method="POST">
-        <div class="box">
-            <div class="form-group">
-                <label for="roomTitle" class="postLabel">제목</label>
-                <input type="text" class="form-control postInput" id="roomTitle" name="roomTitle" required>
-            </div>
-            <div class="form-group">
-                <label for="category" class="postLabel">카테고리</label>
-                <select class="form-select postInput" id="category" name="communityCategory" onchange="handleCategoryChange()">
-                    <option value="">선택하세요</option>
-                    <option value="스터디">스터디</option>
-                    <option value="운동">운동</option>
-                    <option value="보드게임">보드게임</option>
-                    <option value="취미모임">취미모임</option>
-                </select>
-            </div>
-            <div class="form-group" id="detailCategoryGroup">
-                <label for="detailCategory" class="postLabel">세부 카테고리</label>
-                <input type="text" class="form-control postInput" id="detailCategory" name="detailCategory">
-            </div>
-            <div class="form-group">
-                <label for="region" class="postLabel">지역</label>
-                <select class="form-select postInput" id="region" name="region" onchange="handleRegionChange()">
-                    <option value="">선택하세요</option>
-                    <option value="서울">서울</option>
-                    <option value="대구">대구</option>
-                    <option value="부산">부산</option>
-                    <option value="인천">인천</option>
-                    <option value="제주도">제주도</option>
-                    <option value="대전">대전</option>
-                    <option value="울산">울산</option>
-                    <option value="광주">광주</option>
-                    <option value="충청남도">충청남도</option>
-                    <option value="충청북도">충청북도</option>
-                    <option value="강원도">강원도</option>
-                    <option value="전라남도">전라남도</option>
-                    <option value="전라북도">전라북도</option>
-                    <option value="경상북도">경상북도</option>
-                    <option value="경상남도">경상남도</option>
-                </select>
-            </div>
-            <div class="form-group" id="detailRegionGroup">
-                <label for="detailRegion" class="postLabel">세부 지역</label>
-                <input type="text" class="form-control postInput" id="detailRegion" name="detailRegion">
-            </div>
-            <div class="form-group">
-                <label for="recruitNum" class="postLabel">모집 인원</label>
-                <input type="number" class="form-control postInput" id="recruitNum" name="recruitNum" required>
-            </div>
-            <div class="form-group">
-                <label for="payment" class="postLabel">참가비</label>
-                <input type="number" class="form-control postInput" id="payment" name="payment" placeholder="0">
-            </div>
-        </div>
-
-        <div class="mx-3 my-5">
-            <button class="w-100 btn btn-lg createBTN" type="submit">개설하기</button>
-        </div>
-    </form>
 </div>
-
-<script>
-    function handleCategoryChange() {
-        var category = document.getElementById('category').value;
-        var detailCategoryGroup = document.getElementById('detailCategoryGroup');
-        detailCategoryGroup.style.display = category ? 'block' : 'none';
-    }
-
-    function handleRegionChange() {
-        var region = document.getElementById('region').value;
-        var detailRegionGroup = document.getElementById('detailRegionGroup');
-        var regionsWithDetails = ['충청남도', '충청북도', '강원도', '전라남도', '전라북도', '경상북도', '경상남도'];
-        detailRegionGroup.style.display = regionsWithDetails.includes(region) ? 'block' : 'none';
-    }
-</script>
-<!-- Bootstrap and jQuery libraries -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
