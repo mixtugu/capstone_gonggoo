@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -50,6 +51,7 @@ public class CommunityController {
     }
 
 
+
     @GetMapping("/createRoom/{id}")
     public String detail(@PathVariable("id") Integer id, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -80,19 +82,13 @@ public class CommunityController {
         return "community/roomDetails.html";
     }
 
-    /*@PutMapping("createRoom/edit/{id}")
-    public String update(CroomDto croomDto) {
-        croomService.savePost(croomDto);
-        return "redirect:/";
-    }*///05061140
-
     @DeleteMapping("createRoom/{id}")
     public String delete(@PathVariable("id") Integer id) {
         croomService.deletePost(id);
         return "redirect:/";
     }
 
-    @PostMapping("createRoom/{id}/cparticipant")
+    @PostMapping("createRoom/{id}/participate")
     public String participate(@PathVariable Integer id,  HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null) {
@@ -103,7 +99,7 @@ public class CommunityController {
             return "redirect:/login";
         }
         cparticipantService.addParticipant(id, loginMember.getLoginId(), false);
-        croomService.increaseCparticipantCount(id);
+        croomService.increaseParticipantCount(id);
         return "redirect:/createRoom/" + id;
     }
 
@@ -124,8 +120,6 @@ public class CommunityController {
         model.addAttribute("rooms", croomService.searchRoomsByDetail(roomTitle, detailCategory, detailRegion));
         return "community/roomsByCategory";
     }
-
-
 
 
     // 방 참여 페이지 요청
@@ -152,16 +146,22 @@ public class CommunityController {
         return "community/roomsByCategory";
     }
 
-    // 방 나가기 처리
     @PostMapping("/leaveRoom")
-    public String leaveRoom(@RequestParam Integer roomId, @RequestParam String loginId) {
-        boolean success = cparticipantService.withdrawFromCroom(roomId, loginId);
-        if (success) {
-            return "redirect:/";
-        } else {
-            return "redirect:/roomDetails?roomId=" + roomId + "&error=true";
+    public String leaveRoom(@RequestParam Integer roomId, @RequestParam String loginId, Model model) {
+        try {
+            // CparticipantService의 removeCparticipant 메소드를 호출하여 참여자를 삭제
+            boolean removed = cparticipantService.removeCparticipant(roomId, loginId);
+            if (removed) {
+                model.addAttribute("message", "Successfully left the room");
+            } else {
+                model.addAttribute("message", "Failed to leave the room");
+            }
+        } catch (Exception e) {
+            model.addAttribute("message", "An error occurred: " + e.getMessage());
         }
+        return "redirect:/roomDetails?roomId=" + roomId + "&error=true";
     }
+
 
     @GetMapping("/roomDetails")
     public String roomDetails(@RequestParam("roomId") Integer roomId, HttpServletRequest request, Model model) {
@@ -188,18 +188,6 @@ public class CommunityController {
 
 
 
-    // 방 수정 처리
-    /*@PostMapping("/createRoom/edit/{id}")
-    public String editRoom(@PathVariable Integer id, CroomDto croomDto, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-        if (loginMember != null && croomDto.getAuthor().equals(loginMember.getName())) {
-            croomService.updateRoom(id, croomDto);
-            return "redirect:/roomDetails?roomId=" + id;
-        }
-        return "redirect:/";
-    }*/
-
     // 방 삭제 처리
     @PostMapping("/createRoom/delete/{id}")
     public String deleteRoom(@PathVariable Integer id, HttpServletRequest request) {
@@ -214,42 +202,39 @@ public class CommunityController {
     }
 
 
-
-    // 방 수정 처리
-    @PutMapping("/createRoom/edit/{id}")
+    @PostMapping("/createRoom/edit/{id}")
     public String updateRoom(@PathVariable Integer id, CroomDto croomDto, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Member loginMember = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
         if (loginMember != null && croomDto.getAuthor().equals(loginMember.getName())) {
+            // 기존의 방 정보를 불러옵니다.
+            CroomDto existingRoom = croomService.getPost(id);
+
+            // 기존의 방 정보에서 필요한 항목을 가져와서 새로운 DTO에 설정합니다.
+            croomDto.setRoomId(id); // 방의 ID를 설정합니다.
+            croomDto.setAuthor(existingRoom.getAuthor()); // 작성자는 이전과 동일하게 설정합니다.
+
+            // 방 정보 업데이트를 수행합니다.
             croomService.updateRoom(id, croomDto);
             return "redirect:/roomDetails?roomId=" + id;
         }
         return "redirect:/";
     }
+
+
     @GetMapping("/editRoom/{roomId}")
     public String editRoomPage(@PathVariable("roomId") Integer roomId, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         Member loginMember = session != null ? (Member) session.getAttribute(SessionConst.LOGIN_MEMBER) : null;
-
-
-
-
-
         if (loginMember == null) {
             return "redirect:/login";
         }
-
         CroomDto roomDetails = croomService.getRoomDetails(roomId);
         model.addAttribute("authorName", roomDetails.getAuthor());
-
-
         if (!loginMember.getName().equals(roomDetails.getAuthor())) {
             return "redirect:/roomDetails?roomId=" + roomId;
         }
-
         model.addAttribute("room", roomDetails);
         return "community/editRoom";
     }
-
-
 }

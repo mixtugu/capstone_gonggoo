@@ -135,7 +135,7 @@ public class ParticipantService {
         return participantRepository.findByMemberId(memberId).stream()
             .map(participant -> {
                 Board board = participant.getBoard();
-                return new BoardDto(
+                return new  BoardDto(
                     board.getRoomId(),
                     board.getAuthor(),
                     board.getRoomTitle(),

@@ -39,6 +39,11 @@ public class CparticipantService {
                 .isRoomOwner(isRoomOwner)
                 .build();
 
+        //인원수 추가하는 코드 0523
+        croom.setCurrentNum(croom.getCurrentNum() + 1);
+        croomRepository.save(croom);
+
+
         cparticipantRepository.save(cparticipant);
         return cparticipant.getRoomMemberId();
     }
@@ -59,15 +64,22 @@ public class CparticipantService {
     public boolean isUserParticipated(Integer croomId, String loginId) {
         return cparticipantRepository.existsByCroomRoomIdAndMember_LoginId(croomId, loginId);
     }
-
+    @Transactional
     public boolean removeCparticipant(Integer croomId, String loginId) {
         Cparticipant cparticipant = cparticipantRepository.findByCroomRoomIdAndMember_LoginId(croomId, loginId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 참여 정보를 찾을 수 없습니다. croomId: " + croomId + ", loginId: " + loginId));
+
         cparticipantRepository.delete(cparticipant);
+
+        Croom croom = cparticipant.getCroom();
+        croom.setCurrentNum(croom.getCurrentNum() - 1);
+        croomRepository.save(croom);
+
         return false;
     }
 
-    @Transactional
+
+    /*@Transactional
     public boolean withdrawFromCroom(Integer roomId, String loginId) {
         try {
             Cparticipant cparticipant = cparticipantRepository.findByCroomRoomIdAndMember_LoginId(roomId, loginId)
@@ -81,5 +93,5 @@ public class CparticipantService {
             e.printStackTrace();
             return false;
         }
-    }
+    }*/
 }

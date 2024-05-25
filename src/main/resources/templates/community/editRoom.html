@@ -29,33 +29,53 @@
             <div class="box">
                 <div class="form-group">
                     <input type="hidden" name="author" th:value="${room.author}"/>
-                    <input type="hidden" name="_method" value="put"/>
                 </div>
                 <div class="form-group">
                     <label for="roomTitle" class="postLabel">제목</label>
                     <input type="text" id="roomTitle" name="roomTitle" class="form-control postInput" th:value="${room.roomTitle}" required/>
                 </div>
                 <div class="form-group">
-                    <label for="communityCategory" class="postLabel">카테고리</label>
-                    <input type="text" id="communityCategory" name="communityCategory" class="form-select postInput"
-                           th:value="${room.communityCategory}" required/>
+                    <label for="category" class="postLabel">카테고리</label>
+                    <select class="form-select postInput" id="category" name="communityCategory" onchange="handleCategoryChange()">
+                        <option value="">선택하세요</option>
+                        <option value="스터디" th:selected="${room.communityCategory == '스터디'}">스터디</option>
+                        <option value="운동" th:selected="${room.communityCategory == '운동'}">운동</option>
+                        <option value="보드게임" th:selected="${room.communityCategory == '보드게임'}">보드게임</option>
+                        <option value="취미모임" th:selected="${room.communityCategory == '취미모임'}">취미모임</option>
+                    </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="detailCategoryGroup">
                     <label for="detailCategory" class="postLabel">세부 카테고리</label>
-                    <input type="text" id="detailCategory" name="detailCategory" class="form-control postInput" th:value="${room.detailCategory}"
-                           required/>
+                    <input type="text" class="form-control postInput" id="detailCategory" name="detailCategory" th:value="${room.detailCategory}" required>
                 </div>
                 <div class="form-group">
                     <label for="region" class="postLabel">지역</label>
-                    <input type="text" id="region" name="region" class="form-select postInput" th:value="${room.region}" required/>
+                    <select class="form-select postInput" id="region" name="region" onchange="handleRegionChange()">
+                        <option value="">선택하세요</option>
+                        <option value="서울" th:selected="${room.region == '서울'}">서울</option>
+                        <option value="대구" th:selected="${room.region == '대구'}">대구</option>
+                        <option value="부산" th:selected="${room.region == '부산'}">부산</option>
+                        <option value="인천" th:selected="${room.region == '인천'}">인천</option>
+                        <option value="제주도" th:selected="${room.region == '제주도'}">제주도</option>
+                        <option value="대전" th:selected="${room.region == '대전'}">대전</option>
+                        <option value="울산" th:selected="${room.region == '울산'}">울산</option>
+                        <option value="광주" th:selected="${room.region == '광주'}">광주</option>
+                        <option value="충청남도" th:selected="${room.region == '충청남도'}">충청남도</option>
+                        <option value="충청북도" th:selected="${room.region == '충청북도'}">충청북도</option>
+                        <option value="강원도" th:selected="${room.region == '강원도'}">강원도</option>
+                        <option value="전라남도" th:selected="${room.region == '전라남도'}">전라남도</option>
+                        <option value="전라북도" th:selected="${room.region == '전라북도'}">전라북도</option>
+                        <option value="경상북도" th:selected="${room.region == '경상북도'}">경상북도</option>
+                        <option value="경상남도" th:selected="${room.region == '경상남도'}">경상남도</option>
+                    </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group" id="detailRegionGroup">
                     <label for="detailRegion" class="postLabel">세부 지역</label>
                     <input type="text" id="detailRegion" name="detailRegion" class="form-control postInput" th:value="${room.detailRegion}" required/>
                 </div>
                 <div class="form-group">
                     <label for="recruitNum" class="postLabel">모집 인원</label>
-                    <input type="number" id="recruitNum" name="recruitNum" class="form-control postInput" th:value="${room.recruitNum}" required/>
+                    <input type="number" id="recruitNum" name="recruitNum" class="form-control postInput"  th:value="${room.recruitNum}" required/>
                 </div>
                 <div class="form-group">
                     <label for="payment" class="postLabel">참가비</label>
@@ -69,5 +89,30 @@
         </form>
     </div>
 </div>
+
+<script>
+    function handleCategoryChange() {
+        var category = document.getElementById('category').value;
+        var detailCategoryGroup = document.getElementById('detailCategoryGroup');
+        detailCategoryGroup.style.display = category ? 'block' : 'none';
+    }
+
+    // 페이지 로드 시 실행되도록 이벤트를 추가합니다.
+    /*document.addEventListener("DOMContentLoaded", function() {
+        handleCategoryChange(); // 페이지 로드 시 현재 카테고리에 따라 세부 카테고리 입력란을 표시하거나 숨깁니다.
+    });*/
+
+    function handleRegionChange() {
+        var region = document.getElementById('region').value;
+        var detailRegionGroup = document.getElementById('detailRegionGroup');
+        detailRegionGroup.style.display = region ? 'block' : 'none';
+    }
+
+    // Initialize the visibility of the detail category and region fields
+    document.addEventListener("DOMContentLoaded", function() {
+        handleCategoryChange();
+        handleRegionChange();
+    });
+</script>
 </body>
 </html>
