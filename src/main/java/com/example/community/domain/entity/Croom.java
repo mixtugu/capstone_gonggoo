@@ -61,7 +61,7 @@ public class Croom extends Room {
         this.setRoomId(roomId);
         this.author=author;
         this.setRecruitNum(recruitNum);
-        this.currentNum = currentNum != null ? currentNum : 1;
+        this.currentNum = currentNum != null ? currentNum : 0;
         this.setRoomCategory(roomCategory);
         this.setRoomTitle(roomTitle);
         this.communityCategory = communityCategory;
@@ -74,7 +74,7 @@ public class Croom extends Room {
 
     public void increaseCurrentNum() {
         if (this.getCurrentNum() == null) {
-            this.setCurrentNum(1);
+            this.setCurrentNum(0);
         } else {
             this.currentNum += 1;
         }
