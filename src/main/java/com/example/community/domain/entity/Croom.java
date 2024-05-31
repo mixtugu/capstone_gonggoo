@@ -103,6 +103,7 @@ public class Croom extends Room {
         if (croomDto.getPayment() != null) {
             this.payment = croomDto.getPayment();
         }
+        this.setRecruitNum(croomDto.getRecruitNum());
     }
 
 
