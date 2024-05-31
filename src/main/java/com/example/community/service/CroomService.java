@@ -6,6 +6,7 @@ import com.example.community.domain.repository.CparticipantRepository;
 import com.example.community.domain.repository.CroomRepository;
 import com.example.community.dto.CparticipantDto;
 import com.example.community.dto.CroomDto;
+import com.example.groupbuying.domain.entity.Board;
 import com.example.groupbuying.dto.BoardDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +40,10 @@ public class CroomService {
         croom = croomRepository.save(croom);  // 저장된 Croom 엔티티를 반환받음
         return croom.getRoomId();  // Croom 엔티티의 ID를 반환
     }
+
+
+
+
 
     public List<CroomDto> getCroomList() {
         List<Croom> croomList = croomRepository.findAll();
@@ -143,9 +149,12 @@ public class CroomService {
                 .region(croom.getRegion())
                 .detailRegion(croom.getDetailRegion())
                 .payment(croom.getPayment())
+                .createdDate(croom.getCreatedDate()) // 추가
+                .modifiedDate(croom.getModifiedDate()) // 추가
                 .member(croom.getMember())
                 .build();
     }
+
 
     //추가중
     public CroomDto getPost(Integer id) {
@@ -227,5 +236,13 @@ public class CroomService {
             })
             .collect(Collectors.toList());
 
+    }
+
+    public void increaseParticipantCount(Integer id) {
+        Croom croom = croomRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. id=" + id));
+
+        croom.increaseCurrentNum();
+        croomRepository.save(croom);
     }
 }

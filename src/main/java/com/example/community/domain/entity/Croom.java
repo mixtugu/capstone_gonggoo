@@ -18,6 +18,8 @@ import java.util.Set;
 @Table(name = "croom")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+
+
 public class Croom extends Room {
 
     @OneToMany(mappedBy = "croom", cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -52,8 +54,10 @@ public class Croom extends Room {
     private LocalDateTime modifiedDate;
 
 
+
     @Builder
-    public Croom(Integer roomId,String author, Integer recruitNum, Integer currentNum, Integer roomCategory, String roomTitle, String communityCategory, String detailCategory, String region, String detailRegion, /*Integer numberOfParticipants,*/ Double payment, Member member) {
+    public Croom(Integer roomId,String author, Integer recruitNum, Integer currentNum, Integer roomCategory, String roomTitle, String communityCategory, String detailCategory, String region, String detailRegion, Double payment, Member member
+                ) {
         this.setRoomId(roomId);
         this.author=author;
         this.setRecruitNum(recruitNum);
@@ -65,7 +69,6 @@ public class Croom extends Room {
         this.region = region;
         this.detailRegion = detailRegion;
         this.payment = payment;
-        this.setMember(member);
     }
 
 
@@ -101,6 +104,7 @@ public class Croom extends Room {
             this.payment = croomDto.getPayment();
         }
     }
+
 
 
 

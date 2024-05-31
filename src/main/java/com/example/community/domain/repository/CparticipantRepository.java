@@ -18,8 +18,7 @@ public interface CparticipantRepository extends JpaRepository<Cparticipant, Inte
     boolean existsByCroomRoomIdAndMember_LoginId(Integer croomId, String loginId);
     List<Cparticipant> findByCroom(Croom croom);
     Optional<Cparticipant> findByCroomRoomIdAndMember_LoginId(Integer croomId, String loginId);
-    //Optional<Cparticipant> findByCroomAndMember(Croom croom, Member member);
-    //Optional<Cparticipant> findByCroomRoomId(Integer croomId);
+
 
     Cparticipant findByMember_Name(String name);
 

@@ -34,7 +34,7 @@ public class CroomDto {
                 .author(author)
                 .recruitNum(recruitNum)
                 .currentNum(currentNum)
-                .roomCategory(3)
+                .roomCategory(1)
                 .roomTitle(roomTitle)
                 .communityCategory(communityCategory)
                 .detailCategory(detailCategory)
@@ -48,7 +48,7 @@ public class CroomDto {
     }
     @Builder
     public CroomDto(Integer roomId, String author, Integer recruitNum, Integer currentNum, Integer roomCategory,
-                    String roomTitle, String communityCategory,String detailCategory, String region, String detailRegion, /*Integer numberOfParticipants,*/ Double payment,  LocalDateTime createdDate, LocalDateTime modifiedDate, Member member) {
+                    String roomTitle, String communityCategory,String detailCategory, String region, String detailRegion, Double payment,  LocalDateTime createdDate, LocalDateTime modifiedDate, Member member) {
         this.roomId = roomId;
         this.author=author;
         this.recruitNum = recruitNum;
@@ -65,4 +65,5 @@ public class CroomDto {
 
         this.member = member ;
     }
+
 }
