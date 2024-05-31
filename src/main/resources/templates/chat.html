@@ -300,6 +300,7 @@
         document.getElementById("mapButton").addEventListener("click", function() {
             var mapButton = document.getElementById("mapDiv");
             var mapCover = document.getElementById("mapCover");
+            var mapContainer = document.getElementById("mapContainer");
             if (mapButton.style.display === "none") {
                 mapButton.style.display = "block";
                 window.scrollTo(0, document.body.scrollHeight);
@@ -311,6 +312,11 @@
                 window.dispatchEvent(new Event('resize'));
             } else {
                 mapCover.style.display = "none";
+            }
+            if (mapCover.style.display === "none") {
+                mapContainer.style.marginBottom = "0px";
+            } else {
+                mapContainer.style.marginBottom = "75px";
             }
         });
     }

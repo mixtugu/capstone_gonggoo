@@ -141,7 +141,6 @@
 
 #mapCover {
     display: none;
-    position: inherit;
     justify-content: center;
     align-items: center;
     border: 0.0625rem solid #ccc;
@@ -149,22 +148,19 @@
     margin: 0.31rem 0 0.625rem 0;
     border-radius: 0.31rem;
     background-color: #F9F9F9;
-    width: 100%;
+    width: 630px;
 }
 
 #mapDiv {
     height: 400px;
     width: 100%;
     display: none;
-    position: inherit;
 }
 
 #mapContainer {
     display: flex;
-    position: fixed;
     justify-content: center;
     align-items: center;
-    width: 100%;
 }
 
 .chatSend > img {
