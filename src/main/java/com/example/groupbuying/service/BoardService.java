@@ -47,7 +47,6 @@ public class BoardService {
         Board post = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
 
-        post.setCurrentNum(boardDto.getRecruitNum());
         post.setAuthor(boardDto.getAuthor());
         post.setItemName(boardDto.getItemName());
         post.setSiteName(boardDto.getSiteName());
