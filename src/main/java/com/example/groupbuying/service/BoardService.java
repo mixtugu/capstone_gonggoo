@@ -1,10 +1,16 @@
 package com.example.groupbuying.service;
 
+import com.example.domain.Member;
+import com.example.domain.RoomMember;
 import com.example.groupbuying.domain.entity.Board;
 import com.example.groupbuying.domain.entity.Participant;
 import com.example.groupbuying.domain.repository.BoardRepository;
 import com.example.groupbuying.domain.repository.ParticipantRepository;
 import com.example.groupbuying.dto.BoardDto;
+import com.example.groupbuying.dto.MyPageDto;
+import com.example.mypage.domain.MyPage;
+import com.example.mypage.repository.MyPageRepository;
+import com.example.repository.RoomMemberRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +25,17 @@ import java.util.stream.Collectors;
 
 @Service
 public class BoardService {
-    private final BoardRepository boardRepository;
-    @Autowired
+    private BoardRepository boardRepository;
+    private RoomMemberRepository roomMemberRepository;
+    private MyPageRepository myPageRepository;
     private ParticipantRepository participantRepository;
 
-    public BoardService(BoardRepository boardRepository) {
+    @Autowired
+    public BoardService(BoardRepository boardRepository, RoomMemberRepository roomMemberRepository, MyPageRepository myPageRepository, ParticipantRepository participantRepository) {
         this.boardRepository = boardRepository;
+        this.roomMemberRepository = roomMemberRepository;
+        this.myPageRepository = myPageRepository;
+        this.participantRepository = participantRepository;
     }
 
     @Transactional
@@ -36,7 +47,6 @@ public class BoardService {
         Board post = boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
 
-        post.setCurrentNum(boardDto.getRecruitNum());
         post.setAuthor(boardDto.getAuthor());
         post.setItemName(boardDto.getItemName());
         post.setSiteName(boardDto.getSiteName());
@@ -74,7 +84,12 @@ public class BoardService {
     }
 
     public BoardDto getPost(Integer id) {
-        Board board = boardRepository.findById(id).get();
+        Optional<Board> optionalBoard = boardRepository.findById(id);
+        if (!optionalBoard.isPresent()) {
+            throw new EntityNotFoundException("Board not found with id: " + id);
+        }
+        Board board = optionalBoard.get();
+        MyPageDto myPageDto = findOwnerMyPageByRoomId(board.getRoomId());
 
         BoardDto boardDto = BoardDto.builder()
                 .roomId(board.getRoomId())
@@ -90,10 +105,27 @@ public class BoardService {
                 .siteName(board.getSiteName())
                 .fileId(board.getFileId())
                 .member(board.getMember())
+                .myPageDto(myPageDto)
                 .build();
+
+        System.out.println("BoardDto created with MyPageDto: " + boardDto.getMyPageDto().getBank() + ", " + boardDto.getMyPageDto().getAccount());
+
         return boardDto;
     }
 
+    private MyPageDto findOwnerMyPageByRoomId(Integer roomId) {
+        Optional<RoomMember> roomOwner = roomMemberRepository.findByRoom_RoomIdAndIsRoomOwnerTrue(roomId);
+        if (!roomOwner.isPresent()) {
+            throw new EntityNotFoundException("Room owner not found for room id: " + roomId);
+        }
+        Member owner = roomOwner.get().getMember();
+        Optional<MyPage> myPageOptional = myPageRepository.findByMemberId(owner.getId());
+        if (!myPageOptional.isPresent()) {
+            throw new EntityNotFoundException("MyPage not found for member id: " + owner.getId());
+        }
+        MyPage myPage = myPageOptional.get();
+        return new MyPageDto(myPage.getBank(), myPage.getAccount());
+    }
     @Transactional
     public void deletePost(Integer id) {
         boardRepository.deleteById(id);

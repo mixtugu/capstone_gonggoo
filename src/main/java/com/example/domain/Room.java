@@ -29,6 +29,7 @@ public class Room {
     @Column(name = "RecruitNum")
     private Integer recruitNum;
 
+
     @Column(name = "CurrentNum", nullable = false)
     protected Integer currentNum;
 

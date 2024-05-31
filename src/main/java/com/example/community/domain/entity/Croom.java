@@ -18,6 +18,8 @@ import java.util.Set;
 @Table(name = "croom")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
+
+
 public class Croom extends Room {
 
     @OneToMany(mappedBy = "croom", cascade = CascadeType.REMOVE, orphanRemoval = true)
@@ -52,12 +54,14 @@ public class Croom extends Room {
     private LocalDateTime modifiedDate;
 
 
+
     @Builder
-    public Croom(Integer roomId,String author, Integer recruitNum, Integer currentNum, Integer roomCategory, String roomTitle, String communityCategory, String detailCategory, String region, String detailRegion, /*Integer numberOfParticipants,*/ Double payment, Member member) {
+    public Croom(Integer roomId,String author, Integer recruitNum, Integer currentNum, Integer roomCategory, String roomTitle, String communityCategory, String detailCategory, String region, String detailRegion, Double payment, Member member
+                ) {
         this.setRoomId(roomId);
         this.author=author;
         this.setRecruitNum(recruitNum);
-        this.currentNum = currentNum != null ? currentNum : 1;
+        this.currentNum = currentNum != null ? currentNum : 0;
         this.setRoomCategory(roomCategory);
         this.setRoomTitle(roomTitle);
         this.communityCategory = communityCategory;
@@ -65,13 +69,12 @@ public class Croom extends Room {
         this.region = region;
         this.detailRegion = detailRegion;
         this.payment = payment;
-        this.setMember(member);
     }
 
 
     public void increaseCurrentNum() {
         if (this.getCurrentNum() == null) {
-            this.setCurrentNum(1);
+            this.setCurrentNum(0);
         } else {
             this.currentNum += 1;
         }
@@ -100,7 +103,9 @@ public class Croom extends Room {
         if (croomDto.getPayment() != null) {
             this.payment = croomDto.getPayment();
         }
+        this.setRecruitNum(croomDto.getRecruitNum());
     }
+
 
 
 
