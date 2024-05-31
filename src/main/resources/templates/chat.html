@@ -113,7 +113,7 @@
             <input type="text" id="text" placeholder="" class="chatText">
             <button type="submit" class="chatSend"><img th:src="@{img/send.png}"></button>
         </form>
-        <button class="mapSend" th:if="${room.roomCategory == 3}"><img id="mapButton" th:src="@{/img/map.png}"></button>
+        <div type="button" class="mapSend" th:if="${room.roomCategory == 3}"><img id="mapButton" th:src="@{/img/map.png}" alt=""></div>
     </nav>
 </div> <!-- /container -->
 <div id="mapContainer">
