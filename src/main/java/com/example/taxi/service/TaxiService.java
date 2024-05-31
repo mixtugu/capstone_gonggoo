@@ -89,7 +89,6 @@ public class TaxiService {
         Taxi post = taxiRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. id: " + id));
 
-        post.setCurrentNum(taxiDto.getRecruitNum());
         post.setDeparture(taxiDto.getDeparture());
         post.setCreatedDate(taxiDto.getCreatedDate());
         post.setModifiedDate(taxiDto.getModifiedDate());
