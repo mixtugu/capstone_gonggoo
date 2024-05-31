@@ -2,12 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Chat Application</title>
-    <link rel="stylesheet" th:href="@{/css/chat.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stomp-websocket/lib/stomp.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_T-pMYQn_nCgQI_LYGEIHPWWw7x79xXY&callback=initMap" async defer></script>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/chat.css}"/>
 
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
@@ -28,14 +28,12 @@
     </a>
     <span th:text="|${room.roomTitle}|" th:data-room-id="${room.roomId}" id="room"
           class="chatroomName"></span>
-    <span th:text="|${room.currentNum}|" class="chatroomUserCount"></span>
-    <span th:switch="${room.roomCategory}" id="category">
-        <span th:case="1">모임 모집</span>
-        <span th:case="2">공동 구매</span>
-        <span th:case="3">택시 모집</span>
-        <span th:case="*">기타</span>
+    <span th:switch="${room.roomCategory}" id="category" class="chatroomName chatroomCategory">
+        <span th:case="1">(모임)</span>
+        <span th:case="2">(공동구매)</span>
+        <span th:case="3">(택시)</span>
+        <span th:case="*">(기타)</span>
     </span>
-
 </nav>
 
 <div class="container" style="max-width: 600px">
@@ -74,7 +72,9 @@
             <input type="text" id="text" placeholder="" class="chatText">
             <button type="submit" class="chatSend"><img th:src="@{img/send.png}"></button>
         </form>
-        <button id="mapButton" class="mapSend" th:if="${room.roomCategory == 3}">지도 보기</button>
+
+        <button class="mapSend" th:if="${room.roomCategory == 3}"><img id="mapButton" th:src="@{/img/map.png}"></button>
+
     </nav>
 </div> <!-- /container -->
 <div id="mapContainer">
@@ -135,7 +135,7 @@
         // Create a span for the sender's name
         var senderSpan = document.createElement('span');
         senderSpan.classList.add("sender-name");
-      
+
         if (!mine) {
             senderSpan.textContent = from;
         }
@@ -184,7 +184,9 @@
     }
 
     var category = document.getElementById('category').textContent;
-    if (category.trim() === "택시 모집") {
+
+    if (category.trim() === "(택시)") {
+
         function initMap() {
             const directionsService = new google.maps.DirectionsService();
             const directionsRenderer = new google.maps.DirectionsRenderer();

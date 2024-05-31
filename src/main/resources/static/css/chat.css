@@ -121,7 +121,8 @@
     border-style: none;
     height: 1.56rem;
     background-color: rgba(120,120,120,0);
-    width: 90%;
+    width: 100%;
+    padding-right: 5rem;
 }
 
 .chatSend {
@@ -135,11 +136,12 @@
     position: absolute;
     border-style: none;
     background-color: rgba(120,120,120,0);
-    right: 150px;
+    right: 3.5rem;
 }
 
 #mapCover {
     display: none;
+    position: inherit;
     justify-content: center;
     align-items: center;
     border: 0.0625rem solid #ccc;
@@ -147,26 +149,38 @@
     margin: 0.31rem 0 0.625rem 0;
     border-radius: 0.31rem;
     background-color: #F9F9F9;
-    width: 630px;
-    margin-bottom: 70px;
+    width: 100%;
 }
 
 #mapDiv {
     height: 400px;
-    width: 600px;
+    width: 100%;
     display: none;
+    position: inherit;
 }
 
 #mapContainer {
     display: flex;
+    position: fixed;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
 .chatSend > img {
     width: 1.56rem;
 }
 
+.mapSend > img {
+    width: 1.56rem;
+}
+
 .messages-margin {
     margin-bottom: 3.75rem;
+}
+
+.chatroomCategory {
+    color: #70bd96;
+    font-size: 0.95rem;
+    padding-left: 0.5rem;
 }
