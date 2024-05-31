@@ -2,20 +2,59 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Chat Application</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" th:href="@{/css/chat.css}"/>
     <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/stomp-websocket/lib/stomp.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_T-pMYQn_nCgQI_LYGEIHPWWw7x79xXY&callback=initMap" async defer></script>
+    <!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_T-pMYQn_nCgQI_LYGEIHPWWw7x79xXY&callback=initMap" async defer></script-->
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=hseqxr441y"></script>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=hseqxr441y&submodules=geocoder"></script>
     <meta charset="utf-8">
-    <link rel="stylesheet" th:href="@{/css/chat.css}"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/navbar.css}"/>
     <link rel="stylesheet" th:href="@{/css/chat.css}"/>
     <link rel="stylesheet" th:href="@{/css/font.css}"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin-->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        #map {
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+        }
+
+        .address-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .address-form input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 200px;
+        }
+
+        .address-form button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .address-form button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
 
@@ -28,12 +67,14 @@
     </a>
     <span th:text="|${room.roomTitle}|" th:data-room-id="${room.roomId}" id="room"
           class="chatroomName"></span>
+    <span th:text="|${room.currentNum}|" class="chatroomUserCount"></span>
     <span th:switch="${room.roomCategory}" id="category" class="chatroomName chatroomCategory">
-        <span th:case="1">(모임)</span>
-        <span th:case="2">(공동구매)</span>
-        <span th:case="3">(택시)</span>
-        <span th:case="*">(기타)</span>
+        <span th:case="1">모임 모집</span>
+        <span th:case="2">공동 구매</span>
+        <span th:case="3">택시 모집</span>
+        <span th:case="*">기타</span>
     </span>
+
 </nav>
 
 <div class="container" style="max-width: 600px">
@@ -72,14 +113,19 @@
             <input type="text" id="text" placeholder="" class="chatText">
             <button type="submit" class="chatSend"><img th:src="@{img/send.png}"></button>
         </form>
-
-        <button class="mapSend" th:if="${room.roomCategory == 3}"><img id="mapButton" th:src="@{/img/map.png}"></button>
-
+        <button id="mapButton" class="mapSend" th:if="${room.roomCategory == 3}">지도 보기</button>
     </nav>
 </div> <!-- /container -->
 <div id="mapContainer">
     <div id="mapCover" th:if="${room.roomCategory == 3}">
-        <div id="mapDiv" th:if="${room.roomCategory == 3}"></div>
+        <div id="mapDiv" th:if="${room.roomCategory == 3}">
+            <label class="address-form">
+                <input type="text" id="addr1" value="불정로 6" >
+                <input type="text" id="addr2" value="광교산로 154" >
+                <button type="button" onclick="searchAddress()">검색</button>
+            </label>
+            <div id="map" style="width:100%; height:80%;" th:if="${room.roomCategory == 3}"></div>
+        </div>
     </div>
 </div>
 </body>
@@ -135,7 +181,7 @@
         // Create a span for the sender's name
         var senderSpan = document.createElement('span');
         senderSpan.classList.add("sender-name");
-
+      
         if (!mine) {
             senderSpan.textContent = from;
         }
@@ -183,40 +229,73 @@
         window.scrollTo(0, document.body.scrollHeight);
     }
 
+
+
     var category = document.getElementById('category').textContent;
+    if (category.trim() === "택시 모집") {
 
-    if (category.trim() === "(택시)") {
 
-        function initMap() {
-            const directionsService = new google.maps.DirectionsService();
-            const directionsRenderer = new google.maps.DirectionsRenderer();
-            const map = new google.maps.Map(document.getElementById("mapDiv"), {
-                zoom: 14,
-                center: { lat: 34.0522, lng: -118.2437 }, // Example: Los Angeles, CA
-            });
-            directionsRenderer.setMap(map);
 
-            calculateAndDisplayRoute(directionsService, directionsRenderer);
-        }
+        var map = new naver.maps.Map('map', {
+            center: new naver.maps.LatLng(37.5665, 126.9780),
+            zoom: 10
+        });
 
-        function calculateAndDisplayRoute(directionsService, directionsRenderer) {
-            const start = "tokyo";  // Replace with your actual start address
-            const end = "osaka";      // Replace with your actual end address
-            directionsService.route(
-                {
-                    origin: start,
-                    destination: end,
-                    travelMode: google.maps.TravelMode.DRIVING,
-                },
-                (response, status) => {
-                    if (status === google.maps.DirectionsStatus.OK) {
-                        directionsRenderer.setDirections(response);
-                    } else {
-                        window.alert("Directions request failed due to " + status);
-                    }
+        // 주소를 좌표로 변환하는 함수
+        function getCoordinates(address, callback) {
+            naver.maps.Service.geocode({
+                query: address
+            }, function(status, response) {
+                if (status !== naver.maps.Service.Status.OK) {
+                    return alert('Something wrong!');
                 }
-            );
+
+                var result = response.v2,
+                    items = result.addresses;
+
+                if (items.length > 0) {
+                    var x = items[0].x;
+                    var y = items[0].y;
+                    callback(x, y);
+                } else {
+                    alert('No results found');
+                }
+            });
         }
+
+        var marker = new naver.maps.Marker({
+            position: new naver.maps.LatLng(37.5665, 126.9780),
+            map: map
+        });
+        var marker2 = new naver.maps.Marker({
+            position: new naver.maps.LatLng(37.5665, 126.9780),
+            map: map
+        });
+        getCoordinates('불정로 6', function(x, y) {
+            var newLatLng = new naver.maps.LatLng(y, x);
+            marker.setPosition(newLatLng);
+        });
+        getCoordinates('광교산로 154', function(x, y) {
+            var newLatLng = new naver.maps.LatLng(y, x);
+            marker2.setPosition(newLatLng);
+        });
+
+
+
+        function searchAddress() {
+            var address = document.getElementById('addr1').value;
+            var address2 = document.getElementById('addr2').value;
+            getCoordinates(address, function(x, y) {
+                var newLatLng = new naver.maps.LatLng(y, x);
+                marker.setPosition(newLatLng);
+                map.setCenter(newLatLng);
+            });
+            getCoordinates(address2, function(x, y) {
+                var newLatLng = new naver.maps.LatLng(y, x);
+                marker2.setPosition(newLatLng);
+            });
+        }
+
 
         document.getElementById("mapButton").addEventListener("click", function() {
             var mapButton = document.getElementById("mapDiv");
@@ -229,6 +308,7 @@
             }
             if (mapCover.style.display === "none") {
                 mapCover.style.display = "flex";
+                window.dispatchEvent(new Event('resize'));
             } else {
                 mapCover.style.display = "none";
             }
